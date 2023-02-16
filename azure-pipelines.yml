@@ -20,7 +20,6 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-    feedsToUse: 'select'
 
 - task: VSBuild@1
   inputs:
