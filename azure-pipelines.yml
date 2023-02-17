@@ -41,5 +41,5 @@ steps:
     configuration: '$(buildConfiguration)'
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)
+    targetPath: $(System.DefaultWorkingDirectory)\kioskAssistant\bin\Release\net7.0-windows
     artifactName: KioskAssistant
