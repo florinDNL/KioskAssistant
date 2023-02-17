@@ -220,7 +220,6 @@ namespace kioskAssistant
             this.name,
             this.apps});
             this.groupsLv.GridLines = true;
-            this.groupsLv.HideSelection = false;
             this.groupsLv.Location = new System.Drawing.Point(12, 407);
             this.groupsLv.Name = "groupsLv";
             this.groupsLv.Size = new System.Drawing.Size(561, 118);
@@ -334,9 +333,9 @@ namespace kioskAssistant
             this.noRestrictCb.AutoSize = true;
             this.noRestrictCb.Location = new System.Drawing.Point(397, 56);
             this.noRestrictCb.Name = "noRestrictCb";
-            this.noRestrictCb.Size = new System.Drawing.Size(106, 19);
+            this.noRestrictCb.Size = new System.Drawing.Size(69, 19);
             this.noRestrictCb.TabIndex = 29;
-            this.noRestrictCb.Text = "No Restrictions";
+            this.noRestrictCb.Text = "Dev Test";
             this.noRestrictCb.UseVisualStyleBackColor = true;
             this.noRestrictCb.CheckedChanged += new System.EventHandler(this.noRestrictCb_CheckedChanged);
             // 
