@@ -20,15 +20,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-
-- task: DotNetCoreCLI@2
-  displayName: dotnet restore
-  inputs:
-    command: restore                      
-    projects: '**/*.csproj'               
-    feedsToUse: 'select'                  
-    includeNuGetOrg: true                 
-
+    
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
