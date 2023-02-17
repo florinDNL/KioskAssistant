@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  name: win10_vm
+  name: sv2019_OnPrem_IIS
   
 variables:
   solution: '**/*.sln'
