@@ -27,7 +27,6 @@ steps:
     command: restore                      
     projects: '**/*.csproj'               
     feedsToUse: 'select'                  
-    vstsFeed: 'KioskAssistant/kioskAssistant_nuget'  
     includeNuGetOrg: true                 
 
 - task: VSBuild@1
