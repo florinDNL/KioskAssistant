@@ -17,14 +17,17 @@ namespace powershellApp
             ps.AddCommand("Get-StartApps");
             foreach (PSObject result in ps.Invoke())
             {
-                string appInstance = result.ToString().ToLower();
-                if (appInstance.Contains("!microsoftedge"))
+                string appInstance  = result.ToString().ToLower();
+                string name         = result.Members["Name"].Value.ToString();
+                string appId        = result.Members["AppID"].Value.ToString();
+                if (!appInstance.Contains("!microsoftedge") & !appInstance.Contains("msedge"))
                 {
-                    allGlobals.Globals.edgeLnk = result.Members["AppID"].Value.ToString();
-                }
-                else if (appInstance.Contains("!") | appInstance.Contains("msedge"))
-                {                    
-                    allUwpApps.Add(result.Members["Name"].Value.ToString(), result.Members["AppID"].Value.ToString());
+                    if (allUwpApps.ContainsKey(name))
+                    {
+                        name += "_" + appId;
+                    }         
+                    
+                    allUwpApps.Add(name, appId);
                 }
             }
             return allUwpApps;            

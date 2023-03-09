@@ -28,7 +28,6 @@ namespace allGlobals
 
         public static string globalProfile;
         public static string displayName;
-        public static string edgeLnk;
 
 
         public static string GetGUID()

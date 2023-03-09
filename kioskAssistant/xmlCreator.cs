@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using allGlobals;
-using System;
+
 
 namespace xmlManip
 {
@@ -288,19 +288,8 @@ namespace xmlManip
                 string column   = groupApps[app][1];
                 string row      = groupApps[app][2];                
 
-                if (app == "Microsoft Edge")
-                {
-                    group.Add(
-                    new XElement
-                    (
-                        start + "Tile",
-                        new XAttribute("Size", tileSize),
-                        new XAttribute("Column", column),
-                        new XAttribute("Row", row),
-                        new XAttribute("AppUserModelID", Globals.edgeLnk))
-                    );
-                }
-                else if (Globals.allUwpApps.ContainsKey(app))
+
+                if (Globals.allUwpApps.ContainsKey(app))
                 {
                     group.Add(
                     new XElement
