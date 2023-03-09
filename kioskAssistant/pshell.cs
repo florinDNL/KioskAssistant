@@ -20,7 +20,7 @@ namespace powershellApp
                 string appInstance  = result.ToString().ToLower();
                 string name         = result.Members["Name"].Value.ToString();
                 string appId        = result.Members["AppID"].Value.ToString();
-                if (!appInstance.Contains("!microsoftedge") & !appInstance.Contains("msedge"))
+                if (appInstance.Contains("!") & !appInstance.Contains("!microsoftedge") & !appInstance.Contains("msedge"))
                 {
                     if (allUwpApps.ContainsKey(name))
                     {
