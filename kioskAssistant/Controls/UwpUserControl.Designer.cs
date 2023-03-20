@@ -57,7 +57,7 @@
             this.Controls.Add(this.appCb);
             this.Controls.Add(this.appLb);
             this.Name = "UwpUserControl";
-            this.Size = new System.Drawing.Size(608, 316);
+            this.Size = new System.Drawing.Size(608, 180);
             this.ResumeLayout(false);
             this.PerformLayout();
 

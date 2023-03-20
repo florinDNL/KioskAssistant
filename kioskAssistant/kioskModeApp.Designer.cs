@@ -35,6 +35,7 @@
             this.guidLabel = new System.Windows.Forms.Label();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.kModePanel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +45,7 @@
             this.appTypeCb.Items.AddRange(new object[] {
             "Edge",
             "UWP",
-            "Win32"});
+            "Win32 (Unstable)"});
             this.appTypeCb.Location = new System.Drawing.Point(78, 57);
             this.appTypeCb.Name = "appTypeCb";
             this.appTypeCb.Size = new System.Drawing.Size(121, 23);
@@ -82,7 +83,7 @@
             // logoBox
             // 
             this.logoBox.Image = ((System.Drawing.Image)(resources.GetObject("logoBox.Image")));
-            this.logoBox.Location = new System.Drawing.Point(557, 12);
+            this.logoBox.Location = new System.Drawing.Point(390, 19);
             this.logoBox.Name = "logoBox";
             this.logoBox.Size = new System.Drawing.Size(231, 51);
             this.logoBox.TabIndex = 25;
@@ -92,14 +93,24 @@
             // 
             this.kModePanel.Location = new System.Drawing.Point(13, 100);
             this.kModePanel.Name = "kModePanel";
-            this.kModePanel.Size = new System.Drawing.Size(768, 319);
+            this.kModePanel.Size = new System.Drawing.Size(608, 180);
             this.kModePanel.TabIndex = 26;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(526, 286);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 52);
+            this.button1.TabIndex = 27;
+            this.button1.Text = "Add Profile";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // kioskModeApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(634, 356);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.kModePanel);
             this.Controls.Add(this.logoBox);
             this.Controls.Add(this.profileLabel);
@@ -122,5 +133,6 @@
         public System.Windows.Forms.Label guidLabel;
         private System.Windows.Forms.PictureBox logoBox;
         private System.Windows.Forms.Panel kModePanel;
+        private System.Windows.Forms.Button button1;
     }
 }

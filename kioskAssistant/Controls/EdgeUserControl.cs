@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace kioskAssistant
+namespace kioskAssistant.Controls
 {
     public partial class EdgeUserControl : UserControl
     {

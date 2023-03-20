@@ -1,4 +1,4 @@
-﻿namespace kioskAssistant
+﻿namespace kioskAssistant.Controls
 {
     partial class EdgeUserControl
     {
