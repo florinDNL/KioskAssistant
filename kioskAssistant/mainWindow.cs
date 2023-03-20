@@ -32,6 +32,16 @@ namespace kioskAssistant
             }
         }
 
+        private void kModeBt_Click(object sender, EventArgs e)
+        {
+            var kModeForm = new kioskModeApp();
+            DialogResult appProf = kModeForm.ShowDialog();
+            if (appProf == DialogResult.OK)
+            {
+                appProfileLb.Items.Add(kModeForm.guidLabel.Text);
+            }
+        }
+
         private void delAppProfileBt_Click(object sender, EventArgs e)
         {            
             foreach (List<string> profile in Globals.appProfiles.Keys)
