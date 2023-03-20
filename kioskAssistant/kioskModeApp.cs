@@ -29,7 +29,8 @@ namespace kioskAssistant
             }
             else if (appTypeCb.SelectedIndex == 2)
             {
-
+                win32UserControl win32Control = new();
+                kModePanel.Controls.Add(win32Control);
             }
         }
     }
