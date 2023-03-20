@@ -46,6 +46,7 @@ namespace kioskAssistant
             this.appProfile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.genXmlBt = new System.Windows.Forms.Button();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
+            this.kModeBt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountsGv)).BeginInit();
             this.SuspendLayout();
@@ -83,9 +84,9 @@ namespace kioskAssistant
             // 
             this.addAppProfileBt.Location = new System.Drawing.Point(505, 11);
             this.addAppProfileBt.Name = "addAppProfileBt";
-            this.addAppProfileBt.Size = new System.Drawing.Size(170, 51);
+            this.addAppProfileBt.Size = new System.Drawing.Size(170, 22);
             this.addAppProfileBt.TabIndex = 8;
-            this.addAppProfileBt.Text = "Add Application Profile";
+            this.addAppProfileBt.Text = "Add Multi-App Kiosk";
             this.addAppProfileBt.UseVisualStyleBackColor = true;
             this.addAppProfileBt.Click += new System.EventHandler(this.addAppProfileBt_Click);
             // 
@@ -211,11 +212,22 @@ namespace kioskAssistant
             this.saveXML.FileName = "multiAppKiosk";
             this.saveXML.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*\"";
             // 
+            // kModeBt
+            // 
+            this.kModeBt.Location = new System.Drawing.Point(505, 39);
+            this.kModeBt.Name = "kModeBt";
+            this.kModeBt.Size = new System.Drawing.Size(170, 22);
+            this.kModeBt.TabIndex = 19;
+            this.kModeBt.Text = "Add Kiosk Mode App";
+            this.kModeBt.UseVisualStyleBackColor = true;
+            this.kModeBt.Click += new System.EventHandler(this.kModeBt_Click);
+            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.kModeBt);
             this.Controls.Add(this.genXmlBt);
             this.Controls.Add(this.accountsGv);
             this.Controls.Add(this.removeGrBt);
@@ -256,5 +268,6 @@ namespace kioskAssistant
         private System.Windows.Forms.DataGridViewTextBoxColumn appProfile;
         private System.Windows.Forms.Button genXmlBt;
         private System.Windows.Forms.SaveFileDialog saveXML;
+        private System.Windows.Forms.Button kModeBt;
     }
 }
