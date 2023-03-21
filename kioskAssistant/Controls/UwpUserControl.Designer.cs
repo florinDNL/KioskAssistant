@@ -65,6 +65,6 @@
 
         #endregion
         private System.Windows.Forms.Label appLb;
-        private System.Windows.Forms.ComboBox appCb;
+        public System.Windows.Forms.ComboBox appCb;
     }
 }

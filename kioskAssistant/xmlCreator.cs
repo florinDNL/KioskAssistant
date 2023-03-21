@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using allGlobals;
-using System;
 
 namespace xmlManip
 {
@@ -22,12 +21,14 @@ namespace xmlManip
         static XNamespace ns    = "http://schemas.microsoft.com/AssignedAccess/2017/config";
         static XNamespace v2    = "http://schemas.microsoft.com/AssignedAccess/201810/config";
         static XNamespace v3    = "http://schemas.microsoft.com/AssignedAccess/2020/config";
+        static XNamespace v4    = "http://schemas.microsoft.com/AssignedAccess/2021/config";
         static XNamespace win11 = "http://schemas.microsoft.com/AssignedAccess/2022/config";
 
         static XNamespace nssl  = "http://schemas.microsoft.com/Start/2014/LayoutModification";
         static XNamespace defL  = "http://schemas.microsoft.com/Start/2014/FullDefaultLayout";
         static XNamespace start = "http://schemas.microsoft.com/Start/2014/StartLayout";
 
+      
         #endregion
 
 
@@ -40,6 +41,7 @@ namespace xmlManip
                  new XElement(ns + "AssignedAccessConfiguration",
                      new XAttribute(XNamespace.Xmlns + "v2", v2),
                      new XAttribute(XNamespace.Xmlns + "v3", v3),
+                     new XAttribute(XNamespace.Xmlns + "v4", v4),
                      new XAttribute(XNamespace.Xmlns + "win11", win11),
                      new XElement(ns + "Profiles"),
                      new XElement(ns + "Configs")
@@ -75,6 +77,65 @@ namespace xmlManip
         {            
             XElement profiles = doc.Root.Element(ns + "Profiles");
 
+            foreach (string item in Globals.kioskModeApps.Keys)
+            {
+                string pGuid = item;
+                List <string> profileParam = Globals.kioskModeApps[item];
+                profiles.Add(
+                        new XElement(ns + "Profile",
+                            new XAttribute("Id", pGuid),
+                            new XElement(ns + "KioskModeApp")
+                            )
+                        );
+                XElement profile = profiles.Elements(ns + "Profile").First(c => (string)c.Attribute("Id") == pGuid).Element(ns + "KioskModeApp");
+                
+
+                if (profileParam[0] == "Edge")
+                {
+                    string url = profileParam[1];
+                    string timeout = profileParam[2];
+                    string browsing;
+
+                    if (profileParam[3] == "Public Browsing")
+                    {
+                        browsing = "public-browsing";
+                    }
+                    else
+                    {
+                        browsing = "fullscreen";
+                    }
+
+                    string commandline = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe";
+                    string arguments = "--no-first-run --kiosk " + url + " --edge-kiosk-type=" + browsing + " --kiosk-idle-timeout-minutes=" + timeout;
+
+                    profile.Add(                        
+                            new XAttribute(v4 + "ClassicAppPath", commandline),
+                            new XAttribute(v4 + "ClassicAppArguments", arguments)      
+                        );
+
+                }
+                else if (profileParam[0] == "UWP")
+                {
+                    string app = profileParam[1];
+                    if (Globals.allUwpApps.ContainsKey(app))
+                    {
+                        profile.Add(
+                            new XAttribute("AppUserModelId", Globals.allUwpApps[app])
+                        );
+                    }
+                }
+                else if (profileParam[0] == "win32")
+                {
+                    string commandline  = profileParam[1];
+                    string arguments    = profileParam[2];
+
+                    profile.Add(
+                        new XAttribute(v4 + "ClassicAppPath", commandline),
+                        new XAttribute(v4 + "ClassicAppArguments", arguments)
+                    );
+                }
+            }
+
             foreach (List<string> appParam in Globals.appProfiles.Keys)
             {
                 string pGuid        = appParam[0];
@@ -85,7 +146,7 @@ namespace xmlManip
                 string isWin10      = appParam[5];
                 string isWin11      = appParam[6];
 
-                List<string> allApps        = Globals.appProfiles[appParam].Keys.FirstOrDefault();
+                List<string> allApps = Globals.appProfiles[appParam].Keys.FirstOrDefault();
 
 
                 profiles.Add(

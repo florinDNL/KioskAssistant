@@ -29,100 +29,110 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(kioskModeApp));
-            this.appTypeCb = new System.Windows.Forms.ComboBox();
-            this.appTypeLb = new System.Windows.Forms.Label();
-            this.profileLabel = new System.Windows.Forms.Label();
-            this.guidLabel = new System.Windows.Forms.Label();
-            this.logoBox = new System.Windows.Forms.PictureBox();
-            this.kModePanel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
-            this.SuspendLayout();
+            appTypeCb = new System.Windows.Forms.ComboBox();
+            appTypeLb = new System.Windows.Forms.Label();
+            profileLabel = new System.Windows.Forms.Label();
+            guidLabel = new System.Windows.Forms.Label();
+            logoBox = new System.Windows.Forms.PictureBox();
+            kModePanel = new System.Windows.Forms.Panel();
+            saveProfileBt = new System.Windows.Forms.Button();
+            cancelbt = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
+            SuspendLayout();
             // 
             // appTypeCb
             // 
-            this.appTypeCb.FormattingEnabled = true;
-            this.appTypeCb.Items.AddRange(new object[] {
-            "Edge",
-            "UWP",
-            "Win32 (Unstable)"});
-            this.appTypeCb.Location = new System.Drawing.Point(78, 57);
-            this.appTypeCb.Name = "appTypeCb";
-            this.appTypeCb.Size = new System.Drawing.Size(121, 23);
-            this.appTypeCb.TabIndex = 0;
-            this.appTypeCb.SelectedIndexChanged += new System.EventHandler(this.appTypeCb_SelectedIndexChanged);
+            appTypeCb.FormattingEnabled = true;
+            appTypeCb.Items.AddRange(new object[] { "Edge", "UWP", "Win32 (Unstable)" });
+            appTypeCb.Location = new System.Drawing.Point(78, 57);
+            appTypeCb.Name = "appTypeCb";
+            appTypeCb.Size = new System.Drawing.Size(121, 23);
+            appTypeCb.TabIndex = 0;
+            appTypeCb.SelectedIndexChanged += appTypeCb_SelectedIndexChanged;
             // 
             // appTypeLb
             // 
-            this.appTypeLb.AutoSize = true;
-            this.appTypeLb.Location = new System.Drawing.Point(13, 60);
-            this.appTypeLb.Name = "appTypeLb";
-            this.appTypeLb.Size = new System.Drawing.Size(59, 15);
-            this.appTypeLb.TabIndex = 1;
-            this.appTypeLb.Text = "App Type:";
+            appTypeLb.AutoSize = true;
+            appTypeLb.Location = new System.Drawing.Point(13, 60);
+            appTypeLb.Name = "appTypeLb";
+            appTypeLb.Size = new System.Drawing.Size(59, 15);
+            appTypeLb.TabIndex = 1;
+            appTypeLb.Text = "App Type:";
             // 
             // profileLabel
             // 
-            this.profileLabel.AutoSize = true;
-            this.profileLabel.Location = new System.Drawing.Point(12, 9);
-            this.profileLabel.Name = "profileLabel";
-            this.profileLabel.Size = new System.Drawing.Size(41, 15);
-            this.profileLabel.TabIndex = 24;
-            this.profileLabel.Text = "Profile";
+            profileLabel.AutoSize = true;
+            profileLabel.Location = new System.Drawing.Point(12, 9);
+            profileLabel.Name = "profileLabel";
+            profileLabel.Size = new System.Drawing.Size(41, 15);
+            profileLabel.TabIndex = 24;
+            profileLabel.Text = "Profile";
             // 
             // guidLabel
             // 
-            this.guidLabel.AutoSize = true;
-            this.guidLabel.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.guidLabel.Location = new System.Drawing.Point(9, 19);
-            this.guidLabel.Name = "guidLabel";
-            this.guidLabel.Size = new System.Drawing.Size(54, 25);
-            this.guidLabel.TabIndex = 23;
-            this.guidLabel.Text = "GUID";
+            guidLabel.AutoSize = true;
+            guidLabel.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            guidLabel.Location = new System.Drawing.Point(9, 19);
+            guidLabel.Name = "guidLabel";
+            guidLabel.Size = new System.Drawing.Size(54, 25);
+            guidLabel.TabIndex = 23;
+            guidLabel.Text = "GUID";
             // 
             // logoBox
             // 
-            this.logoBox.Image = ((System.Drawing.Image)(resources.GetObject("logoBox.Image")));
-            this.logoBox.Location = new System.Drawing.Point(390, 19);
-            this.logoBox.Name = "logoBox";
-            this.logoBox.Size = new System.Drawing.Size(231, 51);
-            this.logoBox.TabIndex = 25;
-            this.logoBox.TabStop = false;
+            logoBox.Image = (System.Drawing.Image)resources.GetObject("logoBox.Image");
+            logoBox.Location = new System.Drawing.Point(390, 19);
+            logoBox.Name = "logoBox";
+            logoBox.Size = new System.Drawing.Size(231, 51);
+            logoBox.TabIndex = 25;
+            logoBox.TabStop = false;
             // 
             // kModePanel
             // 
-            this.kModePanel.Location = new System.Drawing.Point(13, 100);
-            this.kModePanel.Name = "kModePanel";
-            this.kModePanel.Size = new System.Drawing.Size(608, 180);
-            this.kModePanel.TabIndex = 26;
+            kModePanel.Location = new System.Drawing.Point(13, 100);
+            kModePanel.Name = "kModePanel";
+            kModePanel.Size = new System.Drawing.Size(608, 180);
+            kModePanel.TabIndex = 26;
             // 
-            // button1
+            // saveProfileBt
             // 
-            this.button1.Location = new System.Drawing.Point(526, 286);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 52);
-            this.button1.TabIndex = 27;
-            this.button1.Text = "Add Profile";
-            this.button1.UseVisualStyleBackColor = true;
+            saveProfileBt.Location = new System.Drawing.Point(526, 306);
+            saveProfileBt.Name = "saveProfileBt";
+            saveProfileBt.Size = new System.Drawing.Size(95, 32);
+            saveProfileBt.TabIndex = 27;
+            saveProfileBt.Text = "Save Profile";
+            saveProfileBt.UseVisualStyleBackColor = true;
+            saveProfileBt.Click += saveProfileBt_Click;
+            // 
+            // cancelbt
+            // 
+            cancelbt.Location = new System.Drawing.Point(425, 306);
+            cancelbt.Name = "cancelbt";
+            cancelbt.Size = new System.Drawing.Size(95, 32);
+            cancelbt.TabIndex = 28;
+            cancelbt.Text = "Cancel";
+            cancelbt.UseVisualStyleBackColor = true;
+            cancelbt.Click += cancelbt_Click;
             // 
             // kioskModeApp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 356);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.kModePanel);
-            this.Controls.Add(this.logoBox);
-            this.Controls.Add(this.profileLabel);
-            this.Controls.Add(this.guidLabel);
-            this.Controls.Add(this.appTypeLb);
-            this.Controls.Add(this.appTypeCb);
-            this.Name = "kioskModeApp";
-            this.Text = "kioskModeApp";
-            ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(634, 356);
+            Controls.Add(cancelbt);
+            Controls.Add(saveProfileBt);
+            Controls.Add(kModePanel);
+            Controls.Add(logoBox);
+            Controls.Add(profileLabel);
+            Controls.Add(guidLabel);
+            Controls.Add(appTypeLb);
+            Controls.Add(appTypeCb);
+            Name = "kioskModeApp";
+            Text = "kioskModeApp";
+            ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.kioskModeApp_FormClosing);
         }
 
         #endregion
@@ -133,6 +143,7 @@
         public System.Windows.Forms.Label guidLabel;
         private System.Windows.Forms.PictureBox logoBox;
         private System.Windows.Forms.Panel kModePanel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button saveProfileBt;
+        private System.Windows.Forms.Button cancelbt;
     }
 }

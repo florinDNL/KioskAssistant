@@ -113,10 +113,10 @@
         #endregion
 
         private System.Windows.Forms.Label urlLb;
-        private System.Windows.Forms.TextBox urlTb;
+        public System.Windows.Forms.TextBox urlTb;
         private System.Windows.Forms.Label browsingLb;
-        private System.Windows.Forms.ComboBox browsingCb;
+        public System.Windows.Forms.ComboBox browsingCb;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox idleTb;
+        public System.Windows.Forms.TextBox idleTb;
     }
 }

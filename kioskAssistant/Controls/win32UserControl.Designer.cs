@@ -28,80 +28,79 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.exeLb = new System.Windows.Forms.Label();
-            this.argLb = new System.Windows.Forms.Label();
-            this.exeTb = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.browseBt = new System.Windows.Forms.Button();
-            this.exeDialog = new System.Windows.Forms.OpenFileDialog();
-            this.SuspendLayout();
+            exeLb = new System.Windows.Forms.Label();
+            argLb = new System.Windows.Forms.Label();
+            exeTb = new System.Windows.Forms.TextBox();
+            argTb = new System.Windows.Forms.TextBox();
+            browseBt = new System.Windows.Forms.Button();
+            exeDialog = new System.Windows.Forms.OpenFileDialog();
+            SuspendLayout();
             // 
             // exeLb
             // 
-            this.exeLb.AutoSize = true;
-            this.exeLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.exeLb.Location = new System.Drawing.Point(8, 27);
-            this.exeLb.Name = "exeLb";
-            this.exeLb.Size = new System.Drawing.Size(88, 20);
-            this.exeLb.TabIndex = 1;
-            this.exeLb.Text = "Executable: ";
+            exeLb.AutoSize = true;
+            exeLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            exeLb.Location = new System.Drawing.Point(8, 27);
+            exeLb.Name = "exeLb";
+            exeLb.Size = new System.Drawing.Size(88, 20);
+            exeLb.TabIndex = 1;
+            exeLb.Text = "Executable: ";
             // 
             // argLb
             // 
-            this.argLb.AutoSize = true;
-            this.argLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.argLb.Location = new System.Drawing.Point(8, 60);
-            this.argLb.Name = "argLb";
-            this.argLb.Size = new System.Drawing.Size(84, 20);
-            this.argLb.TabIndex = 2;
-            this.argLb.Text = "Arguments:";
+            argLb.AutoSize = true;
+            argLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            argLb.Location = new System.Drawing.Point(8, 60);
+            argLb.Name = "argLb";
+            argLb.Size = new System.Drawing.Size(84, 20);
+            argLb.TabIndex = 2;
+            argLb.Text = "Arguments:";
             // 
             // exeTb
             // 
-            this.exeTb.Location = new System.Drawing.Point(102, 24);
-            this.exeTb.Name = "exeTb";
-            this.exeTb.Size = new System.Drawing.Size(405, 23);
-            this.exeTb.TabIndex = 3;
+            exeTb.Location = new System.Drawing.Point(102, 24);
+            exeTb.Name = "exeTb";
+            exeTb.Size = new System.Drawing.Size(405, 23);
+            exeTb.TabIndex = 3;
             // 
-            // textBox2
+            // argTb
             // 
-            this.textBox2.Location = new System.Drawing.Point(102, 57);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(405, 23);
-            this.textBox2.TabIndex = 4;
+            argTb.Location = new System.Drawing.Point(102, 57);
+            argTb.Name = "argTb";
+            argTb.Size = new System.Drawing.Size(405, 23);
+            argTb.TabIndex = 4;
             // 
             // browseBt
             // 
-            this.browseBt.Location = new System.Drawing.Point(513, 24);
-            this.browseBt.Name = "browseBt";
-            this.browseBt.Size = new System.Drawing.Size(75, 23);
-            this.browseBt.TabIndex = 5;
-            this.browseBt.Text = "Browse";
-            this.browseBt.UseVisualStyleBackColor = true;
-            this.browseBt.Click += new System.EventHandler(this.browseBt_Click);
+            browseBt.Location = new System.Drawing.Point(513, 24);
+            browseBt.Name = "browseBt";
+            browseBt.Size = new System.Drawing.Size(75, 23);
+            browseBt.TabIndex = 5;
+            browseBt.Text = "Browse";
+            browseBt.UseVisualStyleBackColor = true;
+            browseBt.Click += browseBt_Click;
             // 
             // win32UserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.browseBt);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.exeTb);
-            this.Controls.Add(this.argLb);
-            this.Controls.Add(this.exeLb);
-            this.Name = "win32UserControl";
-            this.Size = new System.Drawing.Size(608, 180);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(browseBt);
+            Controls.Add(argTb);
+            Controls.Add(exeTb);
+            Controls.Add(argLb);
+            Controls.Add(exeLb);
+            Name = "win32UserControl";
+            Size = new System.Drawing.Size(608, 180);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private System.Windows.Forms.Label exeLb;
         private System.Windows.Forms.Label argLb;
-        private System.Windows.Forms.TextBox exeTb;
-        private System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.TextBox exeTb;
+        public System.Windows.Forms.TextBox argTb;
         private System.Windows.Forms.Button browseBt;
         private System.Windows.Forms.OpenFileDialog exeDialog;
     }
