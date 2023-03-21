@@ -22,7 +22,7 @@ namespace kioskAssistant
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             guidLabel.Text = Globals.GetGUID();
-            saveProfileBt.Enabled = false;            
+            saveProfileBt.Enabled = false;
         }
 
         #region Button Click Events
@@ -122,7 +122,7 @@ namespace kioskAssistant
                 win32UserControl win32Control = new();
                 kModePanel.Controls.Add(win32Control);
                 executable = win32Control.exeTb;
-                arguments  = win32Control.argTb;
+                arguments = win32Control.argTb;
             }
 
             saveProfileBt.Enabled = true;
@@ -131,8 +131,8 @@ namespace kioskAssistant
         private void kioskModeApp_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.OK)
-            {               
-                Globals.kioskModeApps.Add(guidLabel.Text, profileParam);              
+            {
+                Globals.kioskModeApps.Add(guidLabel.Text, profileParam);
             }
         }
 

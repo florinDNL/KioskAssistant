@@ -127,12 +127,13 @@
             Controls.Add(guidLabel);
             Controls.Add(appTypeLb);
             Controls.Add(appTypeCb);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "kioskModeApp";
-            Text = "kioskModeApp";
+            Text = "Kiosk Mode App";
+            FormClosing += kioskModeApp_FormClosing;
             ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.kioskModeApp_FormClosing);
         }
 
         #endregion
