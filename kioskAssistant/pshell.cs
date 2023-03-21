@@ -7,7 +7,7 @@ namespace powershellApp
     {
         public static Dictionary<string, string> GetApps()
         {
-            Dictionary<string, string> allUwpApps   = new();
+            Dictionary<string, string> allUwpApps = new();
 
 
             PowerShell ps = PowerShell.Create();
@@ -17,20 +17,20 @@ namespace powershellApp
             ps.AddCommand("Get-StartApps");
             foreach (PSObject result in ps.Invoke())
             {
-                string appInstance  = result.ToString().ToLower();
-                string name         = result.Members["Name"].Value.ToString();
-                string appId        = result.Members["AppID"].Value.ToString();
+                string appInstance = result.ToString().ToLower();
+                string name = result.Members["Name"].Value.ToString();
+                string appId = result.Members["AppID"].Value.ToString();
                 if (appInstance.Contains("!") & !appInstance.Contains("!microsoftedge") & !appInstance.Contains("msedge"))
                 {
                     if (allUwpApps.ContainsKey(name))
                     {
                         name += "_" + appId;
-                    }         
-                    
+                    }
+
                     allUwpApps.Add(name, appId);
                 }
             }
-            return allUwpApps;            
+            return allUwpApps;
         }
 
         public static List<string> GetUsers()
