@@ -2,8 +2,7 @@ using System;
 using System.Threading;
 using System.Windows.Forms;
 using allGlobals;
-
-
+using kioskAssistant.Forms;
 
 namespace kioskAssistant
 {
@@ -20,7 +19,7 @@ namespace kioskAssistant
             Application.SetCompatibleTextRenderingDefault(false);
             
             splashScreen    = new splashScreen();
-            mainWindow      = new mainWindow();
+            mainWindow      = new startWindow();
 
             //Load the splash screen in a separate thread
             Thread t = new(new ThreadStart(() => Application.Run(splashScreen)));
