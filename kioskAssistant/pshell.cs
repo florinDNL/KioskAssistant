@@ -18,13 +18,16 @@ namespace powershellApp
             foreach (PSObject result in ps.Invoke())
             {
                 string appInstance = result.ToString().ToLower();
-                if (appInstance.Contains("!microsoftedge"))
+                string name = result.Members["Name"].Value.ToString();
+                string appId = result.Members["AppID"].Value.ToString();
+                if (appInstance.Contains("!") & !appInstance.Contains("!microsoftedge") & !appInstance.Contains("msedge"))
                 {
-                    allGlobals.Globals.edgeLnk = result.Members["AppID"].Value.ToString();
-                }
-                else if (appInstance.Contains("!") | appInstance.Contains("msedge"))
-                {                    
-                    allUwpApps.Add(result.Members["Name"].Value.ToString(), result.Members["AppID"].Value.ToString());
+                    if (allUwpApps.ContainsKey(name))
+                    {
+                        name += "_" + appId;
+                    }
+
+                    allUwpApps.Add(name, appId);
                 }
             }
             return allUwpApps;
