@@ -397,17 +397,21 @@ namespace kioskAssistant
                     isWin11 = "true";
                 }
 
-                List<string> profileParam = new();
-                profileParam.Add(guidLabel.Text);
-                profileParam.Add(taskBar);
-                profileParam.Add(dlPerm);
-                profileParam.Add(rdPerm);
-                profileParam.Add(noRestrict);
-                profileParam.Add(isWin10);
-                profileParam.Add(isWin11);
+                List<string> profileParam = new()
+                {
+                    guidLabel.Text,
+                    taskBar,
+                    dlPerm,
+                    rdPerm,
+                    noRestrict,
+                    isWin10,
+                    isWin11
+                };
 
-                Dictionary<List<string>, Dictionary<string, Dictionary<string, List<string>>>> appProfile = new();
-                appProfile.Add(perFormObjects.allowedApps, perFormObjects.groups);
+                Dictionary<List<string>, Dictionary<string, Dictionary<string, List<string>>>> appProfile = new()
+                {
+                    { perFormObjects.allowedApps, perFormObjects.groups }
+                };
                 Globals.appProfiles.Add(profileParam, appProfile);
                 Globals.globalAutoLaunchApps.Add(guidLabel.Text, perFormObjects.autoLaunch);
             }

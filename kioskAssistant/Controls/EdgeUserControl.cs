@@ -7,6 +7,8 @@ namespace kioskAssistant.Controls
         public EdgeUserControl()
         {
             InitializeComponent();
+            browsingCb.SelectedIndex = 1;
+            idleTb.Text = "0";
         }
     }
 }

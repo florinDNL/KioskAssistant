@@ -10,6 +10,7 @@ namespace allGlobals
     public class Globals
     {
         public static Dictionary<List<string>, Dictionary<List<string>, Dictionary<string, Dictionary<string, List<string>>>>> appProfiles = new();
+        public static Dictionary<string, List<string>> kioskModeApps = new();
         public static Dictionary<string, List<string>> globalAutoLaunchApps = new();
 
         public static Dictionary<string, string> allUwpApps;
