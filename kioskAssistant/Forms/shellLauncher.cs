@@ -1,5 +1,7 @@
 ﻿using allGlobals;
+using xmlManip;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace kioskAssistant.Forms
 {
@@ -35,6 +37,10 @@ namespace kioskAssistant.Forms
             foreach (DataGridViewRow row in accountsGv.SelectedRows)
             {
                 accountsGv.Rows.Remove(row);
+                if (row.Cells[0].Value.ToString() == "Autologon")
+                {
+                    autologonBt.Enabled = true;
+                }
             }
         }
 
@@ -73,23 +79,26 @@ namespace kioskAssistant.Forms
 
         private void remCsBt_Click(object sender, System.EventArgs e)
         {
-            foreach (string profile in perFormObjects.shellLauncherAccs.Keys)
+            if (appProfileLb.Items.Count > 0)
             {
-                if (profile == appProfileLb.SelectedItem.ToString())
+                foreach (string profile in perFormObjects.shellLauncherAccs.Keys)
                 {
-                    perFormObjects.shellLauncherAccs.Remove(profile);
+                    if (profile == appProfileLb.SelectedItem.ToString())
+                    {
+                        perFormObjects.shellLauncherAccs.Remove(profile);
+                    }
                 }
-            }
 
-            foreach (DataGridViewRow row in accountsGv.Rows)
-            {
-                if (row.Cells[1].Value != null & row.Cells[1].Value == appProfileLb.SelectedItem)
+                foreach (DataGridViewRow row in accountsGv.Rows)
                 {
-                    row.Cells[1].Value = null;
+                    if (row.Cells[1].Value != null & row.Cells[1].Value == appProfileLb.SelectedItem)
+                    {
+                        row.Cells[1].Value = null;
+                    }
                 }
-            }
 
-            appProfileLb.Items.Remove(appProfileLb.SelectedItem);
+                appProfileLb.Items.Remove(appProfileLb.SelectedItem);
+            }
         }
 
         private void genXmlBt_Click(object sender, System.EventArgs e)
@@ -105,6 +114,7 @@ namespace kioskAssistant.Forms
                 }
 
                 string savePath = saveXML.FileName;
+                xmlCreator.writeShellLauncherXmlFile(savePath);
                 Globals.accountsInit();
                 MessageBox.Show("XML file saved to " + savePath, "Success");
             }
@@ -144,5 +154,11 @@ namespace kioskAssistant.Forms
         }
 
         #endregion
+
+        private void autologonBt_Click(object sender, System.EventArgs e)
+        {            
+            accountsGv.Rows.Add("Autologon");
+            autologonBt.Enabled = false;
+        }
     }
 }

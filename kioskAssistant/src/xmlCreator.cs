@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using allGlobals;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace xmlManip
@@ -21,6 +20,9 @@ namespace xmlManip
         public static void writeShellLauncherXmlFile(string savePath)
         {
             XDocument doc = buildShellLauncherXmlBody();
+            buildShellLauncherProfiles(doc);
+            buildShellLauncherConfigs(doc);
+            doc.Save(savePath);
         }
 
         #region XML Namespaces
@@ -36,7 +38,7 @@ namespace xmlManip
         static XNamespace start = "http://schemas.microsoft.com/Start/2014/StartLayout";
 
         static XNamespace sL    = "http://schemas.microsoft.com/ShellLauncher/2018/Configuration";
-        static XNamespace slv2 = "http://schemas.microsoft.com/ShellLauncher/2019/Configuration";
+        static XNamespace slv2  = "http://schemas.microsoft.com/ShellLauncher/2019/Configuration";
 
 
         #endregion
@@ -65,11 +67,21 @@ namespace xmlManip
         {
             XDocument doc = new XDocument(
                  new XDeclaration("1.0", "UTF-8", null),
-                 new XElement(sL + "ShellLauncherConfiguration "),
+                 new XElement(sL + "ShellLauncherConfiguration",
                     new XAttribute(XNamespace.Xmlns + "v2", slv2),
-                    new XElement(sL + "Profiles"),
+                    new XElement(sL + "Profiles",
+                        new XElement(sL + "DefaultProfile",
+                            new XElement(sL + "Shell",
+                                new XAttribute("Shell", "%systemroot%\\explorer.exe"),
+                                new XElement(sL + "DefaultAction",
+                                    new XAttribute("Action", "RestartShell")
+                                    )
+                                )
+                            )
+                        ),                    
                     new XElement(sL + "Configs")                     
-                 );
+                    )
+                );
 
             return doc;
         }
@@ -229,18 +241,23 @@ namespace xmlManip
 
         public static void buildShellLauncherProfiles(XDocument doc)
         {
-            XElement profiles = doc.Root.Element(ns + "Profiles");
+            XElement profiles = doc.Root.Element(sL + "Profiles");
 
             foreach (string item in perFormObjects.shellLauncherAccs.Keys)
             {
                 string pGuid = item;
                 string shell;
                 List <string> profileParam = perFormObjects.shellLauncherAccs[item];
+                string errorAction = profileParam.Last();
 
                 profiles.Add(
                         new XElement(sL + "Profile",
                             new XAttribute("Id", pGuid),
-                                new XElement(sL + "Shell")                                                                       
+                                new XElement(sL + "Shell",
+                                    new XElement(sL + "DefaultAction",
+                                        new XAttribute("Action", errorAction)
+                                    )
+                                )                                                                       
                             )
                         );
 
@@ -252,7 +269,7 @@ namespace xmlManip
                     string timeout = profileParam[2];
                     string browsingType = profileParam[3] == "Public Browsing" ? "public-browsing" : "fullscreen";
 
-                    shell = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe --no-first-run --kiosk" + url + " --edge-kiosk-type=" + browsingType + " --kiosk-idle-timeout-minutes=" + timeout;
+                    shell = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe --no-first-run --kiosk " + url + " --edge-kiosk-type=" + browsingType + " --kiosk-idle-timeout-minutes=" + timeout;
 
                     shellNode.Add(
                         new XAttribute("Shell", shell),
@@ -352,16 +369,49 @@ namespace xmlManip
 
         public static void buildShellLauncherConfigs(XDocument doc)
         {
-            XElement configs = doc.Root.Element(ns + "Configs");
-            foreach (string acc in Globals.shellLauncherAccounts.Keys)
+            XElement configs = doc.Root.Element(sL + "Configs");
+            foreach (string item in Globals.shellLauncherAccounts.Keys)
             {
-                if (acc.Contains("[n]"))
+                string profileId = Globals.shellLauncherAccounts[item];
+                if (item.Contains("[n]"))
                 {
-                    acc.Remove(0, 3);
+                    string acc = item.Remove(0, 3);
+                    configs.Add(
+                        new XElement(sL + "Config",
+                            new XElement(sL + "Account",
+                                new XAttribute("Name", acc)
+                            ),
+                            new XElement(sL + "Profile",
+                                new XAttribute("Id", profileId)
+                            )
+                        )
+                    );
                 }
-                else if (acc.Contains("[s]"))
+                else if (item.Contains("[s]"))
                 {
-                    acc.Remove(0, 3);
+                    string acc = item.Remove(0, 3);
+                    configs.Add(
+                        new XElement(sL + "Config",
+                            new XElement(sL + "Account",
+                                new XAttribute("Sid", acc)
+                            ),
+                            new XElement(sL + "Profile",
+                                new XAttribute("Id", profileId)
+                            )
+                        )
+                    );
+                }
+                else if (item == "Autologon")
+                {
+                    configs.Add(
+                        new XElement(sL + "Config",
+                            new XElement(sL + "AutoLogonAccount"
+                            ),
+                            new XElement(sL + "Profile",
+                                new XAttribute("Id", profileId)
+                            )
+                        )
+                    );
                 }
             }
         }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(customShell));
             actionCb = new System.Windows.Forms.ComboBox();
             label1 = new System.Windows.Forms.Label();
             appTypeLb = new System.Windows.Forms.Label();
@@ -40,7 +41,7 @@
             // actionCb
             // 
             actionCb.FormattingEnabled = true;
-            actionCb.Items.AddRange(new object[] { "Restart the Shell", "Restart the Device", "Shut down the Device", "Do nothing" });
+            actionCb.Items.AddRange(new object[] { "RestartShell", "RestartDevice", "ShutdownDevice", "DoNothing" });
             actionCb.Location = new System.Drawing.Point(138, 80);
             actionCb.Name = "actionCb";
             actionCb.Size = new System.Drawing.Size(203, 23);
@@ -115,11 +116,12 @@
             Controls.Add(appTypeLb);
             Controls.Add(label1);
             Controls.Add(actionCb);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "customShell";
-            Text = "customShell";
+            Text = "Custom Shell";
+            FormClosing += customShell_FormClosing;
             ResumeLayout(false);
             PerformLayout();
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.customShell_FormClosing);
         }
 
         #endregion

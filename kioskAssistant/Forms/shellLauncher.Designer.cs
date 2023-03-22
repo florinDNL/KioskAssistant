@@ -44,6 +44,7 @@
             sidLb = new System.Windows.Forms.Label();
             remCsBt = new System.Windows.Forms.Button();
             saveXML = new System.Windows.Forms.SaveFileDialog();
+            autologonBt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)accountsGv).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
             SuspendLayout();
@@ -125,7 +126,7 @@
             // 
             // nameBt
             // 
-            nameBt.Location = new System.Drawing.Point(262, 28);
+            nameBt.Location = new System.Drawing.Point(262, 15);
             nameBt.Name = "nameBt";
             nameBt.Size = new System.Drawing.Size(92, 23);
             nameBt.TabIndex = 23;
@@ -135,7 +136,7 @@
             // 
             // sidBt
             // 
-            sidBt.Location = new System.Drawing.Point(360, 28);
+            sidBt.Location = new System.Drawing.Point(360, 15);
             sidBt.Name = "sidBt";
             sidBt.Size = new System.Drawing.Size(92, 23);
             sidBt.TabIndex = 24;
@@ -155,7 +156,7 @@
             // 
             // nameSidTb
             // 
-            nameSidTb.Location = new System.Drawing.Point(12, 28);
+            nameSidTb.Location = new System.Drawing.Point(12, 15);
             nameSidTb.Name = "nameSidTb";
             nameSidTb.PlaceholderText = "Name or Sid";
             nameSidTb.Size = new System.Drawing.Size(244, 23);
@@ -175,7 +176,7 @@
             // 
             sidLb.AutoSize = true;
             sidLb.ForeColor = System.Drawing.Color.Red;
-            sidLb.Location = new System.Drawing.Point(12, 54);
+            sidLb.Location = new System.Drawing.Point(12, 52);
             sidLb.Name = "sidLb";
             sidLb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             sidLb.Size = new System.Drawing.Size(286, 15);
@@ -197,11 +198,22 @@
             saveXML.FileName = "shellLauncher";
             saveXML.Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*\"";
             // 
+            // autologonBt
+            // 
+            autologonBt.Location = new System.Drawing.Point(312, 43);
+            autologonBt.Name = "autologonBt";
+            autologonBt.Size = new System.Drawing.Size(140, 24);
+            autologonBt.TabIndex = 30;
+            autologonBt.Text = "Add Autologon";
+            autologonBt.UseVisualStyleBackColor = true;
+            autologonBt.Click += autologonBt_Click;
+            // 
             // shellLauncher
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(autologonBt);
             Controls.Add(remCsBt);
             Controls.Add(sidLb);
             Controls.Add(remBt);
@@ -240,5 +252,6 @@
         private System.Windows.Forms.Label sidLb;
         private System.Windows.Forms.Button remCsBt;
         private System.Windows.Forms.SaveFileDialog saveXML;
+        private System.Windows.Forms.Button autologonBt;
     }
 }

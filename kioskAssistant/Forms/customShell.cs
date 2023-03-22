@@ -16,7 +16,7 @@ namespace kioskAssistant.Forms
             appTypeCb.SelectedIndex = 2;
             slWin32UserControl slControl = new slWin32UserControl();
             shellPanel.Controls.Add(slControl);
-            guidLabel.Text = Globals.GetGUID();           
+            guidLabel.Text = Globals.GetGUID();
         }
 
         TextBox url;
@@ -37,7 +37,7 @@ namespace kioskAssistant.Forms
                 EdgeUserControl edgeControl = new EdgeUserControl();
                 shellPanel.Controls.Add(edgeControl);
                 url = edgeControl.urlTb;
-                idleTimeout = edgeControl.urlTb;
+                idleTimeout = edgeControl.idleTb;
                 browsingType = edgeControl.browsingCb;
             }
             else if (appTypeCb.SelectedIndex == 1)
@@ -52,7 +52,7 @@ namespace kioskAssistant.Forms
                 shellPanel.Controls.Add(slControl);
                 win32shell = slControl.shellTb;
                 fullScreen = slControl.fullscreenCb;
-                arguments  = slControl.argTb;
+                arguments = slControl.argTb;
             }
         }
 
@@ -125,6 +125,7 @@ namespace kioskAssistant.Forms
         {
             if (this.DialogResult == DialogResult.OK)
             {
+                profileParam.Add(actionCb.SelectedItem.ToString());
                 perFormObjects.shellLauncherAccs.Add(guidLabel.Text, profileParam);
             }
         }
