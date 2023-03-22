@@ -210,7 +210,7 @@ namespace kioskAssistant
         private void accountsGv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             accountsGv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv))
+            if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv, 2))
             {
                 genXmlBt.Enabled = true;
             }
@@ -233,7 +233,7 @@ namespace kioskAssistant
             {
                 genXmlBt.Enabled = false;
             }
-            else if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv))
+            else if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv, 2))
             {
                 genXmlBt.Enabled = true;
             }

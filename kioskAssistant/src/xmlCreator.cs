@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using allGlobals;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace xmlManip
@@ -17,6 +18,11 @@ namespace xmlManip
             doc.Save(savePath);
         }
 
+        public static void writeShellLauncherXmlFile(string savePath)
+        {
+            XDocument doc = buildShellLauncherXmlBody();
+        }
+
         #region XML Namespaces
 
         static XNamespace ns    = "http://schemas.microsoft.com/AssignedAccess/2017/config";
@@ -29,7 +35,10 @@ namespace xmlManip
         static XNamespace defL  = "http://schemas.microsoft.com/Start/2014/FullDefaultLayout";
         static XNamespace start = "http://schemas.microsoft.com/Start/2014/StartLayout";
 
-      
+        static XNamespace sL    = "http://schemas.microsoft.com/ShellLauncher/2018/Configuration";
+        static XNamespace slv2 = "http://schemas.microsoft.com/ShellLauncher/2019/Configuration";
+
+
         #endregion
 
 
@@ -47,6 +56,19 @@ namespace xmlManip
                      new XElement(ns + "Profiles"),
                      new XElement(ns + "Configs")
                      )
+                 );
+
+            return doc;
+        }
+
+        public static XDocument buildShellLauncherXmlBody()
+        {
+            XDocument doc = new XDocument(
+                 new XDeclaration("1.0", "UTF-8", null),
+                 new XElement(sL + "ShellLauncherConfiguration "),
+                    new XAttribute(XNamespace.Xmlns + "v2", slv2),
+                    new XElement(sL + "Profiles"),
+                    new XElement(sL + "Configs")                     
                  );
 
             return doc;
@@ -78,10 +100,10 @@ namespace xmlManip
         {            
             XElement profiles = doc.Root.Element(ns + "Profiles");
 
-            foreach (string item in Globals.kioskModeApps.Keys)
+            foreach (string item in perFormObjects.kioskModeApps.Keys)
             {
                 string pGuid = item;
-                List <string> profileParam = Globals.kioskModeApps[item];
+                List <string> profileParam = perFormObjects.kioskModeApps[item];
                 profiles.Add(
                         new XElement(ns + "Profile",
                             new XAttribute("Id", pGuid),
@@ -205,6 +227,71 @@ namespace xmlManip
             }   
         }
 
+        public static void buildShellLauncherProfiles(XDocument doc)
+        {
+            XElement profiles = doc.Root.Element(ns + "Profiles");
+
+            foreach (string item in perFormObjects.shellLauncherAccs.Keys)
+            {
+                string pGuid = item;
+                string shell;
+                List <string> profileParam = perFormObjects.shellLauncherAccs[item];
+
+                profiles.Add(
+                        new XElement(sL + "Profile",
+                            new XAttribute("Id", pGuid),
+                                new XElement(sL + "Shell")                                                                       
+                            )
+                        );
+
+                XElement shellNode = profiles.Elements(sL + "Profile").First(c => (string)c.Attribute("Id") == pGuid).Element(sL + "Shell");
+
+                if (profileParam[0] == "Edge")
+                {
+                    string url = profileParam[1];
+                    string timeout = profileParam[2];
+                    string browsingType = profileParam[3] == "Public Browsing" ? "public-browsing" : "fullscreen";
+
+                    shell = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe --no-first-run --kiosk" + url + " --edge-kiosk-type=" + browsingType + " --kiosk-idle-timeout-minutes=" + timeout;
+
+                    shellNode.Add(
+                        new XAttribute("Shell", shell),
+                        new XAttribute(slv2 + "AllAppsFullScreen", "true")
+                    );
+                }
+                else if (profileParam[0] == "UWP")
+                {
+                    string uwpApp = profileParam[1];
+                    if (Globals.allUwpApps.ContainsKey(uwpApp))
+                    {
+                        shell =  Globals.allUwpApps[uwpApp];                        
+                    }
+                    else
+                    {
+                        shell = uwpApp;
+                    }
+
+                    shellNode.Add(
+                        new XAttribute("Shell", shell),
+                        new XAttribute(slv2 + "AppType", "UWP"),
+                        new XAttribute(slv2 + "AllAppsFullScreen", "true")
+                    );
+                }
+                else if (profileParam[0] == "win32")
+                {
+                    string exe = profileParam[1];
+                    string args = profileParam[2];
+                    string fullscreen = profileParam[3].ToLower();
+
+                    shell = exe + " " + args;
+                    shellNode.Add(
+                        new XAttribute("Shell", shell),
+                        new XAttribute(slv2 + "AllAppsFullScreen", fullscreen)
+                    );
+                }
+            }
+        }
+
         public static void buildConfigs(XDocument doc)
         {            
             XElement configs = doc.Root.Element(ns + "Configs");
@@ -262,6 +349,23 @@ namespace xmlManip
                 addGroupConfig(configs, azureGroup, profileId, "AzureActiveDirectoryGroup");       
             }
         }
+
+        public static void buildShellLauncherConfigs(XDocument doc)
+        {
+            XElement configs = doc.Root.Element(ns + "Configs");
+            foreach (string acc in Globals.shellLauncherAccounts.Keys)
+            {
+                if (acc.Contains("[n]"))
+                {
+                    acc.Remove(0, 3);
+                }
+                else if (acc.Contains("[s]"))
+                {
+                    acc.Remove(0, 3);
+                }
+            }
+        }
+
         #endregion
 
 

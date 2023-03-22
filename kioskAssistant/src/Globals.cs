@@ -10,7 +10,6 @@ namespace allGlobals
     public class Globals
     {
         public static Dictionary<List<string>, Dictionary<List<string>, Dictionary<string, Dictionary<string, List<string>>>>> appProfiles = new();
-        public static Dictionary<string, List<string>> kioskModeApps = new();
         public static Dictionary<string, List<string>> globalAutoLaunchApps = new();
 
         public static Dictionary<string, string> allUwpApps;
@@ -19,7 +18,7 @@ namespace allGlobals
         public static Dictionary<string, string> addedDomainGroups;
         public static Dictionary<string, string> addedAzureGroups;       
         public static Dictionary<string, string> autoLogon;
-        
+        public static Dictionary<string, string> shellLauncherAccounts;
 
         public static List<string> localUsers;
         public static List<string> localGroups;
@@ -46,21 +45,22 @@ namespace allGlobals
 
         public static void accountsInit()
         {            
-            addedUsers          = new();
-            addedLocalGroups    = new();
-            addedDomainGroups   = new();
-            addedAzureGroups    = new();
-            autoLogon           = new();
+            addedUsers              = new();
+            addedLocalGroups        = new();
+            addedDomainGroups       = new();
+            addedAzureGroups        = new();
+            autoLogon               = new();
+            shellLauncherAccounts   = new();
         }
 
 
-        public static bool areAllAssigned(int userNum, DataGridView dataGrid)
+        public static bool areAllAssigned(int userNum, DataGridView dataGrid, int index)
         {            
             int assignedNum = 0;
 
             foreach (DataGridViewRow row in dataGrid.Rows)
             {
-                if (row.Cells[2].Value != null)
+                if (row.Cells[index].Value != null)
                 {
                     assignedNum++;
                 }
@@ -84,7 +84,9 @@ namespace allGlobals
 
         public static Dictionary<string, string> linkedWin32Apps                    = new();        
         public static Dictionary<string, Dictionary<string, List<string>>> groups   = new();
-                
+        public static Dictionary<string, List<string>> kioskModeApps                = new();
+        public static Dictionary<string, List<string>> shellLauncherAccs            = new();
+
         public static List<List<bool>> tileGrid     = grid.gridInit();
         public static List<string> allowedApps      = new();
         public static List<string> autoLaunch       = new();
@@ -103,6 +105,7 @@ namespace allGlobals
             uwpApps             = new();
             addUwpApps          = new();
             autoLaunch          = new();
+            kioskModeApps       = new();            
             tileGrid            = grid.gridInit();
         }
     }

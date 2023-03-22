@@ -51,6 +51,7 @@
             sLauncherBt.TabIndex = 1;
             sLauncherBt.Text = "Create Shell Launcher XML";
             sLauncherBt.UseVisualStyleBackColor = true;
+            sLauncherBt.Click += sLauncherBt_Click;
             // 
             // startWindow
             // 

@@ -28,86 +28,83 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.urlLb = new System.Windows.Forms.Label();
-            this.urlTb = new System.Windows.Forms.TextBox();
-            this.browsingLb = new System.Windows.Forms.Label();
-            this.browsingCb = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.idleTb = new System.Windows.Forms.TextBox();
-            this.SuspendLayout();
+            urlLb = new System.Windows.Forms.Label();
+            urlTb = new System.Windows.Forms.TextBox();
+            browsingLb = new System.Windows.Forms.Label();
+            browsingCb = new System.Windows.Forms.ComboBox();
+            label1 = new System.Windows.Forms.Label();
+            idleTb = new System.Windows.Forms.TextBox();
+            SuspendLayout();
             // 
             // urlLb
             // 
-            this.urlLb.AutoSize = true;
-            this.urlLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.urlLb.Location = new System.Drawing.Point(8, 27);
-            this.urlLb.Name = "urlLb";
-            this.urlLb.Size = new System.Drawing.Size(38, 20);
-            this.urlLb.TabIndex = 0;
-            this.urlLb.Text = "URL:";
+            urlLb.AutoSize = true;
+            urlLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            urlLb.Location = new System.Drawing.Point(8, 27);
+            urlLb.Name = "urlLb";
+            urlLb.Size = new System.Drawing.Size(38, 20);
+            urlLb.TabIndex = 0;
+            urlLb.Text = "URL:";
             // 
             // urlTb
             // 
-            this.urlTb.Location = new System.Drawing.Point(147, 24);
-            this.urlTb.Name = "urlTb";
-            this.urlTb.PlaceholderText = "https://www.bing.com/";
-            this.urlTb.Size = new System.Drawing.Size(445, 23);
-            this.urlTb.TabIndex = 1;
+            urlTb.Location = new System.Drawing.Point(147, 24);
+            urlTb.Name = "urlTb";
+            urlTb.PlaceholderText = "https://www.bing.com/";
+            urlTb.Size = new System.Drawing.Size(445, 23);
+            urlTb.TabIndex = 1;
             // 
             // browsingLb
             // 
-            this.browsingLb.AutoSize = true;
-            this.browsingLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.browsingLb.Location = new System.Drawing.Point(8, 61);
-            this.browsingLb.Name = "browsingLb";
-            this.browsingLb.Size = new System.Drawing.Size(108, 20);
-            this.browsingLb.TabIndex = 2;
-            this.browsingLb.Text = "Browsing Type:";
+            browsingLb.AutoSize = true;
+            browsingLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            browsingLb.Location = new System.Drawing.Point(8, 61);
+            browsingLb.Name = "browsingLb";
+            browsingLb.Size = new System.Drawing.Size(108, 20);
+            browsingLb.TabIndex = 2;
+            browsingLb.Text = "Browsing Type:";
             // 
             // browsingCb
             // 
-            this.browsingCb.FormattingEnabled = true;
-            this.browsingCb.Items.AddRange(new object[] {
-            "Digital Signage",
-            "Public Browsing"});
-            this.browsingCb.Location = new System.Drawing.Point(147, 58);
-            this.browsingCb.Name = "browsingCb";
-            this.browsingCb.Size = new System.Drawing.Size(200, 23);
-            this.browsingCb.TabIndex = 3;
+            browsingCb.FormattingEnabled = true;
+            browsingCb.Items.AddRange(new object[] { "Digital Signage", "Public Browsing" });
+            browsingCb.Location = new System.Drawing.Point(147, 58);
+            browsingCb.Name = "browsingCb";
+            browsingCb.Size = new System.Drawing.Size(200, 23);
+            browsingCb.TabIndex = 3;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(8, 97);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 20);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Idle Timeout:";
+            label1.AutoSize = true;
+            label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            label1.Location = new System.Drawing.Point(8, 97);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(96, 20);
+            label1.TabIndex = 4;
+            label1.Text = "Idle Timeout:";
             // 
             // idleTb
             // 
-            this.idleTb.Location = new System.Drawing.Point(147, 94);
-            this.idleTb.Name = "idleTb";
-            this.idleTb.PlaceholderText = "0";
-            this.idleTb.Size = new System.Drawing.Size(70, 23);
-            this.idleTb.TabIndex = 5;
+            idleTb.Location = new System.Drawing.Point(147, 94);
+            idleTb.Name = "idleTb";
+            idleTb.PlaceholderText = "0";
+            idleTb.Size = new System.Drawing.Size(70, 23);
+            idleTb.TabIndex = 5;
             // 
             // EdgeUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.idleTb);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.browsingCb);
-            this.Controls.Add(this.browsingLb);
-            this.Controls.Add(this.urlTb);
-            this.Controls.Add(this.urlLb);
-            this.Name = "EdgeUserControl";
-            this.Size = new System.Drawing.Size(608, 316);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(idleTb);
+            Controls.Add(label1);
+            Controls.Add(browsingCb);
+            Controls.Add(browsingLb);
+            Controls.Add(urlTb);
+            Controls.Add(urlLb);
+            Name = "EdgeUserControl";
+            Size = new System.Drawing.Size(608, 137);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

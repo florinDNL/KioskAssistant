@@ -18,5 +18,13 @@ namespace kioskAssistant.Forms
             multiAppForm.ShowDialog();
             this.Show();
         }
+
+        private void sLauncherBt_Click(object sender, EventArgs e)
+        {
+            var sLauncherForm = new shellLauncher();
+            this.Hide();
+            sLauncherForm.ShowDialog();
+            this.Show();    
+        }
     }
 }

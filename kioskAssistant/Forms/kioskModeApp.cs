@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using kioskAssistant.Controls;
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace kioskAssistant
@@ -132,9 +131,8 @@ namespace kioskAssistant
         {
             if (this.DialogResult == DialogResult.OK)
             {
-                Globals.kioskModeApps.Add(guidLabel.Text, profileParam);
+                perFormObjects.kioskModeApps.Add(guidLabel.Text, profileParam);
             }
         }
-
     }
 }
