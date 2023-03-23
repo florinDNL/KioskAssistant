@@ -1,7 +1,7 @@
-﻿using System.Xml.Linq;
+﻿using allGlobals;
 using System.Collections.Generic;
 using System.Linq;
-using allGlobals;
+using System.Xml.Linq;
 
 
 namespace xmlManip
@@ -27,18 +27,18 @@ namespace xmlManip
 
         #region XML Namespaces
 
-        static XNamespace ns    = "http://schemas.microsoft.com/AssignedAccess/2017/config";
-        static XNamespace v2    = "http://schemas.microsoft.com/AssignedAccess/201810/config";
-        static XNamespace v3    = "http://schemas.microsoft.com/AssignedAccess/2020/config";
-        static XNamespace v4    = "http://schemas.microsoft.com/AssignedAccess/2021/config";
+        static XNamespace ns = "http://schemas.microsoft.com/AssignedAccess/2017/config";
+        static XNamespace v2 = "http://schemas.microsoft.com/AssignedAccess/201810/config";
+        static XNamespace v3 = "http://schemas.microsoft.com/AssignedAccess/2020/config";
+        static XNamespace v4 = "http://schemas.microsoft.com/AssignedAccess/2021/config";
         static XNamespace win11 = "http://schemas.microsoft.com/AssignedAccess/2022/config";
 
-        static XNamespace nssl  = "http://schemas.microsoft.com/Start/2014/LayoutModification";
-        static XNamespace defL  = "http://schemas.microsoft.com/Start/2014/FullDefaultLayout";
+        static XNamespace nssl = "http://schemas.microsoft.com/Start/2014/LayoutModification";
+        static XNamespace defL = "http://schemas.microsoft.com/Start/2014/FullDefaultLayout";
         static XNamespace start = "http://schemas.microsoft.com/Start/2014/StartLayout";
 
-        static XNamespace sL    = "http://schemas.microsoft.com/ShellLauncher/2018/Configuration";
-        static XNamespace slv2  = "http://schemas.microsoft.com/ShellLauncher/2019/Configuration";
+        static XNamespace sL = "http://schemas.microsoft.com/ShellLauncher/2018/Configuration";
+        static XNamespace slv2 = "http://schemas.microsoft.com/ShellLauncher/2019/Configuration";
 
 
         #endregion
@@ -78,8 +78,8 @@ namespace xmlManip
                                     )
                                 )
                             )
-                        ),                    
-                    new XElement(sL + "Configs")                     
+                        ),
+                    new XElement(sL + "Configs")
                     )
                 );
 
@@ -106,16 +106,16 @@ namespace xmlManip
                 );
 
             return startLayout;
-        } 
+        }
 
         public static void buildProfiles(XDocument doc)
-        {            
+        {
             XElement profiles = doc.Root.Element(ns + "Profiles");
 
             foreach (string item in perFormObjects.kioskModeApps.Keys)
             {
                 string pGuid = item;
-                List <string> profileParam = perFormObjects.kioskModeApps[item];
+                List<string> profileParam = perFormObjects.kioskModeApps[item];
                 profiles.Add(
                         new XElement(ns + "Profile",
                             new XAttribute("Id", pGuid),
@@ -123,7 +123,7 @@ namespace xmlManip
                             )
                         );
                 XElement profile = profiles.Elements(ns + "Profile").First(c => (string)c.Attribute("Id") == pGuid).Element(ns + "KioskModeApp");
-                
+
 
                 if (profileParam[0] == "Edge")
                 {
@@ -143,9 +143,9 @@ namespace xmlManip
                     string commandline = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe";
                     string arguments = "--no-first-run --kiosk " + url + " --edge-kiosk-type=" + browsing + " --kiosk-idle-timeout-minutes=" + timeout;
 
-                    profile.Add(                        
+                    profile.Add(
                             new XAttribute(v4 + "ClassicAppPath", commandline),
-                            new XAttribute(v4 + "ClassicAppArguments", arguments)      
+                            new XAttribute(v4 + "ClassicAppArguments", arguments)
                         );
 
                 }
@@ -161,8 +161,8 @@ namespace xmlManip
                 }
                 else if (profileParam[0] == "win32")
                 {
-                    string commandline  = profileParam[1];
-                    string arguments    = profileParam[2];
+                    string commandline = profileParam[1];
+                    string arguments = profileParam[2];
 
                     profile.Add(
                         new XAttribute(v4 + "ClassicAppPath", commandline),
@@ -173,13 +173,13 @@ namespace xmlManip
 
             foreach (List<string> appParam in Globals.appProfiles.Keys)
             {
-                string pGuid        = appParam[0];
-                string taskbar      = appParam[1];
-                string dlPerm       = appParam[2];
-                string rdPerm       = appParam[3];
-                string noRestrict   = appParam[4];
-                string isWin10      = appParam[5];
-                string isWin11      = appParam[6];
+                string pGuid = appParam[0];
+                string taskbar = appParam[1];
+                string dlPerm = appParam[2];
+                string rdPerm = appParam[3];
+                string noRestrict = appParam[4];
+                string isWin10 = appParam[5];
+                string isWin11 = appParam[6];
 
                 List<string> allApps = Globals.appProfiles[appParam].Keys.FirstOrDefault();
 
@@ -189,15 +189,15 @@ namespace xmlManip
                         new XAttribute("Id", pGuid),
                         new XElement(ns + "AllAppsList",
                             new XElement(ns + "AllowedApps")),
-                    new XElement(v2 + "FileExplorerNamespaceRestrictions"),                    
+                    new XElement(v2 + "FileExplorerNamespaceRestrictions"),
                     new XElement(ns + "Taskbar",
                         new XAttribute("ShowTaskbar", taskbar))
                         )
                     );
 
-                XElement profile        = profiles.Elements(ns + "Profile").First(c => (string)c.Attribute("Id") == pGuid);
-                XElement allowedApps    = profile.Element(ns + "AllAppsList").Element(ns + "AllowedApps");
-                XElement nsRestrict     = profile.Element(v2 + "FileExplorerNamespaceRestrictions");
+                XElement profile = profiles.Elements(ns + "Profile").First(c => (string)c.Attribute("Id") == pGuid);
+                XElement allowedApps = profile.Element(ns + "AllAppsList").Element(ns + "AllowedApps");
+                XElement nsRestrict = profile.Element(v2 + "FileExplorerNamespaceRestrictions");
 
                 addNamespaceConfig(nsRestrict, dlPerm, rdPerm, noRestrict);
 
@@ -236,7 +236,7 @@ namespace xmlManip
                     profile.Add(new XElement(win11 + "StartPins"));
                     profile.Element(win11 + "StartPins").Add(new XCData(json));
                 }
-            }   
+            }
         }
 
         public static void buildShellLauncherProfiles(XDocument doc)
@@ -247,7 +247,7 @@ namespace xmlManip
             {
                 string pGuid = item;
                 string shell;
-                List <string> profileParam = perFormObjects.shellLauncherAccs[item];
+                List<string> profileParam = perFormObjects.shellLauncherAccs[item];
                 string errorAction = profileParam.Last();
 
                 profiles.Add(
@@ -257,7 +257,7 @@ namespace xmlManip
                                     new XElement(sL + "DefaultAction",
                                         new XAttribute("Action", errorAction)
                                     )
-                                )                                                                       
+                                )
                             )
                         );
 
@@ -281,7 +281,7 @@ namespace xmlManip
                     string uwpApp = profileParam[1];
                     if (Globals.allUwpApps.ContainsKey(uwpApp))
                     {
-                        shell =  Globals.allUwpApps[uwpApp];                        
+                        shell = Globals.allUwpApps[uwpApp];
                     }
                     else
                     {
@@ -310,7 +310,7 @@ namespace xmlManip
         }
 
         public static void buildConfigs(XDocument doc)
-        {            
+        {
             XElement configs = doc.Root.Element(ns + "Configs");
 
             if (Globals.isGlobal)
@@ -363,7 +363,7 @@ namespace xmlManip
             foreach (string azureGroup in Globals.addedAzureGroups.Keys)
             {
                 string profileId = Globals.addedAzureGroups[azureGroup];
-                addGroupConfig(configs, azureGroup, profileId, "AzureActiveDirectoryGroup");       
+                addGroupConfig(configs, azureGroup, profileId, "AzureActiveDirectoryGroup");
             }
         }
 
@@ -373,39 +373,31 @@ namespace xmlManip
             foreach (string item in Globals.shellLauncherAccounts.Keys)
             {
                 string profileId = Globals.shellLauncherAccounts[item];
-                if (item.Contains("[n]"))
-                {
-                    string acc = item.Remove(0, 3);
-                    configs.Add(
-                        new XElement(sL + "Config",
-                            new XElement(sL + "Account",
-                                new XAttribute("Name", acc)
-                            ),
-                            new XElement(sL + "Profile",
-                                new XAttribute("Id", profileId)
-                            )
-                        )
-                    );
-                }
-                else if (item.Contains("[s]"))
-                {
-                    string acc = item.Remove(0, 3);
-                    configs.Add(
-                        new XElement(sL + "Config",
-                            new XElement(sL + "Account",
-                                new XAttribute("Sid", acc)
-                            ),
-                            new XElement(sL + "Profile",
-                                new XAttribute("Id", profileId)
-                            )
-                        )
-                    );
-                }
-                else if (item == "Autologon")
+                string identifier = "Name";
+                string acc;
+
+                if (item == "Autologon")
                 {
                     configs.Add(
                         new XElement(sL + "Config",
                             new XElement(sL + "AutoLogonAccount"
+                            ),
+                            new XElement(sL + "Profile",
+                                new XAttribute("Id", profileId)
+                            )
+                        )
+                    );
+                }
+                else
+                {
+                    acc = item.Remove(0, 3);
+
+                    if (item.Contains("[s]")) { identifier = "Sid"; }
+
+                    configs.Add(
+                        new XElement(sL + "Config",
+                            new XElement(sL + "Account",
+                                new XAttribute(identifier, acc)
                             ),
                             new XElement(sL + "Profile",
                                 new XAttribute("Id", profileId)
@@ -501,8 +493,8 @@ namespace xmlManip
             foreach (string app in groupApps.Keys)
             {
                 string tileSize = groupApps[app][0];
-                string column   = groupApps[app][1];
-                string row      = groupApps[app][2];                
+                string column = groupApps[app][1];
+                string row = groupApps[app][2];
 
                 if (Globals.allUwpApps.ContainsKey(app))
                 {
@@ -534,7 +526,7 @@ namespace xmlManip
         private static string win11AddPins(string app, int count)
         {
             string appIDorPath;
-            
+
             if (Globals.allUwpApps.ContainsKey(app))
             {
                 appIDorPath = "packagedAppId\":\"" + Globals.allUwpApps[app] + "\"}";
@@ -546,7 +538,7 @@ namespace xmlManip
 
             if (count > 0)
             {
-                appIDorPath = ",\n" + appIDorPath;                
+                appIDorPath = ",\n" + appIDorPath;
             }
 
             return appIDorPath;
@@ -576,7 +568,7 @@ namespace xmlManip
                         )
                     )
                 );
-        }        
+        }
         #endregion
-    }    
+    }
 }

@@ -1,7 +1,6 @@
 ﻿using allGlobals;
-using xmlManip;
 using System.Windows.Forms;
-using System.Diagnostics;
+using xmlManip;
 
 namespace kioskAssistant.Forms
 {
@@ -156,7 +155,7 @@ namespace kioskAssistant.Forms
         #endregion
 
         private void autologonBt_Click(object sender, System.EventArgs e)
-        {            
+        {
             accountsGv.Rows.Add("Autologon");
             autologonBt.Enabled = false;
         }

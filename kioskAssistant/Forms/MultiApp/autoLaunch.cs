@@ -1,5 +1,5 @@
-﻿using System;
-using allGlobals;
+﻿using allGlobals;
+using System;
 using System.Windows.Forms;
 
 namespace kioskAssistant

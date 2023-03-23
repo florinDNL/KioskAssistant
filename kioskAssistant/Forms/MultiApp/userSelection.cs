@@ -1,8 +1,8 @@
-﻿using System;
+﻿using allGlobals;
+using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Linq;
-using allGlobals;
+using System.Windows.Forms;
 
 
 namespace kioskAssistant
@@ -84,16 +84,16 @@ namespace kioskAssistant
                 if (item.Name != "typeCombo" & item.Name != "typeLabel" & item.Name != "addUsrBt")
                 {
                     Controls.Remove(item);
-                }                    
+                }
             }
 
-            if      (typeCombo.SelectedIndex == 0)
+            if (typeCombo.SelectedIndex == 0)
             {
                 localUsrSelect();
             }
             else if (typeCombo.SelectedIndex == 1)
             {
-                domainUsrSelect();        
+                domainUsrSelect();
             }
             else if (typeCombo.SelectedIndex == 2)
             {
@@ -102,8 +102,8 @@ namespace kioskAssistant
         }
 
         private void addUsrBt_Click(object sender, EventArgs e)
-        { 
-            if      (typeCombo.SelectedIndex == 0)
+        {
+            if (typeCombo.SelectedIndex == 0)
             {
                 if (!string.IsNullOrEmpty(Controls["localUsrBox"].Text))
                 {
@@ -113,7 +113,7 @@ namespace kioskAssistant
                 {
                     MessageBox.Show("Please select or type a username");
                     return;
-                }                
+                }
             }
             else if (typeCombo.SelectedIndex == 1)
             {
@@ -125,7 +125,7 @@ namespace kioskAssistant
                 {
                     MessageBox.Show("Fields cannot be blank");
                     return;
-                }                
+                }
             }
             else if (typeCombo.SelectedIndex == 2)
             {
@@ -139,7 +139,7 @@ namespace kioskAssistant
                     return;
                 }
             }
-            
+
 
             this.DialogResult = DialogResult.OK;
             this.Close();

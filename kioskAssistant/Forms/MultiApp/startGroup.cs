@@ -1,8 +1,8 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using allGlobals;
+﻿using allGlobals;
 using gridUI;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 
 namespace kioskAssistant
@@ -14,7 +14,7 @@ namespace kioskAssistant
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
-            sizeCombo.SelectedIndex = 1;            
+            sizeCombo.SelectedIndex = 1;
         }
 
         private void addBt_Click(object sender, System.EventArgs e)
@@ -30,7 +30,7 @@ namespace kioskAssistant
             }
             else
             {
-                if (grid.drawTile(g, size, x, y))
+                if (Grid.drawTile(g, size, x, y))
                 {
                     var app = allAppsLb.SelectedItem;
                     List<string> appParam = new()
@@ -42,21 +42,21 @@ namespace kioskAssistant
                     addedAppsLb.Items.Add(app);
                     allAppsLb.Items.Remove(app);
                     allAppsLb.SelectedIndex = allAppsLb.Items.Count != 0 ? 0 : -1;
-                    
-                    group.Add(app.ToString(), appParam);            
-                } 
-            }            
+
+                    group.Add(app.ToString(), appParam);
+                }
+            }
         }
 
         private void clearBt_Click(object sender, System.EventArgs e)
-        {            
+        {
             foreach (var item in addedAppsLb.Items)
             {
-                allAppsLb.Items.Add(item);                
+                allAppsLb.Items.Add(item);
             }
             addedAppsLb.Items.Clear();
             group = new();
-            perFormObjects.tileGrid = grid.gridInit();
+            perFormObjects.tileGrid = Grid.gridInit();
             previewPanel.Invalidate();
         }
 
@@ -70,9 +70,9 @@ namespace kioskAssistant
                 }
                 else
                 {
-                    this.DialogResult = DialogResult.OK;                    
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
-                }                
+                }
             }
             else
             {
@@ -82,7 +82,7 @@ namespace kioskAssistant
 
         private void startGroup_FormClosed(object sender, FormClosedEventArgs e)
         {
-          perFormObjects.tileGrid = grid.gridInit();          
+            perFormObjects.tileGrid = Grid.gridInit();
         }
     }
 }

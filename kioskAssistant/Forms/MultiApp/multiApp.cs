@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using allGlobals;
+using System;
 using System.Collections.Generic;
-using allGlobals;
+using System.Windows.Forms;
 using xmlManip;
 
 namespace kioskAssistant
@@ -231,7 +231,7 @@ namespace kioskAssistant
             accountsGv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             if (accountsGv.RowCount == 0)
             {
-                genXmlBt.Enabled = false;                
+                genXmlBt.Enabled = false;
             }
             else if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv, 2))
             {

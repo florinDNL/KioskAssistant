@@ -1,5 +1,5 @@
-﻿using System.Management.Automation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Management.Automation;
 
 namespace powershellApp
 {
@@ -43,7 +43,7 @@ namespace powershellApp
                 if (result.Members["Enabled"].Value.ToString() == "True") //Filter out Administrator, Default User, etc...
                 {
                     usersList.Add(result.Members["Name"].Value.ToString());
-                }              
+                }
             }
             return usersList;
         }
@@ -64,7 +64,7 @@ namespace powershellApp
         {
             PowerShell ps = PowerShell.Create();
             string script = "(New-Object -ComObject WScript.Shell).CreateShortcut('" + lnkPath + "').TargetPath";
-            ps.AddScript(script);            
+            ps.AddScript(script);
             string exeFile = ps.Invoke()[0].ToString();
 
             return (exeFile);

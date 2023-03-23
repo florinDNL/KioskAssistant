@@ -1,8 +1,8 @@
+using allGlobals;
+using kioskAssistant.Forms;
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using allGlobals;
-using kioskAssistant.Forms;
 
 namespace kioskAssistant
 {
@@ -17,9 +17,9 @@ namespace kioskAssistant
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            splashScreen    = new splashScreen();
-            mainWindow      = new startWindow();
+
+            splashScreen = new splashScreen();
+            mainWindow = new startWindow();
 
             //Load the splash screen in a separate thread
             Thread t = new(new ThreadStart(() => Application.Run(splashScreen)));
@@ -28,7 +28,7 @@ namespace kioskAssistant
 
             //Run the Powershell commands and populate Dictionaries during the splash screen, before loading the main form
             Globals.psInit();
-            Globals.accountsInit();            
+            Globals.accountsInit();
 
             //Add the LoadCompleted event to mainWindow's Load Event Handler
             mainWindow.Load += mainWindow_LoadCompleted;
@@ -38,7 +38,7 @@ namespace kioskAssistant
         //Close splashScreen, bring mainWindow into focus
         private static void mainWindow_LoadCompleted(object sender, EventArgs e)
         {
-            splashScreen.Invoke(new Action(splashScreen.Close));                    
+            splashScreen.Invoke(new Action(splashScreen.Close));
             mainWindow.Activate();
             mainWindow.Focus();
         }

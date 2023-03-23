@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using allGlobals;
 using powershellApp;
-using allGlobals;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace kioskAssistant
 {
@@ -15,11 +15,11 @@ namespace kioskAssistant
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
-            guidLabel.Text = Globals.GetGUID();            
+            guidLabel.Text = Globals.GetGUID();
 
             foreach (string app in Globals.allUwpApps.Keys)
             {
-                if(Globals.allUwpApps[app].ToLower().Contains("!app") | Globals.allUwpApps[app].ToLower().Contains("!microsoft") | Globals.allUwpApps[app].ToLower().Contains("msedge"))
+                if (Globals.allUwpApps[app].ToLower().Contains("!app") | Globals.allUwpApps[app].ToLower().Contains("!microsoft") | Globals.allUwpApps[app].ToLower().Contains("msedge"))
                 {
                     perFormObjects.uwpApps.Add(app);
                 }
@@ -46,8 +46,8 @@ namespace kioskAssistant
             DialogResult result = addExeDialog.ShowDialog();
             string executable = addExeDialog.FileName;
             if (result == DialogResult.Cancel)
-            {        
-                
+            {
+
             }
             else if (!(win32AppLb.FindStringExact(executable) == ListBox.NoMatches) | perFormObjects.linkedWin32Apps.ContainsKey(executable)) //Check if item exists in list box or group
             {
@@ -68,7 +68,7 @@ namespace kioskAssistant
                 string message = "No entry selected.";
                 string caption = "Error";
                 MessageBox.Show(message, caption);
-            }               
+            }
             else
             {
                 var currItem = win32AppLb.SelectedItem;
@@ -123,8 +123,8 @@ namespace kioskAssistant
                     }
                 }
             }
-        }       
-        
+        }
+
         private void addLnkBt_Click(object sender, EventArgs e)
         {
 
@@ -132,7 +132,7 @@ namespace kioskAssistant
             {
                 string message = "No executable added";
                 string caption = "Error";
-                MessageBox.Show(message, caption);                
+                MessageBox.Show(message, caption);
             }
             else if (win32AppLb.Items.Count == lnkFileLb.Items.Count)
             {
@@ -157,7 +157,7 @@ namespace kioskAssistant
                     {
                         lnkFileLb.Items.Add(linkFile);
                         perFormObjects.linkedWin32Apps.Add(linkedExe, linkFile);
-                    }                    
+                    }
                 }
             }
         }
@@ -172,10 +172,10 @@ namespace kioskAssistant
             }
             else
             {
-                var currItem  = lnkFileLb.SelectedItem;
+                var currItem = lnkFileLb.SelectedItem;
                 string linkedExe = perFormObjects.lnkToExe(currItem.ToString());
                 lnkFileLb.Items.Remove(currItem);
-                perFormObjects.linkedWin32Apps.Remove(linkedExe);                
+                perFormObjects.linkedWin32Apps.Remove(linkedExe);
             }
         }
 
@@ -188,7 +188,7 @@ namespace kioskAssistant
             else
             {
                 foreach (ListViewItem group in groupsLv.SelectedItems)
-                {                   
+                {
                     foreach (string app in perFormObjects.groups[group.Text].Keys)
                     {
                         if (app.Contains(".lnk"))
@@ -212,7 +212,7 @@ namespace kioskAssistant
                         }
                     }
                     perFormObjects.groups.Remove(group.Text);
-                    groupsLv.Items.Remove(group);                    
+                    groupsLv.Items.Remove(group);
                 }
             }
         }
@@ -359,13 +359,13 @@ namespace kioskAssistant
                 {
                     perFormObjects.allowedApps.Add(item.ToString());
                 }
-                        
-                string taskBar      = "false";
-                string dlPerm       = "false";
-                string rdPerm       = "false";
-                string noRestrict   = "false";
-                string isWin10      = "false";
-                string isWin11      = "false";
+
+                string taskBar = "false";
+                string dlPerm = "false";
+                string rdPerm = "false";
+                string noRestrict = "false";
+                string isWin10 = "false";
+                string isWin11 = "false";
 
                 if (showTaskbarCb.Checked)
                 {
@@ -392,7 +392,7 @@ namespace kioskAssistant
                     isWin10 = "true";
                 }
 
-                if(win11_cb.Checked)
+                if (win11_cb.Checked)
                 {
                     isWin11 = "true";
                 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using allGlobals;
+using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Linq;
-using allGlobals;
+using System.Windows.Forms;
 
 
 namespace kioskAssistant
@@ -78,16 +78,16 @@ namespace kioskAssistant
                 if (item.Name != "typeCombo" & item.Name != "typeLabel" & item.Name != "addGrpBt")
                 {
                     Controls.Remove(item);
-                }                    
+                }
             }
 
-            if      (typeCombo.SelectedIndex == 0)
+            if (typeCombo.SelectedIndex == 0)
             {
                 localGrpSelect();
             }
             else if (typeCombo.SelectedIndex == 1)
             {
-                domainGrpSelect();        
+                domainGrpSelect();
             }
             else if (typeCombo.SelectedIndex == 2)
             {
@@ -136,7 +136,7 @@ namespace kioskAssistant
                     return;
                 }
             }
-            
+
 
             this.DialogResult = DialogResult.OK;
             this.Close();
