@@ -4,6 +4,7 @@ using System.Linq;
 using powershellApp;
 using System.Windows.Forms;
 using gridUI;
+using System.Drawing.Drawing2D;
 
 namespace allGlobals
 {
@@ -90,6 +91,8 @@ namespace allGlobals
         public static List<List<bool>> tileGrid     = grid.gridInit();
         public static List<string> allowedApps      = new();
         public static List<string> autoLaunch       = new();
+
+        public static GraphicsState gridState;
 
         public static string lnkToExe(string lnk)
         {

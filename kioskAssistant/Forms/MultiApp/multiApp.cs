@@ -231,7 +231,7 @@ namespace kioskAssistant
             accountsGv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             if (accountsGv.RowCount == 0)
             {
-                genXmlBt.Enabled = false;
+                genXmlBt.Enabled = false;                
             }
             else if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv, 2))
             {

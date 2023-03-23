@@ -7,7 +7,7 @@ using allGlobals;
 namespace gridUI
 {
     public class grid
-    {   
+    {       
         /*
           *The start menu group is represented graphically by a grid (Nested List).
           *The list contains 6 other lists (columns), each containing 4 boolean values representing the smallest unit (cell), equivalent to a 1x1 Tile or 50px.
@@ -31,7 +31,7 @@ namespace gridUI
 
         public static bool drawTile(Graphics g, string size, int x, int y)
         {            
-            Pen p = new(Color.Black, 2);
+            Pen p = new(Color.Black, 2);            
             p.Alignment = PenAlignment.Center;
             SolidBrush b = new(Color.FromArgb(0, 191, 255));
 
@@ -60,8 +60,8 @@ namespace gridUI
             }
 
             if (w + x > 300 | h + y > 200)
-            {
-                MessageBox.Show("Out of bounds.");
+            {                
+                MessageBox.Show("Out of bounds.");                 
                 return false;
             }
             /*The following computes whether the cells required for a tile are free. To calculate the position of a tile and its corresponding indexes
@@ -78,14 +78,17 @@ namespace gridUI
                     for (int j = y / 50; j < (y + h) / 50; j++)
                     {
                         if (perFormObjects.tileGrid[i][j] == false)
-                        {
+                        { 
+                            MessageBox.Show("Space is occupied by another tile.");                            
                             return false;
                         }
                         else
                         {
-                            List<int> indexes = new();
-                            indexes.Add(i);
-                            indexes.Add(j);
+                            List<int> indexes = new()
+                            {
+                                i,
+                                j
+                            };
                             freeCells.Add(indexes);
                         }
                     }
@@ -96,8 +99,10 @@ namespace gridUI
                     int l = indexes[1];
                     perFormObjects.tileGrid[k][l] = false;
                 }
+                                
                 g.DrawRectangle(p, x, y, w, h);
                 g.FillRectangle(b, x, y, w, h);
+                perFormObjects.gridState = g.Save();
                 return true;
             }       
         }

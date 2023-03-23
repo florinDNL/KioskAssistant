@@ -24,7 +24,7 @@ namespace kioskAssistant.Forms
             var sLauncherForm = new shellLauncher();
             this.Hide();
             sLauncherForm.ShowDialog();
-            this.Show();    
+            this.Show();
         }
     }
 }

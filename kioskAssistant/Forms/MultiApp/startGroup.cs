@@ -33,20 +33,18 @@ namespace kioskAssistant
                 if (grid.drawTile(g, size, x, y))
                 {
                     var app = allAppsLb.SelectedItem;
-                    List<string> appParam = new();  
-                    appParam.Add(size);
-                    appParam.Add(colNud.Value.ToString());
-                    appParam.Add(rowNud.Value.ToString());
+                    List<string> appParam = new()
+                    {
+                        size,
+                        colNud.Value.ToString(),
+                        rowNud.Value.ToString()
+                    };
                     addedAppsLb.Items.Add(app);
                     allAppsLb.Items.Remove(app);
                     allAppsLb.SelectedIndex = allAppsLb.Items.Count != 0 ? 0 : -1;
                     
                     group.Add(app.ToString(), appParam);            
-                }
-                else
-                {
-                    MessageBox.Show("Cannot place tile here.");
-                }    
+                } 
             }            
         }
 
