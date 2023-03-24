@@ -1,4 +1,5 @@
 ﻿using allGlobals;
+using kioskAssistant.Forms.MultiApp;
 using powershellApp;
 using System;
 using System.Collections.Generic;
@@ -273,6 +274,12 @@ namespace kioskAssistant
             alForm.ShowDialog();
         }
 
+        private void manUwpBt_Click(object sender, EventArgs e)
+        {
+            var manUwpAdd = new addUwpMan();
+            manUwpAdd.ShowDialog();
+        }
+
         #endregion
 
 
@@ -423,5 +430,6 @@ namespace kioskAssistant
         }
 
         #endregion
+
     }
 }
