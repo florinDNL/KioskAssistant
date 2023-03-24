@@ -277,8 +277,15 @@ namespace kioskAssistant
         private void manUwpBt_Click(object sender, EventArgs e)
         {
             var manUwpAdd = new addUwpMan();
-            manUwpAdd.ShowDialog();
+            DialogResult res = manUwpAdd.ShowDialog();
+            if (res == DialogResult.OK) { showAllCb.Checked = true; }
         }
+        private void manExeBt_Click(object sender, EventArgs e)
+        {
+            var manExeAdd = new addExeMan();
+            manExeAdd.ShowDialog();
+        }
+
 
         #endregion
 
@@ -430,6 +437,5 @@ namespace kioskAssistant
         }
 
         #endregion
-
     }
 }

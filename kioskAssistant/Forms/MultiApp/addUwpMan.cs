@@ -21,6 +21,7 @@ namespace kioskAssistant.Forms.MultiApp
                 {
                     Globals.allUwpApps.Add(nameTb.Text, aumidTb.Text);
                     appProfile.uwpAppClb.Items.Add(nameTb.Text, true);
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }                    
             }

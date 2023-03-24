@@ -62,6 +62,7 @@ namespace kioskAssistant
             win11_cb = new System.Windows.Forms.CheckBox();
             win10_cb = new System.Windows.Forms.CheckBox();
             manUwpBt = new System.Windows.Forms.Button();
+            manExeBt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
             SuspendLayout();
             // 
@@ -372,11 +373,22 @@ namespace kioskAssistant
             manUwpBt.UseVisualStyleBackColor = true;
             manUwpBt.Click += manUwpBt_Click;
             // 
+            // manExeBt
+            // 
+            manExeBt.Location = new System.Drawing.Point(538, 77);
+            manExeBt.Name = "manExeBt";
+            manExeBt.Size = new System.Drawing.Size(132, 23);
+            manExeBt.TabIndex = 33;
+            manExeBt.Text = "Manually Add .exe";
+            manExeBt.UseVisualStyleBackColor = true;
+            manExeBt.Click += manExeBt_Click;
+            // 
             // appProfile
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(808, 534);
+            Controls.Add(manExeBt);
             Controls.Add(manUwpBt);
             Controls.Add(win11_cb);
             Controls.Add(win10_cb);
@@ -416,10 +428,13 @@ namespace kioskAssistant
             PerformLayout();
         }
 
-        #endregion        
-        public System.Windows.Forms.ListBox win32AppLb;
-        public System.Windows.Forms.ListBox lnkFileLb;
+        #endregion
         public System.Windows.Forms.Label guidLabel;
+        public System.Windows.Forms.CheckBox win11_cb;
+
+        public static System.Windows.Forms.ListBox win32AppLb;
+        public static System.Windows.Forms.ListBox lnkFileLb;
+        public static System.Windows.Forms.CheckedListBox uwpAppClb;
 
         private System.Windows.Forms.Label addUwpAppLabel;
         private System.Windows.Forms.PictureBox logoBox;
@@ -445,11 +460,11 @@ namespace kioskAssistant
         private System.Windows.Forms.CheckBox dlPermCb;
         private System.Windows.Forms.CheckBox rdPermCb;
         private System.Windows.Forms.Button confAutoLaunchBt;
-        private System.Windows.Forms.CheckBox noRestrictCb;
-        public System.Windows.Forms.CheckBox win11_cb;
+        private System.Windows.Forms.CheckBox noRestrictCb;       
         private System.Windows.Forms.CheckBox win10_cb;
         private System.Windows.Forms.Button manUwpBt;
-        public static System.Windows.Forms.CheckedListBox uwpAppClb;
+        private System.Windows.Forms.Button manExeBt;
+        
     }
 }
 
