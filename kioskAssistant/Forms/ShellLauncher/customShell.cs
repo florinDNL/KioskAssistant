@@ -14,7 +14,7 @@ namespace kioskAssistant.Forms
             StartPosition = FormStartPosition.CenterScreen;
             actionCb.SelectedIndex = 0;
             appTypeCb.SelectedIndex = 2;
-            slWin32UserControl slControl = new slWin32UserControl();
+            win32UserControl slControl = new win32UserControl();
             shellPanel.Controls.Add(slControl);
             guidLabel.Text = Globals.GetGUID();
         }
@@ -25,7 +25,6 @@ namespace kioskAssistant.Forms
         TextBox arguments;
         ComboBox browsingType;
         ComboBox uwpshell;
-        CheckBox fullScreen;
         List<string> profileParam = new();
 
         private void appTypeCb_SelectedIndexChanged(object sender, EventArgs e)
@@ -42,16 +41,16 @@ namespace kioskAssistant.Forms
             }
             else if (appTypeCb.SelectedIndex == 1)
             {
-                slUwpUserControl uwpControl = new slUwpUserControl();
+                UwpUserControl uwpControl = new UwpUserControl();
                 shellPanel.Controls.Add(uwpControl);
                 uwpshell = uwpControl.appCb;
             }
             else if (appTypeCb.SelectedIndex == 2)
             {
-                slWin32UserControl slControl = new slWin32UserControl();
+                win32UserControl slControl = new win32UserControl();
+                slControl.exeLb.Text = "Shell:";
                 shellPanel.Controls.Add(slControl);
-                win32shell = slControl.shellTb;
-                fullScreen = slControl.fullscreenCb;
+                win32shell = slControl.exeTb;
                 arguments = slControl.argTb;
             }
         }
@@ -80,13 +79,13 @@ namespace kioskAssistant.Forms
             }
             else if (appTypeCb.SelectedIndex == 1)
             {
-                if (uwpshell.SelectedIndex == -1)
+                if (string.IsNullOrEmpty(uwpshell.Text))
                 {
                     Message = "No App selected";
                 }
                 else
                 {
-                    string app = uwpshell.SelectedItem.ToString();
+                    string app = uwpshell.Text;
                     profileParam.Add("UWP");
                     profileParam.Add(app);
                 }
@@ -95,7 +94,7 @@ namespace kioskAssistant.Forms
             {
                 string exe = win32shell.Text;
                 string args = arguments.Text;
-                string fsbool = fullScreen.Checked.ToString();
+
 
                 if (string.IsNullOrEmpty(exe))
                 {
@@ -106,7 +105,6 @@ namespace kioskAssistant.Forms
                     profileParam.Add("win32");
                     profileParam.Add(exe);
                     profileParam.Add(args);
-                    profileParam.Add(fsbool);
                 }
             }
 
@@ -125,6 +123,7 @@ namespace kioskAssistant.Forms
         {
             if (this.DialogResult == DialogResult.OK)
             {
+                profileParam.Add(fullscreenCb.Checked.ToString());
                 profileParam.Add(actionCb.SelectedItem.ToString());
                 perFormObjects.shellLauncherAccs.Add(guidLabel.Text, profileParam);
             }

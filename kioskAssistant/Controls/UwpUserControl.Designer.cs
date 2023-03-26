@@ -28,43 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.appLb = new System.Windows.Forms.Label();
-            this.appCb = new System.Windows.Forms.ComboBox();
-            this.SuspendLayout();
+            appLb = new System.Windows.Forms.Label();
+            appCb = new System.Windows.Forms.ComboBox();
+            tipLb = new System.Windows.Forms.Label();
+            SuspendLayout();
             // 
             // appLb
             // 
-            this.appLb.AutoSize = true;
-            this.appLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.appLb.Location = new System.Drawing.Point(8, 27);
-            this.appLb.Name = "appLb";
-            this.appLb.Size = new System.Drawing.Size(40, 20);
-            this.appLb.TabIndex = 6;
-            this.appLb.Text = "App:";
+            appLb.AutoSize = true;
+            appLb.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            appLb.Location = new System.Drawing.Point(8, 27);
+            appLb.Name = "appLb";
+            appLb.Size = new System.Drawing.Size(40, 20);
+            appLb.TabIndex = 6;
+            appLb.Text = "App:";
             // 
             // appCb
             // 
-            this.appCb.FormattingEnabled = true;
-            this.appCb.Location = new System.Drawing.Point(54, 27);
-            this.appCb.Name = "appCb";
-            this.appCb.Size = new System.Drawing.Size(188, 23);
-            this.appCb.TabIndex = 7;
+            appCb.FormattingEnabled = true;
+            appCb.Location = new System.Drawing.Point(54, 27);
+            appCb.Name = "appCb";
+            appCb.Size = new System.Drawing.Size(290, 23);
+            appCb.TabIndex = 7;
+            // 
+            // tipLb
+            // 
+            tipLb.AutoSize = true;
+            tipLb.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            tipLb.Location = new System.Drawing.Point(8, 53);
+            tipLb.Name = "tipLb";
+            tipLb.Size = new System.Drawing.Size(590, 13);
+            tipLb.TabIndex = 8;
+            tipLb.Text = "Select from the list or manually paste AUMID in the box (e.g. Microsoft.WindowsCalculator_8wekyb3d8bbwe!App)";
             // 
             // UwpUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.appCb);
-            this.Controls.Add(this.appLb);
-            this.Name = "UwpUserControl";
-            this.Size = new System.Drawing.Size(608, 180);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(tipLb);
+            Controls.Add(appCb);
+            Controls.Add(appLb);
+            Name = "UwpUserControl";
+            Size = new System.Drawing.Size(616, 90);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
         private System.Windows.Forms.Label appLb;
         public System.Windows.Forms.ComboBox appCb;
+        private System.Windows.Forms.Label tipLb;
     }
 }

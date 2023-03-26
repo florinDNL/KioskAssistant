@@ -59,6 +59,7 @@
             // 
             nameTb.Location = new System.Drawing.Point(79, 12);
             nameTb.Name = "nameTb";
+            nameTb.PlaceholderText = "e.g.: Calculator";
             nameTb.Size = new System.Drawing.Size(311, 23);
             nameTb.TabIndex = 2;
             // 
@@ -66,6 +67,7 @@
             // 
             aumidTb.Location = new System.Drawing.Point(79, 49);
             aumidTb.Name = "aumidTb";
+            aumidTb.PlaceholderText = "e.g.: Microsoft.WindowsCalculator_8wekyb3d8bbwe!App";
             aumidTb.Size = new System.Drawing.Size(311, 23);
             aumidTb.TabIndex = 3;
             // 

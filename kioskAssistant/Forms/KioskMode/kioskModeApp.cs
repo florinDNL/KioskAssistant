@@ -51,13 +51,13 @@ namespace kioskAssistant
             }
             else if (appTypeCb.SelectedIndex == 1)
             {
-                if (uwpApp.SelectedIndex == -1)
+                if (string.IsNullOrEmpty(uwpApp.Text))
                 {
                     Message = "No App selected";
                 }
                 else
                 {
-                    string app = uwpApp.SelectedItem.ToString();
+                    string app = uwpApp.Text;
                     profileParam.Add("UWP");
                     profileParam.Add(app);
                 }

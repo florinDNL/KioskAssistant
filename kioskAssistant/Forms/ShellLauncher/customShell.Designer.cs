@@ -36,13 +36,14 @@
             shellPanel = new System.Windows.Forms.Panel();
             guidLabel = new System.Windows.Forms.Label();
             saveCsBt = new System.Windows.Forms.Button();
+            fullscreenCb = new System.Windows.Forms.CheckBox();
             SuspendLayout();
             // 
             // actionCb
             // 
             actionCb.FormattingEnabled = true;
             actionCb.Items.AddRange(new object[] { "RestartShell", "RestartDevice", "ShutdownDevice", "DoNothing" });
-            actionCb.Location = new System.Drawing.Point(138, 80);
+            actionCb.Location = new System.Drawing.Point(138, 70);
             actionCb.Name = "actionCb";
             actionCb.Size = new System.Drawing.Size(203, 23);
             actionCb.TabIndex = 3;
@@ -51,7 +52,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            label1.Location = new System.Drawing.Point(29, 80);
+            label1.Location = new System.Drawing.Point(29, 70);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(88, 20);
             label1.TabIndex = 4;
@@ -79,9 +80,9 @@
             // 
             // shellPanel
             // 
-            shellPanel.Location = new System.Drawing.Point(28, 108);
+            shellPanel.Location = new System.Drawing.Point(32, 124);
             shellPanel.Name = "shellPanel";
-            shellPanel.Size = new System.Drawing.Size(616, 137);
+            shellPanel.Size = new System.Drawing.Size(619, 137);
             shellPanel.TabIndex = 7;
             // 
             // guidLabel
@@ -104,11 +105,24 @@
             saveCsBt.UseVisualStyleBackColor = true;
             saveCsBt.Click += saveCsBt_Click;
             // 
+            // fullscreenCb
+            // 
+            fullscreenCb.AutoSize = true;
+            fullscreenCb.Checked = true;
+            fullscreenCb.CheckState = System.Windows.Forms.CheckState.Checked;
+            fullscreenCb.Location = new System.Drawing.Point(32, 99);
+            fullscreenCb.Name = "fullscreenCb";
+            fullscreenCb.Size = new System.Drawing.Size(126, 19);
+            fullscreenCb.TabIndex = 32;
+            fullscreenCb.Text = "All Apps Fullscreen";
+            fullscreenCb.UseVisualStyleBackColor = true;
+            // 
             // customShell
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(660, 262);
+            ClientSize = new System.Drawing.Size(672, 275);
+            Controls.Add(fullscreenCb);
             Controls.Add(saveCsBt);
             Controls.Add(guidLabel);
             Controls.Add(shellPanel);
@@ -132,5 +146,6 @@
         private System.Windows.Forms.Panel shellPanel;
         public System.Windows.Forms.Label guidLabel;
         private System.Windows.Forms.Button saveCsBt;
+        public System.Windows.Forms.CheckBox fullscreenCb;
     }
 }

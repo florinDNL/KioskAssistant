@@ -102,7 +102,7 @@
             Controls.Add(urlTb);
             Controls.Add(urlLb);
             Name = "EdgeUserControl";
-            Size = new System.Drawing.Size(608, 137);
+            Size = new System.Drawing.Size(619, 137);
             ResumeLayout(false);
             PerformLayout();
         }

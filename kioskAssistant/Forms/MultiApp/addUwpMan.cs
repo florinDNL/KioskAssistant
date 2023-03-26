@@ -1,6 +1,6 @@
-﻿using System;
+﻿using allGlobals;
+using System;
 using System.Windows.Forms;
-using allGlobals;
 
 namespace kioskAssistant.Forms.MultiApp
 {
@@ -23,7 +23,7 @@ namespace kioskAssistant.Forms.MultiApp
                     appProfile.uwpAppClb.Items.Add(nameTb.Text, true);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
-                }                    
+                }
             }
         }
     }

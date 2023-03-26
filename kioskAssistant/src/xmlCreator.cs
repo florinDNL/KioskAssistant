@@ -158,6 +158,12 @@ namespace xmlManip
                             new XAttribute("AppUserModelId", Globals.allUwpApps[app])
                         );
                     }
+                    else
+                    {
+                        profile.Add(
+                            new XAttribute("AppUserModelId", app)
+                        );
+                    }
                 }
                 else if (profileParam[0] == "win32")
                 {
@@ -248,7 +254,8 @@ namespace xmlManip
                 string pGuid = item;
                 string shell;
                 List<string> profileParam = perFormObjects.shellLauncherAccs[item];
-                string errorAction = profileParam.Last();
+                string errorAction = profileParam[profileParam.Count - 1];
+                string fullScreen = profileParam[profileParam.Count - 2];
 
                 profiles.Add(
                         new XElement(sL + "Profile",
@@ -273,7 +280,7 @@ namespace xmlManip
 
                     shellNode.Add(
                         new XAttribute("Shell", shell),
-                        new XAttribute(slv2 + "AllAppsFullScreen", "true")
+                        new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
                     );
                 }
                 else if (profileParam[0] == "UWP")
@@ -291,19 +298,18 @@ namespace xmlManip
                     shellNode.Add(
                         new XAttribute("Shell", shell),
                         new XAttribute(slv2 + "AppType", "UWP"),
-                        new XAttribute(slv2 + "AllAppsFullScreen", "true")
+                        new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
                     );
                 }
                 else if (profileParam[0] == "win32")
                 {
                     string exe = profileParam[1];
                     string args = profileParam[2];
-                    string fullscreen = profileParam[3].ToLower();
 
                     shell = exe + " " + args;
                     shellNode.Add(
                         new XAttribute("Shell", shell),
-                        new XAttribute(slv2 + "AllAppsFullScreen", fullscreen)
+                        new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
                     );
                 }
             }
