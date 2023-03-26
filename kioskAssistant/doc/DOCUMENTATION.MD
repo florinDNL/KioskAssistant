@@ -34,7 +34,8 @@ To generate an XML configuration, you need:
 	![maAppAssign](./assets/ma3.png)
 
 Once all conditions are met, the "Generate XML Button" will be available.
-	![mAppComplete](./assets/ma4.png)
+
+![mAppComplete](./assets/ma4.png)
 
 ### Multi-App Kiosk Profile
 
@@ -80,7 +81,8 @@ The application will not allow any tiles to be placed out of bounds or on alread
 - You cannot undo a single tile placement, but you can clear the whole board and start over with the "Clear" button
 - Not all apps in the list have to be added to a single group - you can create multiple Start Menu groups (names cannot be duplicate) or just leave applications groupless (they will not be displayed in the start menu)
 - Once a group has been created, the added apps will be removed from the lists and can be viewed in the lower panel. Groups cannot be modified, but they can be deleted, which will restore all included apps to their original lists.
-![remGrp](./assets/remGrpBt.png)
+
+	![remGrp](./assets/remGrpBt.png)
 
 #### Auto-Launch Application
 ![autoLaunch](./assets/autoLaunchBt.png)
