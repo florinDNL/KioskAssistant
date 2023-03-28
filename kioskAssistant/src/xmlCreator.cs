@@ -194,18 +194,12 @@ namespace xmlManip
                     new XElement(ns + "Profile",
                         new XAttribute("Id", pGuid),
                         new XElement(ns + "AllAppsList",
-                            new XElement(ns + "AllowedApps")),
-                    new XElement(v2 + "FileExplorerNamespaceRestrictions"),
-                    new XElement(ns + "Taskbar",
-                        new XAttribute("ShowTaskbar", taskbar))
+                            new XElement(ns + "AllowedApps"))
                         )
                     );
 
                 XElement profile = profiles.Elements(ns + "Profile").First(c => (string)c.Attribute("Id") == pGuid);
-                XElement allowedApps = profile.Element(ns + "AllAppsList").Element(ns + "AllowedApps");
-                XElement nsRestrict = profile.Element(v2 + "FileExplorerNamespaceRestrictions");
-
-                addNamespaceConfig(nsRestrict, dlPerm, rdPerm, noRestrict);
+                XElement allowedApps = profile.Element(ns + "AllAppsList").Element(ns + "AllowedApps");                
 
                 foreach (string app in allApps)
                 {
@@ -242,6 +236,16 @@ namespace xmlManip
                     profile.Add(new XElement(win11 + "StartPins"));
                     profile.Element(win11 + "StartPins").Add(new XCData(json));
                 }
+
+                profile.Add(
+                    new XElement(ns + "Taskbar",
+                        new XAttribute("ShowTaskbar", taskbar))
+                    );
+
+                profile.Add(new XElement(v2 + "FileExplorerNamespaceRestrictions"));
+
+                XElement nsRestrict = profile.Element(v2 + "FileExplorerNamespaceRestrictions");
+                addNamespaceConfig(nsRestrict, dlPerm, rdPerm, noRestrict);
             }
         }
 
