@@ -41,12 +41,12 @@ namespace kioskAssistant
             assignBt = new System.Windows.Forms.Button();
             removeGrBt = new System.Windows.Forms.Button();
             accountsGv = new System.Windows.Forms.DataGridView();
-            acc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            appProfile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             genXmlBt = new System.Windows.Forms.Button();
             saveXML = new System.Windows.Forms.SaveFileDialog();
             kModeBt = new System.Windows.Forms.Button();
+            acc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            appProfile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)accountsGv).BeginInit();
             SuspendLayout();
@@ -161,6 +161,7 @@ namespace kioskAssistant
             accountsGv.Name = "accountsGv";
             accountsGv.ReadOnly = true;
             accountsGv.RowHeadersVisible = false;
+            accountsGv.RowHeadersWidth = 102;
             accountsGv.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             accountsGv.RowTemplate.Height = 25;
             accountsGv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -169,29 +170,6 @@ namespace kioskAssistant
             accountsGv.CellValueChanged += accountsGv_CellValueChanged;
             accountsGv.RowsAdded += accountsGv_RowsAdded;
             accountsGv.RowsRemoved += accountsGv_RowsRemoved;
-            // 
-            // acc
-            // 
-            acc.HeaderText = "Account";
-            acc.MinimumWidth = 180;
-            acc.Name = "acc";
-            acc.ReadOnly = true;
-            acc.Width = 180;
-            // 
-            // type
-            // 
-            type.HeaderText = "Type";
-            type.Name = "type";
-            type.ReadOnly = true;
-            type.Width = 45;
-            // 
-            // appProfile
-            // 
-            appProfile.HeaderText = "Application Profile";
-            appProfile.MinimumWidth = 210;
-            appProfile.Name = "appProfile";
-            appProfile.ReadOnly = true;
-            appProfile.Width = 210;
             // 
             // genXmlBt
             // 
@@ -218,6 +196,30 @@ namespace kioskAssistant
             kModeBt.Text = "Add Kiosk Mode App";
             kModeBt.UseVisualStyleBackColor = true;
             kModeBt.Click += kModeBt_Click;
+            // 
+            // acc
+            // 
+            acc.HeaderText = "Account";
+            acc.MinimumWidth = 180;
+            acc.Name = "acc";
+            acc.ReadOnly = true;
+            acc.Width = 180;
+            // 
+            // type
+            // 
+            type.HeaderText = "Type";
+            type.MinimumWidth = 50;
+            type.Name = "type";
+            type.ReadOnly = true;
+            type.Width = 56;
+            // 
+            // appProfile
+            // 
+            appProfile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            appProfile.HeaderText = "Application Profile";
+            appProfile.MinimumWidth = 210;
+            appProfile.Name = "appProfile";
+            appProfile.ReadOnly = true;
             // 
             // multiApp
             // 
@@ -259,11 +261,11 @@ namespace kioskAssistant
         private System.Windows.Forms.Button assignBt;
         private System.Windows.Forms.Button removeGrBt;
         private System.Windows.Forms.DataGridView accountsGv;
-        private System.Windows.Forms.DataGridViewTextBoxColumn acc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn appProfile;
         private System.Windows.Forms.Button genXmlBt;
         private System.Windows.Forms.SaveFileDialog saveXML;
         private System.Windows.Forms.Button kModeBt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn acc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn appProfile;
     }
 }
