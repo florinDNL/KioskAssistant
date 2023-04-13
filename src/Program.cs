@@ -8,6 +8,7 @@ namespace kioskAssistant
 {
     static class Program
     {
+        //pipeline test
         static Form splashScreen;
         static Form mainWindow;
 
