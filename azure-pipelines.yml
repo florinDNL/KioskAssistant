@@ -34,5 +34,5 @@ steps:
     
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)\kioskAssistant\bin\Release\net7.0-windows
+    targetPath: $(System.DefaultWorkingDirectory)\bin\Release\net7.0-windows
     artifactName: KioskAssistant
