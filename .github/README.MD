@@ -1,1 +1,0 @@
-../kioskAssistant/doc/DOCUMENTATION.MD
