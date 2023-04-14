@@ -1,5 +1,5 @@
 # Kiosk Assistant
-[![Build Status](https://dev.azure.com/florinDNL/KioskAssistant/_apis/build/status%2FflorinDNL.KioskAssistant?branchName=master)](https://dev.azure.com/florinDNL/KioskAssistant/_build/latest?definitionId=1&branchName=master)![Deployment Status](https://vsrm.dev.azure.com/florinDNL/_apis/public/Release/badge/8146cfbc-aa21-44ec-ad2e-857a42c92517/1/1)
+[![Build Status](https://dev.azure.com/florinDNL/KioskAssistant/_apis/build/status%2FflorinDNL.KioskAssistant?branchName=master)](https://dev.azure.com/florinDNL/KioskAssistant/_build/latest?definitionId=1&branchName=master) ![Deployment Status](https://vsrm.dev.azure.com/florinDNL/_apis/public/Release/badge/8146cfbc-aa21-44ec-ad2e-857a42c92517/1/1)
 
 KioskAssistant is a UI tool that facilitates the creation Kiosk environments. Its purpose is to speed up the configuration of XML files by providing a graphical interface as well as prevent any mistakes by employing thorough checks and automatic XML Formatting.
 
