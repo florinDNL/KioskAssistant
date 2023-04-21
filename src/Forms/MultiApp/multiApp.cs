@@ -134,7 +134,14 @@ namespace kioskAssistant
             {
                 foreach (DataGridViewRow row in accountsGv.SelectedRows)
                 {
-                    row.Cells[2].Value = appProfileLb.SelectedItem.ToString();
+                    if (row.Cells[1].Value.ToString().Contains("Group") & perFormObjects.kioskModeApps.ContainsKey(appProfileLb.SelectedItem.ToString()))
+                    {
+                        MessageBox.Show("Kiosk-Mode App does not support Group assignment");
+                    }
+                    else
+                    {
+                        row.Cells[2].Value = appProfileLb.SelectedItem.ToString();
+                    }                    
                 }
             }
         }
