@@ -1,6 +1,9 @@
 ﻿using allGlobals;
+using Microsoft.Win32;
+using System.DirectoryServices.ActiveDirectory;
 using System.Windows.Forms;
 using xmlManip;
+using static System.Windows.Forms.DataFormats;
 
 namespace kioskAssistant.Forms
 {
@@ -158,6 +161,12 @@ namespace kioskAssistant.Forms
         {
             accountsGv.Rows.Add("Autologon");
             autologonBt.Enabled = false;
+        }
+
+        private void toolTipLabel_MouseHover(object sender, System.EventArgs e)
+        {
+            string info = "- Name can be a local user or domain user. \n   (For Domain Users, the format is: domain\\userName)\n- SID Can be Local Group SID, Local User SID, or AD Group SID\n- Autologon will automatically create a local account (kioskuser0) and add it to the autologon registry\n- AAD is not supported for either name or SID";
+            nameSidToolTip.Show(info, toolTipLabel);
         }
     }
 }

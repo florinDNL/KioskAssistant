@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(shellLauncher));
             accountsGv = new System.Windows.Forms.DataGridView();
             acc = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,10 +42,11 @@
             cShellbt = new System.Windows.Forms.Button();
             nameSidTb = new System.Windows.Forms.TextBox();
             remBt = new System.Windows.Forms.Button();
-            sidLb = new System.Windows.Forms.Label();
             remCsBt = new System.Windows.Forms.Button();
             saveXML = new System.Windows.Forms.SaveFileDialog();
             autologonBt = new System.Windows.Forms.Button();
+            nameSidToolTip = new System.Windows.Forms.ToolTip(components);
+            toolTipLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)accountsGv).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
             SuspendLayout();
@@ -128,7 +130,7 @@
             // 
             nameBt.Location = new System.Drawing.Point(262, 15);
             nameBt.Name = "nameBt";
-            nameBt.Size = new System.Drawing.Size(92, 23);
+            nameBt.Size = new System.Drawing.Size(72, 23);
             nameBt.TabIndex = 23;
             nameBt.Text = "Add Name";
             nameBt.UseVisualStyleBackColor = true;
@@ -136,9 +138,9 @@
             // 
             // sidBt
             // 
-            sidBt.Location = new System.Drawing.Point(360, 15);
+            sidBt.Location = new System.Drawing.Point(340, 15);
             sidBt.Name = "sidBt";
-            sidBt.Size = new System.Drawing.Size(92, 23);
+            sidBt.Size = new System.Drawing.Size(72, 23);
             sidBt.TabIndex = 24;
             sidBt.Text = "Add SID";
             sidBt.UseVisualStyleBackColor = true;
@@ -172,17 +174,6 @@
             remBt.UseVisualStyleBackColor = true;
             remBt.Click += remBt_Click;
             // 
-            // sidLb
-            // 
-            sidLb.AutoSize = true;
-            sidLb.ForeColor = System.Drawing.Color.Red;
-            sidLb.Location = new System.Drawing.Point(12, 52);
-            sidLb.Name = "sidLb";
-            sidLb.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            sidLb.Size = new System.Drawing.Size(286, 15);
-            sidLb.TabIndex = 28;
-            sidLb.Text = "Sid can be user sid, local group sid, and AD group sid";
-            // 
             // remCsBt
             // 
             remCsBt.Location = new System.Drawing.Point(505, 44);
@@ -200,22 +191,40 @@
             // 
             // autologonBt
             // 
-            autologonBt.Location = new System.Drawing.Point(312, 43);
+            autologonBt.Location = new System.Drawing.Point(262, 44);
             autologonBt.Name = "autologonBt";
-            autologonBt.Size = new System.Drawing.Size(140, 24);
+            autologonBt.Size = new System.Drawing.Size(150, 24);
             autologonBt.TabIndex = 30;
             autologonBt.Text = "Add Autologon";
             autologonBt.UseVisualStyleBackColor = true;
             autologonBt.Click += autologonBt_Click;
+            // 
+            // nameSidToolTip
+            // 
+            nameSidToolTip.AutoPopDelay = 5000;
+            nameSidToolTip.InitialDelay = 0;
+            nameSidToolTip.ReshowDelay = 100;
+            // 
+            // toolTipLabel
+            // 
+            toolTipLabel.AutoSize = true;
+            toolTipLabel.BackColor = System.Drawing.SystemColors.Info;
+            toolTipLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            toolTipLabel.Location = new System.Drawing.Point(240, 46);
+            toolTipLabel.Name = "toolTipLabel";
+            toolTipLabel.Size = new System.Drawing.Size(16, 19);
+            toolTipLabel.TabIndex = 32;
+            toolTipLabel.Text = "?";
+            toolTipLabel.MouseHover += toolTipLabel_MouseHover;
             // 
             // shellLauncher
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(toolTipLabel);
             Controls.Add(autologonBt);
             Controls.Add(remCsBt);
-            Controls.Add(sidLb);
             Controls.Add(remBt);
             Controls.Add(nameSidTb);
             Controls.Add(cShellbt);
@@ -249,9 +258,10 @@
         private System.Windows.Forms.Button cShellbt;
         private System.Windows.Forms.TextBox nameSidTb;
         private System.Windows.Forms.Button remBt;
-        private System.Windows.Forms.Label sidLb;
         private System.Windows.Forms.Button remCsBt;
         private System.Windows.Forms.SaveFileDialog saveXML;
         private System.Windows.Forms.Button autologonBt;
+        private System.Windows.Forms.ToolTip nameSidToolTip;
+        private System.Windows.Forms.Label toolTipLabel;
     }
 }
