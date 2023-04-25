@@ -121,6 +121,11 @@ namespace kioskAssistant.Forms
                 MessageBox.Show("XML file saved to " + savePath, "Success");
             }
         }
+        private void autologonBt_Click(object sender, System.EventArgs e)
+        {
+            accountsGv.Rows.Add("Autologon");
+            autologonBt.Enabled = false;
+        }
 
         #region Event Listeners
         private void accountsGv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -156,12 +161,6 @@ namespace kioskAssistant.Forms
         }
 
         #endregion
-
-        private void autologonBt_Click(object sender, System.EventArgs e)
-        {
-            accountsGv.Rows.Add("Autologon");
-            autologonBt.Enabled = false;
-        }
 
         private void toolTipLabel_MouseHover(object sender, System.EventArgs e)
         {
