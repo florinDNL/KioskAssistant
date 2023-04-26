@@ -1,9 +1,6 @@
 ﻿using allGlobals;
-using Microsoft.Win32;
-using System.DirectoryServices.ActiveDirectory;
 using System.Windows.Forms;
 using xmlManip;
-using static System.Windows.Forms.DataFormats;
 
 namespace kioskAssistant.Forms
 {

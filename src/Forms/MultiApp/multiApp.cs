@@ -141,7 +141,7 @@ namespace kioskAssistant
                     else
                     {
                         row.Cells[2].Value = appProfileLb.SelectedItem.ToString();
-                    }                    
+                    }
                 }
             }
         }

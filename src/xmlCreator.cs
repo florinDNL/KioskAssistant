@@ -199,7 +199,7 @@ namespace xmlManip
                     );
 
                 XElement profile = profiles.Elements(ns + "Profile").First(c => (string)c.Attribute("Id") == pGuid);
-                XElement allowedApps = profile.Element(ns + "AllAppsList").Element(ns + "AllowedApps");                
+                XElement allowedApps = profile.Element(ns + "AllAppsList").Element(ns + "AllowedApps");
 
                 foreach (string app in allApps)
                 {
