@@ -123,7 +123,7 @@ namespace kioskAssistant.Forms
         {
             if (this.DialogResult == DialogResult.OK)
             {
-                profileParam.Add(fullscreenCb.Checked.ToString());
+                profileParam.Add(fullscreenCb.Checked.ToString().ToLower());
                 profileParam.Add(actionCb.SelectedItem.ToString());
                 perFormObjects.shellLauncherAccs.Add(guidLabel.Text, profileParam);
             }
