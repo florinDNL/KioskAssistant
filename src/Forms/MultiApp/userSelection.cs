@@ -87,58 +87,49 @@ namespace kioskAssistant
                 }
             }
 
-            if (typeCombo.SelectedIndex == 0)
+            switch (typeCombo.SelectedIndex)
             {
-                localUsrSelect();
-            }
-            else if (typeCombo.SelectedIndex == 1)
-            {
-                domainUsrSelect();
-            }
-            else if (typeCombo.SelectedIndex == 2)
-            {
-                azureUsrSelect();
+                case 0: localUsrSelect(); break;
+                case 1: domainUsrSelect(); break;
+                case 2: azureUsrSelect(); break;
             }
         }
 
         private void addUsrBt_Click(object sender, EventArgs e)
         {
-            if (typeCombo.SelectedIndex == 0)
+            switch (typeCombo.SelectedIndex)
             {
-                if (!string.IsNullOrEmpty(Controls["localUsrBox"].Text))
-                {
-                    selectedUsr = Controls["localUsrBox"].Text;
-                }
-                else
-                {
-                    MessageBox.Show("Please select or type a username");
-                    return;
-                }
-            }
-            else if (typeCombo.SelectedIndex == 1)
-            {
-                if (!string.IsNullOrEmpty(Controls["userTb"].Text) & !string.IsNullOrEmpty(Controls["domainTb"].Text))
-                {
-                    selectedUsr = Controls["domainTb"].Text + "\\" + Controls["userTb"].Text;
-                }
-                else
-                {
-                    MessageBox.Show("Fields cannot be blank");
-                    return;
-                }
-            }
-            else if (typeCombo.SelectedIndex == 2)
-            {
-                if (!string.IsNullOrEmpty(Controls["mailTb"].Text))
-                {
-                    selectedUsr = "AzureAD\\" + Controls["mailTb"].Text;
-                }
-                else
-                {
-                    MessageBox.Show("Mail cannot be blank");
-                    return;
-                }
-            }
+                case 0:
+                    if (!string.IsNullOrEmpty(Controls["localUsrBox"].Text))
+                    {
+                        selectedUsr = Controls["localUsrBox"].Text;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please select or type a username"); return;                       
+                    }
+                    break;
+                case 1:
+                    if (!string.IsNullOrEmpty(Controls["userTb"].Text) & !string.IsNullOrEmpty(Controls["domainTb"].Text))
+                    {
+                        selectedUsr = Controls["domainTb"].Text + "\\" + Controls["userTb"].Text;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Fields cannot be blank"); return;
+                    }
+                    break;
+                case 2:
+                    if (!string.IsNullOrEmpty(Controls["mailTb"].Text))
+                    {
+                        selectedUsr = "AzureAD\\" + Controls["mailTb"].Text;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Mail cannot be blank"); return;
+                    }
+                    break;
+            }       
 
 
             this.DialogResult = DialogResult.OK;

@@ -38,25 +38,16 @@ namespace gridUI
             int w = 0;
             int h = 0;
 
-            if (size == "1x1")
+            switch (size)
             {
-                w = 50;
-                h = 50;
-            }
-            else if (size == "2x2")
-            {
-                w = 100;
-                h = 100;
-            }
-            else if (size == "4x2")
-            {
-                w = 200;
-                h = 100;
-            }
-            else if (size == "4x4")
-            {
-                w = 200;
-                h = 200;
+                case "1x1":
+                    w = 50; h = 50; break;
+                case "2x2":
+                    w = 100; h = 100; break;
+                case "4x2":
+                    w = 200; h = 100; break;
+                case "4x4":
+                    w = 200; h = 200; break;
             }
 
             if (w + x > 300 | h + y > 200)

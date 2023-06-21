@@ -176,32 +176,29 @@ namespace kioskAssistant
                     string type = row.Cells[1].Value.ToString();
                     string prof = row.Cells[2].Value.ToString();
 
-                    if (type == "User")
+                    switch (type)
                     {
-                        Globals.addedUsers.Add(name, prof);
-                    }
-                    else if (type == "[L]Group")
-                    {
-                        Globals.addedLocalGroups.Add(name, prof);
-                    }
-                    else if (type == "[D]Group")
-                    {
-                        Globals.addedDomainGroups.Add(name, prof);
-                    }
-                    else if (type == "[A]Group")
-                    {
-                        Globals.addedAzureGroups.Add(name, prof);
-                    }
-                    else if (type == "Auto")
-                    {
-                        Globals.isAuto = true;
-                        Globals.autoLogon.Add(Globals.displayName, prof);
-                    }
-                    else if (type == "Global")
-                    {
-                        Globals.isGlobal = true;
-                        Globals.globalProfile = prof;
-                    }
+                        case "User":
+                            Globals.addedUsers.Add(name, prof);
+                            break;
+                        case "[L]Group":
+                            Globals.addedLocalGroups.Add(name, prof);
+                            break;
+                        case "[D]Group":
+                            Globals.addedDomainGroups.Add(name, prof);
+                            break;
+                        case "[A]Group":
+                            Globals.addedAzureGroups.Add(name, prof);
+                            break;
+                        case "Auto":
+                            Globals.isAuto = true;
+                            Globals.autoLogon.Add(Globals.displayName, prof);
+                            break;
+                        case "Global":
+                            Globals.isGlobal = true;
+                            Globals.globalProfile = prof;
+                            break;
+                    }                   
                 }
                 string savePath = saveXML.FileName;
                 xmlCreator.writeXmlFile(savePath);

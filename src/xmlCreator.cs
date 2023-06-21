@@ -274,48 +274,48 @@ namespace xmlManip
 
                 XElement shellNode = profiles.Elements(sL + "Profile").First(c => (string)c.Attribute("Id") == pGuid).Element(sL + "Shell");
 
-                if (profileParam[0] == "Edge")
+                switch (profileParam[0])
                 {
-                    string url = profileParam[1];
-                    string timeout = profileParam[2];
-                    string browsingType = profileParam[3] == "Public Browsing" ? "public-browsing" : "fullscreen";
+                    case "Edge":
+                        string url = profileParam[1];
+                        string timeout = profileParam[2];
+                        string browsingType = profileParam[3] == "Public Browsing" ? "public-browsing" : "fullscreen";
 
-                    shell = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe --no-first-run --kiosk " + url + " --edge-kiosk-type=" + browsingType + " --kiosk-idle-timeout-minutes=" + timeout;
+                        shell = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe --no-first-run --kiosk " + url + " --edge-kiosk-type=" + browsingType + " --kiosk-idle-timeout-minutes=" + timeout;
 
-                    shellNode.Add(
-                        new XAttribute("Shell", shell),
-                        new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
-                    );
-                }
-                else if (profileParam[0] == "UWP")
-                {
-                    string uwpApp = profileParam[1];
-                    if (Globals.allUwpApps.ContainsKey(uwpApp))
-                    {
-                        shell = Globals.allUwpApps[uwpApp];
-                    }
-                    else
-                    {
-                        shell = uwpApp;
-                    }
+                        shellNode.Add(
+                            new XAttribute("Shell", shell),
+                            new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
+                        );
+                        break;
+                    case "UWP":
+                        string uwpApp = profileParam[1];
+                        if (Globals.allUwpApps.ContainsKey(uwpApp))
+                        {
+                            shell = Globals.allUwpApps[uwpApp];
+                        }
+                        else
+                        {
+                            shell = uwpApp;
+                        }
 
-                    shellNode.Add(
-                        new XAttribute("Shell", shell),
-                        new XAttribute(slv2 + "AppType", "UWP"),
-                        new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
-                    );
-                }
-                else if (profileParam[0] == "win32")
-                {
-                    string exe = profileParam[1];
-                    string args = profileParam[2];
+                        shellNode.Add(
+                            new XAttribute("Shell", shell),
+                            new XAttribute(slv2 + "AppType", "UWP"),
+                            new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
+                        );
+                        break;
+                    case "win32":
+                        string exe = profileParam[1];
+                        string args = profileParam[2];
 
-                    shell = exe + " " + args;
-                    shellNode.Add(
-                        new XAttribute("Shell", shell),
-                        new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
-                    );
-                }
+                        shell = exe + " " + args;
+                        shellNode.Add(
+                            new XAttribute("Shell", shell),
+                            new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
+                        );
+                        break;
+                }                
             }
         }
 

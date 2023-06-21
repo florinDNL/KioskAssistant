@@ -81,62 +81,58 @@ namespace kioskAssistant
                 }
             }
 
-            if (typeCombo.SelectedIndex == 0)
+            switch (typeCombo.SelectedIndex)
             {
-                localGrpSelect();
-            }
-            else if (typeCombo.SelectedIndex == 1)
-            {
-                domainGrpSelect();
-            }
-            else if (typeCombo.SelectedIndex == 2)
-            {
-                azureGrpSelect();
+                case 0:
+                    localGrpSelect(); break;
+                case 1:
+                    domainGrpSelect(); break;
+                case 2:
+                    azureGrpSelect(); break;
             }
         }
 
         private void addGrpBt_Click(object sender, EventArgs e)
         {
-            if (typeCombo.SelectedIndex == 0)
+            switch (typeCombo.SelectedIndex)
             {
-                if (!string.IsNullOrEmpty(Controls["localGrpBox"].Text))
-                {
-                    selectedGrp = Controls["localGrpBox"].Text;
-                    groupType = "[L]Group";
-                }
-                else
-                {
-                    MessageBox.Show("Please select or type a group name");
-                    return;
-                }
-            }
-            else if (typeCombo.SelectedIndex == 1)
-            {
-                if (!string.IsNullOrEmpty(Controls["groupTb"].Text) & !string.IsNullOrEmpty(Controls["domainTb"].Text))
-                {
-                    selectedGrp = Controls["domainTb"].Text + "\\" + Controls["groupTb"].Text;
-                    groupType = "[D]Group";
-                }
-                else
-                {
-                    MessageBox.Show("Fields cannot be blank");
-                    return;
-                }
-            }
-            else if (typeCombo.SelectedIndex == 2)
-            {
-                if (!string.IsNullOrEmpty(Controls["azName"].Text))
-                {
-                    selectedGrp = Controls["azName"].Text;
-                    groupType = "[A]Group";
-                }
-                else
-                {
-                    MessageBox.Show("Azure group cannot be blank");
-                    return;
-                }
-            }
-
+                case 0:
+                    if (!string.IsNullOrEmpty(Controls["localGrpBox"].Text))
+                    {
+                        selectedGrp = Controls["localGrpBox"].Text;
+                        groupType = "[L]Group";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please select or type a group name");
+                        return;
+                    }
+                    break;
+                case 1:
+                    if (!string.IsNullOrEmpty(Controls["groupTb"].Text) & !string.IsNullOrEmpty(Controls["domainTb"].Text))
+                    {
+                        selectedGrp = Controls["domainTb"].Text + "\\" + Controls["groupTb"].Text;
+                        groupType = "[D]Group";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Fields cannot be blank");
+                        return;
+                    }
+                    break;
+                case 2:
+                    if (!string.IsNullOrEmpty(Controls["azName"].Text))
+                    {
+                        selectedGrp = Controls["azName"].Text;
+                        groupType = "[A]Group";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Azure group cannot be blank");
+                        return;
+                    }
+                    break;
+            }        
 
             this.DialogResult = DialogResult.OK;
             this.Close();

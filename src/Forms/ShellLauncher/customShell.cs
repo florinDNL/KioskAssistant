@@ -31,81 +31,78 @@ namespace kioskAssistant.Forms
         {
             shellPanel.Controls.Clear();
 
-            if (appTypeCb.SelectedIndex == 0)
-            {
-                EdgeUserControl edgeControl = new EdgeUserControl();
-                shellPanel.Controls.Add(edgeControl);
-                url = edgeControl.urlTb;
-                idleTimeout = edgeControl.idleTb;
-                browsingType = edgeControl.browsingCb;
-            }
-            else if (appTypeCb.SelectedIndex == 1)
-            {
-                UwpUserControl uwpControl = new UwpUserControl();
-                shellPanel.Controls.Add(uwpControl);
-                uwpshell = uwpControl.appCb;
-            }
-            else if (appTypeCb.SelectedIndex == 2)
-            {
-                win32UserControl slControl = new win32UserControl();
-                slControl.exeLb.Text = "Shell:";
-                shellPanel.Controls.Add(slControl);
-                win32shell = slControl.exeTb;
-                arguments = slControl.argTb;
+            switch(appTypeCb.SelectedIndex){
+                case 0:
+                    EdgeUserControl edgeControl = new EdgeUserControl();
+                    shellPanel.Controls.Add(edgeControl);
+                    url = edgeControl.urlTb;
+                    idleTimeout = edgeControl.idleTb;
+                    browsingType = edgeControl.browsingCb;
+                    break;
+                case 1:
+                    UwpUserControl uwpControl = new UwpUserControl();
+                    shellPanel.Controls.Add(uwpControl);
+                    uwpshell = uwpControl.appCb;
+                    break;
+                case 2:
+                    win32UserControl slControl = new win32UserControl();
+                    slControl.exeLb.Text = "Shell:";
+                    shellPanel.Controls.Add(slControl);
+                    win32shell = slControl.exeTb;
+                    arguments = slControl.argTb;
+                    break;
             }
         }
 
         private void saveCsBt_Click(object sender, EventArgs e)
         {
             string Message = "";
-            if (appTypeCb.SelectedIndex == 0)
+            switch (appTypeCb.SelectedIndex)
             {
-                string link = url.Text;
-                string timeout = idleTimeout.Text;
-                string browsing = browsingType.SelectedItem.ToString();
+                case 0:
+                    string link = url.Text;
+                    string timeout = idleTimeout.Text;
+                    string browsing = browsingType.SelectedItem.ToString();
 
-                if (string.IsNullOrEmpty(link))
-                {
-                    Message = "No URL added";
-                }
-                else
-                {
-                    profileParam.Add("Edge");
-                    profileParam.Add(link);
-                    profileParam.Add(timeout);
-                    profileParam.Add(browsing);
-                }
+                    if (string.IsNullOrEmpty(link))
+                    {
+                        Message = "No URL added";
+                    }
+                    else
+                    {
+                        profileParam.Add("Edge");
+                        profileParam.Add(link);
+                        profileParam.Add(timeout);
+                        profileParam.Add(browsing);
+                    }
+                    break;
+                case 1:
+                    if (string.IsNullOrEmpty(uwpshell.Text))
+                    {
+                        Message = "No App selected";
+                    }
+                    else
+                    {
+                        string app = uwpshell.Text;
+                        profileParam.Add("UWP");
+                        profileParam.Add(app);
+                    }
+                    break;
+                case 2:
+                    string exe = win32shell.Text;
+                    string args = arguments.Text;
 
-            }
-            else if (appTypeCb.SelectedIndex == 1)
-            {
-                if (string.IsNullOrEmpty(uwpshell.Text))
-                {
-                    Message = "No App selected";
-                }
-                else
-                {
-                    string app = uwpshell.Text;
-                    profileParam.Add("UWP");
-                    profileParam.Add(app);
-                }
-            }
-            else if (appTypeCb.SelectedIndex == 2)
-            {
-                string exe = win32shell.Text;
-                string args = arguments.Text;
-
-
-                if (string.IsNullOrEmpty(exe))
-                {
-                    Message = "No executable selected";
-                }
-                else
-                {
-                    profileParam.Add("win32");
-                    profileParam.Add(exe);
-                    profileParam.Add(args);
-                }
+                    if (string.IsNullOrEmpty(exe))
+                    {
+                        Message = "No executable selected";
+                    }
+                    else
+                    {
+                        profileParam.Add("win32");
+                        profileParam.Add(exe);
+                        profileParam.Add(args);
+                    }
+                    break;
             }
 
             if (string.IsNullOrEmpty(Message))
