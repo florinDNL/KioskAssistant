@@ -124,57 +124,60 @@ namespace xmlManip
                         );
                 XElement profile = profiles.Elements(ns + "Profile").First(c => (string)c.Attribute("Id") == pGuid).Element(ns + "KioskModeApp");
 
+                string commandline;
+                string arguments;
 
-                if (profileParam[0] == "Edge")
+                switch (profileParam[0])
                 {
-                    string url = profileParam[1];
-                    string timeout = profileParam[2];
-                    string browsing;
+                    case "Edge":
+                        string url = profileParam[1];
+                        string timeout = profileParam[2];
+                        string browsing;
 
-                    if (profileParam[3] == "Public Browsing")
-                    {
-                        browsing = "public-browsing";
-                    }
-                    else
-                    {
-                        browsing = "fullscreen";
-                    }
+                        if (profileParam[3] == "Public Browsing")
+                        {
+                            browsing = "public-browsing";
+                        }
+                        else
+                        {
+                            browsing = "fullscreen";
+                        }
 
-                    string commandline = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe";
-                    string arguments = "--no-first-run --kiosk " + url + " --edge-kiosk-type=" + browsing + " --kiosk-idle-timeout-minutes=" + timeout;
+                        commandline = "%ProgramFiles(x86)%\\Microsoft\\Edge\\Application\\msedge.exe";
+                        arguments = "--no-first-run --kiosk " + url + " --edge-kiosk-type=" + browsing + " --kiosk-idle-timeout-minutes=" + timeout;
 
-                    profile.Add(
+                        profile.Add(
+                                new XAttribute(v4 + "ClassicAppPath", commandline),
+                                new XAttribute(v4 + "ClassicAppArguments", arguments)
+                            );
+                        break;
+
+                    case "UWP":
+                        string app = profileParam[1];
+                        if (Globals.allUwpApps.ContainsKey(app))
+                        {
+                            profile.Add(
+                                new XAttribute("AppUserModelId", Globals.allUwpApps[app])
+                            );
+                        }
+                        else
+                        {
+                            profile.Add(
+                                new XAttribute("AppUserModelId", app)
+                            );
+                        }
+                        break;
+
+                    case "Win32":
+                        commandline = profileParam[1];
+                        arguments = profileParam[2];
+
+                        profile.Add(
                             new XAttribute(v4 + "ClassicAppPath", commandline),
                             new XAttribute(v4 + "ClassicAppArguments", arguments)
                         );
-
-                }
-                else if (profileParam[0] == "UWP")
-                {
-                    string app = profileParam[1];
-                    if (Globals.allUwpApps.ContainsKey(app))
-                    {
-                        profile.Add(
-                            new XAttribute("AppUserModelId", Globals.allUwpApps[app])
-                        );
-                    }
-                    else
-                    {
-                        profile.Add(
-                            new XAttribute("AppUserModelId", app)
-                        );
-                    }
-                }
-                else if (profileParam[0] == "win32")
-                {
-                    string commandline = profileParam[1];
-                    string arguments = profileParam[2];
-
-                    profile.Add(
-                        new XAttribute(v4 + "ClassicAppPath", commandline),
-                        new XAttribute(v4 + "ClassicAppArguments", arguments)
-                    );
-                }
+                        break;
+                }               
             }
 
             foreach (List<string> appParam in Globals.appProfiles.Keys)
@@ -539,11 +542,11 @@ namespace xmlManip
 
             if (Globals.allUwpApps.ContainsKey(app))
             {
-                appIDorPath = "packagedAppId\":\"" + Globals.allUwpApps[app] + "\"}";
+                appIDorPath = "{\"packagedAppId\":\"" + Globals.allUwpApps[app] + "\"}";
             }
             else
             {
-                appIDorPath = "desktopAppLink\":\"" + app.Replace(@"\", @"\\") + "\"}";
+                appIDorPath = "{\"desktopAppLink\":\"" + app.Replace(@"\", @"\\") + "\"}";
             }
 
             if (count > 0)
