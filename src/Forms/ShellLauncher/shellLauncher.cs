@@ -109,7 +109,15 @@ namespace kioskAssistant.Forms
                 {
                     string name = row.Cells[0].Value.ToString();
                     string prof = row.Cells[1].Value.ToString();
-                    Globals.shellLauncherAccounts.Add(name, prof);
+                    
+                    if (Globals.shellLauncherAccounts.ContainsKey(name))
+                    {
+                        Globals.shellLauncherAccounts[name] = prof;
+                    }
+                    else
+                    {
+                        Globals.shellLauncherAccounts.Add(name, prof);
+                    }  
                 }
 
                 string savePath = saveXML.FileName;

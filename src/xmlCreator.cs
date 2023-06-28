@@ -1,5 +1,7 @@
 ﻿using allGlobals;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -256,7 +258,7 @@ namespace xmlManip
         {
             XElement profiles = doc.Root.Element(sL + "Profiles");
 
-            foreach (string item in perFormObjects.shellLauncherAccs.Keys)
+            foreach (string item in Globals.shellLauncherAccounts.Values)
             {
                 string pGuid = item;
                 string shell;
