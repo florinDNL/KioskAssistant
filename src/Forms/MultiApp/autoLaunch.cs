@@ -54,6 +54,7 @@ namespace kioskAssistant
             if (!(perFormObjects.autoLaunch.Count == 0))
             {
                 perFormObjects.autoLaunch = new();
+                Close();
             }
         }
     }
