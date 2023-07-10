@@ -132,7 +132,7 @@ namespace kioskAssistant
                         return;
                     }
                     break;
-            }        
+            }
 
             this.DialogResult = DialogResult.OK;
             this.Close();

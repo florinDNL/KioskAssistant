@@ -76,8 +76,8 @@ namespace gridUI
                         return false;
                     }
 
-                    List<int> indexes = new() { i, j };                     
-                    freeCells.Add(indexes);                       
+                    List<int> indexes = new() { i, j };
+                    freeCells.Add(indexes);
                 }
             }
 

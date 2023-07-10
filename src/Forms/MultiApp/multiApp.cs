@@ -198,7 +198,7 @@ namespace kioskAssistant
                             Globals.isGlobal = true;
                             Globals.globalProfile = prof;
                             break;
-                    }                   
+                    }
                 }
                 string savePath = saveXML.FileName;
                 xmlCreator.writeXmlFile(savePath);

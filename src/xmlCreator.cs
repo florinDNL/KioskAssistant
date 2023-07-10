@@ -177,7 +177,7 @@ namespace xmlManip
                             new XAttribute(v4 + "ClassicAppArguments", arguments)
                         );
                         break;
-                }               
+                }
             }
 
             foreach (List<string> appParam in Globals.appProfiles.Keys)
@@ -318,7 +318,7 @@ namespace xmlManip
                             new XAttribute(slv2 + "AllAppsFullScreen", fullScreen)
                         );
                         break;
-                }                
+                }
             }
         }
 
