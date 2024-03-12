@@ -226,7 +226,7 @@ namespace kioskAssistant
 
         private void saveProfBt_Click(object sender, EventArgs e)
         {
-            if (groupsLv.Items.Count == 0)
+            if (win10_cb.Checked & groupsLv.Items.Count == 0)
             {
                 string message = "You need to add at least 1 application group to the start menu";
                 string caption = "No application added";
@@ -328,9 +328,21 @@ namespace kioskAssistant
 
         private void win10_CheckedChanged(object sender, EventArgs e)
         {
-            if (!win10_cb.Checked & !win11_cb.Checked)
+            if (!win10_cb.Checked)
             {
-                win10_cb.Checked = true;
+                if (!win11_cb.Checked)
+                {
+                    win10_cb.Checked = true;
+                }
+                else
+                {
+                    addAppGroupBt.Enabled = false;
+                }
+                
+            }
+            else
+            {
+                addAppGroupBt.Enabled = true;
             }
         }
 
