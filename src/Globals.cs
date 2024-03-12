@@ -32,7 +32,7 @@ namespace allGlobals
 
         public static string GetGUID()
         {
-            return "{" + Guid.NewGuid().ToString().ToUpper() + "}";            
+            return "{" + Guid.NewGuid().ToString().ToUpper() + "}";
         }
 
         public static void psInit()
@@ -85,7 +85,7 @@ namespace allGlobals
 
         public static string lnkToExe(string lnk)
         {
-            return linkedWin32Apps.FirstOrDefault(x => x.Value == lnk).Key;            
+            return linkedWin32Apps.FirstOrDefault(x => x.Value == lnk).Key;
         }
 
         public static void flushAll()

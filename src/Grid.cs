@@ -55,46 +55,42 @@ namespace gridUI
                 MessageBox.Show("Out of bounds.");
                 return false;
             }
-            /*The following computes whether the cells required for a tile are free. To calculate the position of a tile and its corresponding indexes
+
+            /*
+            The following computes whether the cells required for a tile are free. To calculate the position of a tile and its corresponding indexes
             inside the grid, we first calculate the total area of the tile by iterating through each 50px it occupies, first on the x axis, 
             and then on the y axis. We start from its initital position x / 50 (first index) until the (x + w) / 50 (last index). The same goes for the y axis and height.          
 
             If any free cells are found during the iterations, they are added to a list before being set to false. This is to ensure we do not commit
-            any changes before finishing the iterations, whereby we would break the loop but the free cells would remain set to false.*/
-            else
-            {
-                List<List<int>> freeCells = new();
-                for (int i = x / 50; i < (x + w) / 50; i++)
-                {
-                    for (int j = y / 50; j < (y + h) / 50; j++)
-                    {
-                        if (perFormObjects.tileGrid[i][j] == false)
-                        {
-                            MessageBox.Show("Space is occupied by another tile.");
-                            return false;
-                        }
-                        else
-                        {
-                            List<int> indexes = new()
-                            {
-                                i,
-                                j
-                            };
-                            freeCells.Add(indexes);
-                        }
-                    }
-                }
-                foreach (List<int> indexes in freeCells)
-                {
-                    int k = indexes[0];
-                    int l = indexes[1];
-                    perFormObjects.tileGrid[k][l] = false;
-                }
+            any changes before finishing the iterations, whereby we would break the loop but the free cells would remain set to false.
+            */
 
-                g.DrawRectangle(p, x, y, w, h);
-                g.FillRectangle(b, x, y, w, h);
-                return true;
+            List<List<int>> freeCells = new();
+            for (int i = x / 50; i < (x + w) / 50; i++)
+            {
+                for (int j = y / 50; j < (y + h) / 50; j++)
+                {
+                    if (!perFormObjects.tileGrid[i][j])
+                    {
+                        MessageBox.Show("Space is occupied by another tile.");
+                        return false;
+                    }
+
+                    List<int> indexes = new() { i, j };
+                    freeCells.Add(indexes);
+                }
             }
+
+            foreach (List<int> indexes in freeCells)
+            {
+                int k = indexes[0];
+                int l = indexes[1];
+                perFormObjects.tileGrid[k][l] = false;
+            }
+
+            g.DrawRectangle(p, x, y, w, h);
+            g.FillRectangle(b, x, y, w, h);
+            return true;
         }
     }
 }

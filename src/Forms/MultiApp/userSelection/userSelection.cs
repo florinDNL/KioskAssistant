@@ -106,7 +106,7 @@ namespace kioskAssistant
                     }
                     else
                     {
-                        MessageBox.Show("Please select or type a username"); return;                       
+                        MessageBox.Show("Please select or type a username"); return;
                     }
                     break;
                 case 1:
@@ -129,7 +129,7 @@ namespace kioskAssistant
                         MessageBox.Show("Mail cannot be blank"); return;
                     }
                     break;
-            }       
+            }
 
 
             this.DialogResult = DialogResult.OK;

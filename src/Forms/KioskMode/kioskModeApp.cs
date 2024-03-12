@@ -76,7 +76,7 @@ namespace kioskAssistant
                         profileParam.Add(arg);
                     }
                     break;
-            }            
+            }
 
             if (string.IsNullOrEmpty(Message))
             {

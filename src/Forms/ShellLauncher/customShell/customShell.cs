@@ -31,7 +31,8 @@ namespace kioskAssistant.Forms
         {
             shellPanel.Controls.Clear();
 
-            switch(appTypeCb.SelectedIndex){
+            switch (appTypeCb.SelectedIndex)
+            {
                 case 0:
                     EdgeUserControl edgeControl = new EdgeUserControl();
                     shellPanel.Controls.Add(edgeControl);
