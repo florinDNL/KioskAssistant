@@ -106,17 +106,17 @@ namespace kioskAssistant
             addWin32AppLabel.AutoSize = true;
             addWin32AppLabel.Location = new System.Drawing.Point(323, 85);
             addWin32AppLabel.Name = "addWin32AppLabel";
-            addWin32AppLabel.Size = new System.Drawing.Size(169, 15);
+            addWin32AppLabel.Size = new System.Drawing.Size(166, 15);
             addWin32AppLabel.TabIndex = 5;
-            addWin32AppLabel.Text = "Add Win32 (.exe) Applications:";
+            addWin32AppLabel.Text = "Add Win32 (.exe) Applications";
             // 
             // addWin32AppBt
             // 
-            addWin32AppBt.Location = new System.Drawing.Point(676, 77);
+            addWin32AppBt.Location = new System.Drawing.Point(636, 77);
             addWin32AppBt.Name = "addWin32AppBt";
-            addWin32AppBt.Size = new System.Drawing.Size(39, 23);
+            addWin32AppBt.Size = new System.Drawing.Size(79, 23);
             addWin32AppBt.TabIndex = 6;
-            addWin32AppBt.Text = "Add";
+            addWin32AppBt.Text = "Browse .exe";
             addWin32AppBt.UseVisualStyleBackColor = true;
             addWin32AppBt.Click += addWin32AppBt_Click;
             // 
@@ -182,11 +182,11 @@ namespace kioskAssistant
             // 
             // addLnkBt
             // 
-            addLnkBt.Location = new System.Drawing.Point(676, 238);
+            addLnkBt.Location = new System.Drawing.Point(636, 238);
             addLnkBt.Name = "addLnkBt";
-            addLnkBt.Size = new System.Drawing.Size(39, 23);
+            addLnkBt.Size = new System.Drawing.Size(79, 23);
             addLnkBt.TabIndex = 15;
-            addLnkBt.Text = "Add";
+            addLnkBt.Text = "Browse .lnk";
             addLnkBt.UseVisualStyleBackColor = true;
             addLnkBt.Click += addLnkBt_Click;
             // 
@@ -375,7 +375,7 @@ namespace kioskAssistant
             // 
             // manExeBt
             // 
-            manExeBt.Location = new System.Drawing.Point(538, 77);
+            manExeBt.Location = new System.Drawing.Point(498, 77);
             manExeBt.Name = "manExeBt";
             manExeBt.Size = new System.Drawing.Size(132, 23);
             manExeBt.TabIndex = 33;
@@ -432,10 +432,6 @@ namespace kioskAssistant
         public System.Windows.Forms.Label guidLabel;
         public System.Windows.Forms.CheckBox win11_cb;
 
-        public static System.Windows.Forms.ListBox win32AppLb;
-        public static System.Windows.Forms.ListBox lnkFileLb;
-        public static System.Windows.Forms.CheckedListBox uwpAppClb;
-
         private System.Windows.Forms.Label addUwpAppLabel;
         private System.Windows.Forms.PictureBox logoBox;
         private System.Windows.Forms.OpenFileDialog addExeDialog;
@@ -464,7 +460,9 @@ namespace kioskAssistant
         private System.Windows.Forms.CheckBox win10_cb;
         private System.Windows.Forms.Button manUwpBt;
         private System.Windows.Forms.Button manExeBt;
-        
+        public System.Windows.Forms.ListBox win32AppLb;
+        public System.Windows.Forms.ListBox lnkFileLb;
+        public System.Windows.Forms.CheckedListBox uwpAppClb;
     }
 }
 
