@@ -460,9 +460,9 @@ namespace kioskAssistant
         private System.Windows.Forms.CheckBox win10_cb;
         private System.Windows.Forms.Button manUwpBt;
         private System.Windows.Forms.Button manExeBt;
-        public System.Windows.Forms.ListBox win32AppLb;
-        public System.Windows.Forms.ListBox lnkFileLb;
-        public System.Windows.Forms.CheckedListBox uwpAppClb;
+        public static System.Windows.Forms.ListBox win32AppLb;
+        public static System.Windows.Forms.ListBox lnkFileLb;
+        public static System.Windows.Forms.CheckedListBox uwpAppClb;
     }
 }
 

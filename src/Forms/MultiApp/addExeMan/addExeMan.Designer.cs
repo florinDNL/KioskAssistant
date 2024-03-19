@@ -94,7 +94,7 @@
             MinimizeBox = false;
             Name = "addExeMan";
             ShowIcon = false;
-            Text = "Manually Add UWP App";
+            Text = "Manually Add Win32 App";
             ResumeLayout(false);
             PerformLayout();
         }
