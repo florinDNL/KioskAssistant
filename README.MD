@@ -58,6 +58,7 @@ The multi-app profile window contains several views and options. They can be mai
 <p>In the case of .exe and .lnk files added from the File Dialog, the application is very strict - it will verify whether the shortcut corresponds to any of the added executable files and will not add any stray links. This is to ensure the resulting Kiosk display does not contain any missing entries. </p>
 
 #### Start Groups
+<span style="color:red">Note: Start groups only apply to Windows 10 Kiosks - For Windows 11, you still have to create them in the app, however the resulting Kiosk will simply pin the selected icons to the start menu in the order they are added in, without grouping them.</span>
 
 The profile can only be saved once at least one Start Group has been defined. This can be done using the "Add and Configure App Group" button, which will open a new view:
 
