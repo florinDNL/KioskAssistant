@@ -10,12 +10,16 @@ namespace xmlManip
 {
     class xmlCreator
     {
+        private static bool win11Needed = false;
+        private static bool v3Needed = false;
+        private static bool v4Needed = false;
 
         public static void writeXmlFile(string savePath)
         {
             XDocument doc = buildXmlBody();
             buildProfiles(doc);
             buildConfigs(doc);
+            resolveAdditionalNamespaces(doc);
             doc.Save(savePath);
         }
 
@@ -24,6 +28,7 @@ namespace xmlManip
             XDocument doc = buildShellLauncherXmlBody();
             buildShellLauncherProfiles(doc);
             buildShellLauncherConfigs(doc);
+            resolveAdditionalNamespaces(doc);
             doc.Save(savePath);
         }
 
@@ -54,15 +59,28 @@ namespace xmlManip
                  new XDeclaration("1.0", "UTF-8", null),
                  new XElement(ns + "AssignedAccessConfiguration",
                      new XAttribute(XNamespace.Xmlns + "v2", v2),
-                     new XAttribute(XNamespace.Xmlns + "v3", v3),
-                     new XAttribute(XNamespace.Xmlns + "v4", v4),
-                     new XAttribute(XNamespace.Xmlns + "win11", win11),
                      new XElement(ns + "Profiles"),
                      new XElement(ns + "Configs")
                      )
                  );
 
             return doc;
+        }
+
+        public static void resolveAdditionalNamespaces(XDocument doc)
+        {
+            if (v3Needed)
+            {
+                doc.Root.Add(new XAttribute(XNamespace.Xmlns + "v3", v3));
+            }
+            if (v4Needed)
+            {
+                doc.Root.Add(new XAttribute(XNamespace.Xmlns + "v4", v4));
+            }
+            if (win11Needed)
+            {
+                doc.Root.Add(new XAttribute(XNamespace.Xmlns + "win11", win11));
+            }
         }
 
         public static XDocument buildShellLauncherXmlBody()
@@ -152,6 +170,7 @@ namespace xmlManip
                                 new XAttribute(v4 + "ClassicAppPath", commandline),
                                 new XAttribute(v4 + "ClassicAppArguments", arguments)
                             );
+                        v4Needed = true;
                         break;
 
                     case "UWP":
@@ -170,14 +189,21 @@ namespace xmlManip
                         }
                         break;
 
-                    case "Win32":
+                    case "win32":
                         commandline = profileParam[1];
                         arguments = profileParam[2];
 
                         profile.Add(
-                            new XAttribute(v4 + "ClassicAppPath", commandline),
-                            new XAttribute(v4 + "ClassicAppArguments", arguments)
+                            new XAttribute(v4 + "ClassicAppPath", commandline)                         
                         );
+
+                        if (!(string.IsNullOrEmpty(arguments)))
+                        {
+                            profile.Add(
+                                    new XAttribute(v4 + "ClassicAppArguments", arguments)
+                                );                           
+                        }
+                        v4Needed = true;
                         break;
                 }
             }
@@ -240,6 +266,7 @@ namespace xmlManip
                     string json = "{ \"pinnedList\":[\n" + pinnedList + "\n] }";
                     profile.Add(new XElement(win11 + "StartPins"));
                     profile.Element(win11 + "StartPins").Add(new XCData(json));
+                    win11Needed = true;
                 }
 
                 profile.Add(
@@ -248,7 +275,6 @@ namespace xmlManip
                     );
 
                 profile.Add(new XElement(v2 + "FileExplorerNamespaceRestrictions"));
-
                 XElement nsRestrict = profile.Element(v2 + "FileExplorerNamespaceRestrictions");
                 addNamespaceConfig(nsRestrict, dlPerm, rdPerm, noRestrict);
             }
@@ -335,6 +361,7 @@ namespace xmlManip
                         new XAttribute("Id", Globals.globalProfile)
                         )
                     );
+                v3Needed = true;
             }
 
             if (Globals.isAuto)
@@ -478,6 +505,7 @@ namespace xmlManip
                 nsRestrict.Add(
                     new XElement(v3 + "NoRestriction")
                     );
+                v3Needed = true;
             }
             else if (!(dlPerm == "true" | rdPerm == "true"))
             {
@@ -496,6 +524,7 @@ namespace xmlManip
                 if (rdPerm == "true")
                 {
                     nsRestrict.Add(new XElement(v3 + "AllowRemovableDrives"));
+                    v3Needed = true;
                 }
             }
         }
