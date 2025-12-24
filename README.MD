@@ -5,7 +5,7 @@ KioskAssistant is a UI tool that facilitates the creation Kiosk environments. It
 
 ## Requirements
 
-- [.NET Desktop Runtime 7](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.4-windows-x64-installer)
+- [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.22-windows-x64-installer)
 
 ## Capabilities
 
