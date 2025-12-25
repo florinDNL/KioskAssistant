@@ -158,6 +158,7 @@ namespace kioskAssistant
                 else if (row.Cells[1].Value.ToString() == "Auto")
                 {
                     Globals.displayName = null;
+                    Globals.isAuto = false;
                     addAutoLogonAccBt.Enabled = true;
                 }
 
