@@ -342,6 +342,8 @@ namespace kioskAssistant
             // win11_cb
             // 
             win11_cb.AutoSize = true;
+            win11_cb.Checked = true;
+            win11_cb.CheckState = System.Windows.Forms.CheckState.Checked;
             win11_cb.Location = new System.Drawing.Point(105, 49);
             win11_cb.Name = "win11_cb";
             win11_cb.Size = new System.Drawing.Size(87, 19);
@@ -353,8 +355,6 @@ namespace kioskAssistant
             // win10_cb
             // 
             win10_cb.AutoSize = true;
-            win10_cb.Checked = true;
-            win10_cb.CheckState = System.Windows.Forms.CheckState.Checked;
             win10_cb.Location = new System.Drawing.Point(12, 49);
             win10_cb.Name = "win10_cb";
             win10_cb.Size = new System.Drawing.Size(87, 19);
