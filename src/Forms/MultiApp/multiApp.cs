@@ -154,6 +154,7 @@ namespace kioskAssistant
                 if (row.Cells[1].Value.ToString() == "Global")
                 {
                     addGlobProfBt.Enabled = true;
+                    Globals.isGlobal = false;
                 }
                 else if (row.Cells[1].Value.ToString() == "Auto")
                 {
