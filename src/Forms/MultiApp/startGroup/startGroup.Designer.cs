@@ -235,7 +235,6 @@ namespace kioskAssistant
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "startGroup";
             this.Text = "Customize Group";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.startGroup_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.colNud)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowNud)).EndInit();
             this.ResumeLayout(false);

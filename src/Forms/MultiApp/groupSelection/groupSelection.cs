@@ -1,4 +1,4 @@
-﻿using allGlobals;
+﻿using kioskAssistant.Model;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -9,14 +9,16 @@ namespace kioskAssistant
 {
     public partial class groupSelection : Form
     {
+        private readonly AppCatalog catalog;
         public string selectedGrp;
-        public string groupType;
+        public AccountType groupType;
 
-        public groupSelection()
+        public groupSelection(AppCatalog catalog)
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             addGrpBt.Enabled = false;
+            this.catalog = catalog;
         }
 
         public void localGrpSelect()
@@ -27,7 +29,7 @@ namespace kioskAssistant
             groups.Name = "localGrpBox";
             groups.Size = new Size(140, 25);
             groups.TabIndex = 2;
-            foreach (string group in Globals.localGroups)
+            foreach (string group in catalog.LocalGroups)
             {
                 groups.Items.Add(group);
             }
@@ -75,7 +77,7 @@ namespace kioskAssistant
             addGrpBt.Enabled = true;
             foreach (Control item in Controls.OfType<Control>().ToList())
             {
-                if (item.Name != "typeCombo" & item.Name != "typeLabel" & item.Name != "addGrpBt")
+                if (item.Name != "typeCombo" && item.Name != "typeLabel" && item.Name != "addGrpBt")
                 {
                     Controls.Remove(item);
                 }
@@ -100,7 +102,7 @@ namespace kioskAssistant
                     if (!string.IsNullOrEmpty(Controls["localGrpBox"].Text))
                     {
                         selectedGrp = Controls["localGrpBox"].Text;
-                        groupType = "[L]Group";
+                        groupType = AccountType.LocalGroup;
                     }
                     else
                     {
@@ -109,10 +111,10 @@ namespace kioskAssistant
                     }
                     break;
                 case 1:
-                    if (!string.IsNullOrEmpty(Controls["groupTb"].Text) & !string.IsNullOrEmpty(Controls["domainTb"].Text))
+                    if (!string.IsNullOrEmpty(Controls["groupTb"].Text) && !string.IsNullOrEmpty(Controls["domainTb"].Text))
                     {
                         selectedGrp = Controls["domainTb"].Text + "\\" + Controls["groupTb"].Text;
-                        groupType = "[D]Group";
+                        groupType = AccountType.DomainGroup;
                     }
                     else
                     {
@@ -124,7 +126,7 @@ namespace kioskAssistant
                     if (!string.IsNullOrEmpty(Controls["azName"].Text))
                     {
                         selectedGrp = Controls["azName"].Text;
-                        groupType = "[A]Group";
+                        groupType = AccountType.AzureGroup;
                     }
                     else
                     {

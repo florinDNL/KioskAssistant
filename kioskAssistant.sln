@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kioskAssistant", "kioskAssistant.csproj", "{C62DDD05-D562-4A35-BECF-E6DC9E14A596}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kioskAssistant.Tests", "tests\kioskAssistant.Tests\kioskAssistant.Tests.csproj", "{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,32 @@ Global
 		{C62DDD05-D562-4A35-BECF-E6DC9E14A596}.Release|x64.Build.0 = Release|Any CPU
 		{C62DDD05-D562-4A35-BECF-E6DC9E14A596}.Release|x86.ActiveCfg = Release|Any CPU
 		{C62DDD05-D562-4A35-BECF-E6DC9E14A596}.Release|x86.Build.0 = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|x64.Build.0 = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Debug|x86.Build.0 = Debug|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|ARM.Build.0 = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|ARM64.Build.0 = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|x64.ActiveCfg = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|x64.Build.0 = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F2A02CCA-4EF7-415C-86FD-1F1E9719C68E} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {932E1EEE-0B1A-4E54-9DC8-595C8AFFFD42}

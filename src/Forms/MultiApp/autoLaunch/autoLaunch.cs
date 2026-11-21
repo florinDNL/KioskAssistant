@@ -1,37 +1,39 @@
-﻿using allGlobals;
+﻿using kioskAssistant.Model;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace kioskAssistant
 {
     public partial class autoLaunch : Form
     {
-        public autoLaunch()
+        /// <summary>The configured auto-launch app, or null if none. Unchanged when the dialog is cancelled.</summary>
+        public AutoLaunchApp Selection { get; private set; }
+
+        public autoLaunch(IEnumerable<object> candidateApps, AutoLaunchApp current)
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
-        }
+            Selection = current;
 
-        private void updateAutoLaunchApp()
-        {
-            if (perFormObjects.autoLaunch.Count == 0)
+            foreach (var app in candidateApps)
             {
-                perFormObjects.autoLaunch.Add(allAppsCb.SelectedItem.ToString());
-                perFormObjects.autoLaunch.Add(argumentsTb.Text);
+                allAppsCb.Items.Add(app);
             }
-            else
+
+            if (current != null)
             {
-                perFormObjects.autoLaunch[0] = allAppsCb.SelectedItem.ToString();
-                perFormObjects.autoLaunch[1] = argumentsTb.Text;
+                allAppsCb.SelectedItem = current.App;
+                argumentsTb.Text = current.Arguments;
             }
         }
 
         private void okBt_Click(object sender, EventArgs e)
         {
-            if (!(allAppsCb.SelectedIndex == -1))
+            if (allAppsCb.SelectedIndex != -1)
             {
+                Selection = new AutoLaunchApp(allAppsCb.SelectedItem.ToString(), argumentsTb.Text);
                 DialogResult = DialogResult.OK;
-                updateAutoLaunchApp();
                 Close();
             }
             else
@@ -51,9 +53,9 @@ namespace kioskAssistant
         {
             allAppsCb.SelectedIndex = -1;
             argumentsTb.Text = string.Empty;
-            if (!(perFormObjects.autoLaunch.Count == 0))
+            if (Selection != null)
             {
-                perFormObjects.autoLaunch = new();
+                Selection = null;
                 Close();
             }
         }

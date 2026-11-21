@@ -1,6 +1,7 @@
-﻿using allGlobals;
 using kioskAssistant.Forms.MultiApp;
-using powershellApp;
+using kioskAssistant.Model;
+using kioskAssistant.Services;
+using kioskAssistant.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,445 +9,372 @@ using System.Windows.Forms;
 
 namespace kioskAssistant
 {
-    public partial class appProfile : Form
-    {
-        #region Form Initialization
+	public partial class appProfile : Form
+	{
+		private readonly AppCatalog catalog;
 
-        public appProfile()
-        {
-            InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
-            guidLabel.Text = Globals.GetGUID();
+		// UWP apps hidden unless "show all" is checked.
+		private readonly List<string> extraUwpApps = new();
+		// Executable path -> .lnk path.
+		private readonly Dictionary<string, string> linkedWin32Apps = new();
+		private readonly List<StartGroup> groups = new();
+		// Apps moved out of the pickers into a Start group; still allowed in the profile.
+		private readonly List<string> groupedApps = new();
+		private AutoLaunchApp autoLaunchApp;
 
-            foreach (string app in Globals.allUwpApps.Keys)
-            {
-                if (Globals.allUwpApps[app].ToLower().Contains("!app") | Globals.allUwpApps[app].ToLower().Contains("!microsoft") | Globals.allUwpApps[app].ToLower().Contains("msedge"))
-                {
-                    perFormObjects.uwpApps.Add(app);
-                }
-                else
-                {
-                    perFormObjects.addUwpApps.Add(app);
-                }
-            }
+		/// <summary>The saved profile; set when the dialog closes with OK.</summary>
+		public MultiAppProfile Profile { get; private set; }
 
-            //Populate Apps Checkbox List 
-            foreach (string app in perFormObjects.uwpApps)
-            {
-                uwpAppClb.Items.Add(app);
-            }
-        }
+		#region Form Initialization
 
-        #endregion
+		public appProfile(AppCatalog catalog)
+		{
+			InitializeComponent();
+			StartPosition = FormStartPosition.CenterScreen;
+			this.catalog = catalog;
+			guidLabel.Text = AccountGrid.NewProfileId();
 
+			foreach (string app in catalog.UwpApps.Keys)
+			{
+				if (catalog.IsPrimaryUwpApp(app))
+				{
+					uwpAppClb.Items.Add(app);
+				}
+				else
+				{
+					extraUwpApps.Add(app);
+				}
+			}
+		}
 
-        #region Button Click Events
+		#endregion
 
-        private void addWin32AppBt_Click(object sender, EventArgs e)
-        {
-            DialogResult result = addExeDialog.ShowDialog();
-            string executable = addExeDialog.FileName;
-            if (result == DialogResult.Cancel)
-            {
+		private string LnkToExe(string lnk) => linkedWin32Apps.FirstOrDefault(x => x.Value == lnk).Key;
 
-            }
-            else if (!(win32AppLb.FindStringExact(executable) == ListBox.NoMatches) | perFormObjects.linkedWin32Apps.ContainsKey(executable)) //Check if item exists in list box or group
-            {
-                string message = "This executable has alredy been added";
-                string caption = "Duplicate Entry";
-                MessageBox.Show(message, caption);
-            }
-            else
-            {
-                win32AppLb.Items.Add(executable);
-            }
-        }
+		#region Button Click Events
 
-        private void remWin32AppBt_Click(object sender, EventArgs e)
-        {
-            if (win32AppLb.SelectedIndex == -1)
-            {
-                string message = "No entry selected.";
-                string caption = "Error";
-                MessageBox.Show(message, caption);
-            }
-            else
-            {
-                var currItem = win32AppLb.SelectedItem;
-                win32AppLb.Items.Remove(currItem);
-                if (perFormObjects.linkedWin32Apps.ContainsKey(currItem.ToString()))
-                {
-                    lnkFileLb.Items.Remove(perFormObjects.linkedWin32Apps[currItem.ToString()]);
-                    perFormObjects.linkedWin32Apps.Remove(currItem.ToString());
-                }
-            }
-        }
+		private void addWin32AppBt_Click(object sender, EventArgs e)
+		{
+			DialogResult result = addExeDialog.ShowDialog();
+			string executable = addExeDialog.FileName;
+			if (result == DialogResult.Cancel)
+			{
+				return;
+			}
 
-        private void addAppGroupBt_Click(object sender, EventArgs e)
-        {
-            var slForm = new startGroup();
+			if (win32AppLb.FindStringExact(executable) != ListBox.NoMatches || linkedWin32Apps.ContainsKey(executable))
+			{
+				MessageBox.Show("This executable has alredy been added", "Duplicate Entry");
+			}
+			else
+			{
+				win32AppLb.Items.Add(executable);
+			}
+		}
 
-            foreach (var item in uwpAppClb.CheckedItems)
-            {
-                slForm.allAppsLb.Items.Add(item);
-            }
+		private void remWin32AppBt_Click(object sender, EventArgs e)
+		{
+			if (win32AppLb.SelectedIndex == -1)
+			{
+				MessageBox.Show("No entry selected.", "Error");
+				return;
+			}
 
-            foreach (var item in lnkFileLb.Items)
-            {
-                slForm.allAppsLb.Items.Add(item);
-            }
+			string exe = win32AppLb.SelectedItem.ToString();
+			win32AppLb.Items.Remove(exe);
+			if (linkedWin32Apps.TryGetValue(exe, out string lnk))
+			{
+				lnkFileLb.Items.Remove(lnk);
+				linkedWin32Apps.Remove(exe);
+			}
+		}
 
-            DialogResult res = slForm.ShowDialog(this);
+		private void addAppGroupBt_Click(object sender, EventArgs e)
+		{
+			var available = uwpAppClb.CheckedItems.Cast<object>().Concat(lnkFileLb.Items.Cast<object>()).ToList();
+			var slForm = new startGroup(available, groups.Select(g => g.Name).ToList());
 
-            if (!(res == DialogResult.Cancel))
-            {
-                groupsLv.Items.Add(slForm.nameTb.Text).SubItems.Add(string.Join(", ", slForm.group.Keys.ToArray()));
-                groupsLv.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-                perFormObjects.groups.Add(slForm.nameTb.Text, slForm.group);
+			if (slForm.ShowDialog(this) == DialogResult.Cancel)
+			{
+				return;
+			}
 
-                foreach (var item in slForm.addedAppsLb.Items)
-                {
-                    if (uwpAppClb.Items.Contains(item))
-                    {
-                        if (perFormObjects.addUwpApps.Contains(item.ToString()))
-                        {
-                            perFormObjects.addUwpApps.Remove(item.ToString());
-                        }
-                        uwpAppClb.Items.Remove(item);
-                        perFormObjects.allowedApps.Add(item.ToString());
-                    }
-                    else if (lnkFileLb.Items.Contains(item))
-                    {
-                        string linkedExe = perFormObjects.lnkToExe(item.ToString());
-                        win32AppLb.Items.Remove(linkedExe);
-                        lnkFileLb.Items.Remove(item);
-                        perFormObjects.allowedApps.Add(linkedExe);
-                    }
-                }
-            }
-        }
+			StartGroup group = slForm.Group;
+			groupsLv.Items.Add(group.Name).SubItems.Add(string.Join(", ", group.Tiles.Select(t => t.App)));
+			groupsLv.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+			groups.Add(group);
 
-        private void addLnkBt_Click(object sender, EventArgs e)
-        {
+			foreach (var item in slForm.AddedApps)
+			{
+				if (uwpAppClb.Items.Contains(item))
+				{
+					extraUwpApps.Remove(item.ToString());
+					uwpAppClb.Items.Remove(item);
+					groupedApps.Add(item.ToString());
+				}
+				else if (lnkFileLb.Items.Contains(item))
+				{
+					string linkedExe = LnkToExe(item.ToString());
+					win32AppLb.Items.Remove(linkedExe);
+					lnkFileLb.Items.Remove(item);
+					groupedApps.Add(linkedExe);
+				}
+			}
+		}
 
-            if (win32AppLb.Items.Count == 0)
-            {
-                string message = "No executable added";
-                string caption = "Error";
-                MessageBox.Show(message, caption);
-            }
-            else if (win32AppLb.Items.Count == lnkFileLb.Items.Count)
-            {
-                string message = "No need to add more icons than executables";
-                string caption = "Sufficient links provided";
-                MessageBox.Show(message, caption);
-            }
-            else
-            {
-                DialogResult result = addLnkDialog.ShowDialog();
-                string linkFile = addLnkDialog.FileName;
-                if (!(result == DialogResult.Cancel))
-                {
-                    string linkedExe = Commands.GetPathFromLnk(linkFile);
-                    if (!win32AppLb.Items.Contains(linkedExe))
-                    {
-                        string message = "This link file does not correspond to any of the added Win32 Applications.\n\nThe executable in this lnk is: " + linkedExe;
-                        string caption = "Wrong link";
-                        MessageBox.Show(message, caption);
-                    }
-                    else
-                    {
-                        lnkFileLb.Items.Add(linkFile);
-                        perFormObjects.linkedWin32Apps.Add(linkedExe, linkFile);
-                    }
-                }
-            }
-        }
+		private void addLnkBt_Click(object sender, EventArgs e)
+		{
+			if (win32AppLb.Items.Count == 0)
+			{
+				MessageBox.Show("No executable added", "Error");
+				return;
+			}
+			if (win32AppLb.Items.Count == lnkFileLb.Items.Count)
+			{
+				MessageBox.Show("No need to add more icons than executables", "Sufficient links provided");
+				return;
+			}
 
-        private void remLnkBt_Click(object sender, EventArgs e)
-        {
-            if (lnkFileLb.SelectedIndex == -1)
-            {
-                string message = "No entry selected.";
-                string caption = "Error";
-                MessageBox.Show(message, caption);
-            }
-            else
-            {
-                var currItem = lnkFileLb.SelectedItem;
-                string linkedExe = perFormObjects.lnkToExe(currItem.ToString());
-                lnkFileLb.Items.Remove(currItem);
-                perFormObjects.linkedWin32Apps.Remove(linkedExe);
-            }
-        }
+			if (addLnkDialog.ShowDialog() == DialogResult.Cancel)
+			{
+				return;
+			}
 
-        private void remGrpBt_Click(object sender, EventArgs e)
-        {
-            if (groupsLv.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Please select a group to remove", "No group selected");
-            }
-            else
-            {
-                foreach (ListViewItem group in groupsLv.SelectedItems)
-                {
-                    foreach (string app in perFormObjects.groups[group.Text].Keys)
-                    {
-                        if (app.Contains(".lnk"))
-                        {
-                            string linkedExe = perFormObjects.lnkToExe(app);
-                            System.Diagnostics.Debug.WriteLine(linkedExe);
-                            win32AppLb.Items.Add(linkedExe);
-                            lnkFileLb.Items.Add(app);
-                            perFormObjects.allowedApps.Remove(linkedExe);
-                        }
-                        else if (Globals.allUwpApps[app].ToLower().Contains("!app") | Globals.allUwpApps[app].ToLower().Contains("!microsoft") | Globals.allUwpApps[app].ToLower().Contains("msedge"))
-                        {
-                            uwpAppClb.Items.Add(app);
-                            perFormObjects.allowedApps.Remove(app);
-                        }
-                        else
-                        {
-                            perFormObjects.addUwpApps.Add(app);
-                            showAllCb_CheckedChanged(sender, e);
-                            perFormObjects.allowedApps.Remove(app);
-                        }
-                    }
-                    perFormObjects.groups.Remove(group.Text);
-                    groupsLv.Items.Remove(group);
-                }
-            }
-        }
+			string linkFile = addLnkDialog.FileName;
+			string linkedExe = PowerShellService.GetShortcutTarget(linkFile);
+			if (!win32AppLb.Items.Contains(linkedExe))
+			{
+				string message = "This link file does not correspond to any of the added Win32 Applications.\n\nThe executable in this lnk is: " + linkedExe;
+				MessageBox.Show(message, "Wrong link");
+			}
+			else
+			{
+				lnkFileLb.Items.Add(linkFile);
+				linkedWin32Apps.Add(linkedExe, linkFile);
+			}
+		}
 
-        private void cancelBt_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
+		private void remLnkBt_Click(object sender, EventArgs e)
+		{
+			if (lnkFileLb.SelectedIndex == -1)
+			{
+				MessageBox.Show("No entry selected.", "Error");
+				return;
+			}
 
-        private void saveProfBt_Click(object sender, EventArgs e)
-        {
-            if (win10_cb.Checked & groupsLv.Items.Count == 0)
-            {
-                string message = "For Windows 10, you need to add at least 1 application group to the start menu";
-                string caption = "No application added";
-                MessageBox.Show(message, caption);
-            }
-            else
-            {
-                string message = "Save Application Profile? You won't be able to modify it afterwards.";
-                string caption = "Confirmation";
-                MessageBoxButtons bt = MessageBoxButtons.OKCancel;
-                DialogResult save = MessageBox.Show(message, caption, bt);
+			string lnk = lnkFileLb.SelectedItem.ToString();
+			string linkedExe = LnkToExe(lnk);
+			lnkFileLb.Items.Remove(lnk);
+			linkedWin32Apps.Remove(linkedExe);
+		}
 
-                if (save == DialogResult.OK)
-                {
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-            }
-        }
+		private void remGrpBt_Click(object sender, EventArgs e)
+		{
+			if (groupsLv.SelectedItems.Count == 0)
+			{
+				MessageBox.Show("Please select a group to remove", "No group selected");
+				return;
+			}
 
-        private void confAutoLaunchBt_Click(object sender, EventArgs e)
-        {
-            var alForm = new autoLaunch();
-            foreach (var app in uwpAppClb.CheckedItems)
-            {
-                alForm.allAppsCb.Items.Add(app);
-            }
+			foreach (ListViewItem item in groupsLv.SelectedItems.Cast<ListViewItem>().ToList())
+			{
+				StartGroup group = groups.First(g => g.Name == item.Text);
 
-            foreach (var app in win32AppLb.Items)
-            {
-                alForm.allAppsCb.Items.Add(app);
-            }
+				// Return each app to the picker it originally came from.
+				foreach (string app in group.Tiles.Select(t => t.App))
+				{
+					if (app.Contains(".lnk"))
+					{
+						string linkedExe = LnkToExe(app);
+						win32AppLb.Items.Add(linkedExe);
+						lnkFileLb.Items.Add(app);
+						groupedApps.Remove(linkedExe);
+					}
+					else if (catalog.IsPrimaryUwpApp(app))
+					{
+						uwpAppClb.Items.Add(app);
+						groupedApps.Remove(app);
+					}
+					else
+					{
+						extraUwpApps.Add(app);
+						if (showAllCb.Checked)
+						{
+							uwpAppClb.Items.Add(app);
+						}
+						groupedApps.Remove(app);
+					}
+				}
 
-            foreach (string app in perFormObjects.allowedApps)
-            {
-                alForm.allAppsCb.Items.Add(app);
-            }
+				groups.Remove(group);
+				groupsLv.Items.Remove(item);
+			}
+		}
 
-            if (!(perFormObjects.autoLaunch.Count == 0))
-            {
-                alForm.allAppsCb.SelectedItem = perFormObjects.autoLaunch[0];
-                alForm.argumentsTb.Text = perFormObjects.autoLaunch[1];
-            }
+		private void cancelBt_Click(object sender, EventArgs e)
+		{
+			this.DialogResult = DialogResult.Cancel;
+			this.Close();
+		}
 
-            alForm.ShowDialog();
-        }
+		private void saveProfBt_Click(object sender, EventArgs e)
+		{
+			if (win10_cb.Checked && groupsLv.Items.Count == 0)
+			{
+				MessageBox.Show("For Windows 10, you need to add at least 1 application group to the start menu", "No application added");
+				return;
+			}
 
-        private void manUwpBt_Click(object sender, EventArgs e)
-        {
-            var manUwpAdd = new addUwpMan();
-            DialogResult res = manUwpAdd.ShowDialog();
-            if (res == DialogResult.OK) { showAllCb.Checked = true; }
-        }
-        private void manExeBt_Click(object sender, EventArgs e)
-        {
-            var manExeAdd = new addExeMan();
-            manExeAdd.ShowDialog();
-        }
+			DialogResult save = MessageBox.Show("Save Application Profile? You won't be able to modify it afterwards.", "Confirmation", MessageBoxButtons.OKCancel);
+			if (save == DialogResult.OK)
+			{
+				this.DialogResult = DialogResult.OK;
+				this.Close();
+			}
+		}
+
+		private void confAutoLaunchBt_Click(object sender, EventArgs e)
+		{
+			var candidates = uwpAppClb.CheckedItems.Cast<object>()
+				.Concat(win32AppLb.Items.Cast<object>())
+				.Concat(groupedApps);
+
+			var alForm = new autoLaunch(candidates, autoLaunchApp);
+			alForm.ShowDialog();
+			autoLaunchApp = alForm.Selection;
+		}
+
+		private void manUwpBt_Click(object sender, EventArgs e)
+		{
+			var manUwpAdd = new addUwpMan(catalog);
+			if (manUwpAdd.ShowDialog() == DialogResult.OK)
+			{
+				uwpAppClb.Items.Add(manUwpAdd.AddedApp, true);
+				showAllCb.Checked = true;
+			}
+		}
+
+		private void manExeBt_Click(object sender, EventArgs e)
+		{
+			var manExeAdd = new addExeMan(exe => win32AppLb.Items.Contains(exe));
+			if (manExeAdd.ShowDialog() != DialogResult.OK)
+			{
+				return;
+			}
+
+			win32AppLb.Items.Add(manExeAdd.ExePath);
+			if (!string.IsNullOrEmpty(manExeAdd.LnkPath) && !lnkFileLb.Items.Contains(manExeAdd.LnkPath))
+			{
+				lnkFileLb.Items.Add(manExeAdd.LnkPath);
+				linkedWin32Apps.Add(manExeAdd.ExePath, manExeAdd.LnkPath);
+			}
+		}
+
+		#endregion
 
 
-        #endregion
+		#region Checkbox Events
+
+		private void showAllCb_CheckedChanged(object sender, EventArgs e)
+		{
+			foreach (string app in extraUwpApps)
+			{
+				if (showAllCb.Checked)
+				{
+					uwpAppClb.Items.Add(app);
+				}
+				else
+				{
+					uwpAppClb.Items.Remove(app);
+				}
+			}
+		}
+
+		private void noRestrictCb_CheckedChanged(object sender, EventArgs e)
+		{
+			if (noRestrictCb.Checked)
+			{
+				dlPermCb.Checked = false;
+				dlPermCb.Enabled = false;
+				rdPermCb.Checked = false;
+				rdPermCb.Enabled = false;
+			}
+			else
+			{
+				dlPermCb.Enabled = true;
+				rdPermCb.Enabled = true;
+			}
+		}
+
+		// At least one Windows version must stay selected; Start groups only apply to Windows 10.
+		private void win10_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!win10_cb.Checked)
+			{
+				if (!win11_cb.Checked)
+				{
+					win10_cb.Checked = true;
+				}
+				else
+				{
+					addAppGroupBt.Enabled = false;
+				}
+			}
+			else
+			{
+				addAppGroupBt.Enabled = true;
+			}
+		}
+
+		private void win11_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!win10_cb.Checked && !win11_cb.Checked)
+			{
+				win11_cb.Checked = true;
+			}
+		}
+
+		#endregion
 
 
-        #region Checkbox Events
+		#region Form Closure Events
 
-        public void showAllCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (showAllCb.Checked)
-            {
-                foreach (string app in perFormObjects.addUwpApps)
-                {
-                    uwpAppClb.Items.Add(app);
-                }
-            }
-            else
-            {
-                foreach (string app in perFormObjects.addUwpApps)
-                {
-                    uwpAppClb.Items.Remove(app);
-                }
-            }
-        }
+		private void appProfile_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (this.DialogResult == DialogResult.Cancel)
+			{
+				if (groupsLv.Items.Count > 0)
+				{
+					DialogResult res = MessageBox.Show("Are you sure you want to quit? Changes will not be saved", "Confirm", MessageBoxButtons.YesNo);
+					if (res == DialogResult.No)
+					{
+						e.Cancel = true;
+					}
+				}
+			}
+			else if (this.DialogResult == DialogResult.OK)
+			{
+				var allowedApps = groupedApps
+					.Concat(uwpAppClb.CheckedItems.Cast<object>().Select(i => i.ToString()))
+					.Concat(win32AppLb.Items.Cast<object>().Select(i => i.ToString()))
+					.ToList();
 
-        private void noRestrictCb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (noRestrictCb.Checked)
-            {
-                dlPermCb.Checked = false;
-                dlPermCb.Enabled = false;
-                rdPermCb.Checked = false;
-                rdPermCb.Enabled = false;
-            }
-            else
-            {
-                dlPermCb.Enabled = true;
-                rdPermCb.Enabled = true;
-            }
-        }
+				Profile = new MultiAppProfile
+				{
+					Id = guidLabel.Text,
+					ShowTaskbar = showTaskbarCb.Checked,
+					AllowDownloads = dlPermCb.Checked,
+					AllowRemovableDrives = rdPermCb.Checked,
+					NoFileExplorerRestriction = noRestrictCb.Checked,
+					TargetsWindows10 = win10_cb.Checked,
+					TargetsWindows11 = win11_cb.Checked,
+					AllowedApps = allowedApps,
+					StartGroups = groups.ToList(),
+					AutoLaunch = autoLaunchApp,
+				};
+			}
+		}
 
-        private void win10_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!win10_cb.Checked )
-            {
-                if (!win11_cb.Checked)
-                {
-                    win10_cb.Checked = true;
-                }
-                else
-                {
-                    addAppGroupBt.Enabled = false;
-                }
-            }
-            else
-            { 
-                addAppGroupBt.Enabled = true;
-            }
-        }
-
-        private void win11_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!win10_cb.Checked & !win11_cb.Checked)
-            {
-                win11_cb.Checked = true;
-            }
-        }
-
-        #endregion
-
-
-        #region Form Closure Events
-
-        private void appProfile_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (this.DialogResult == DialogResult.Cancel)
-            {
-                if (groupsLv.Items.Count > 0)
-                {
-                    string message = "Are you sure you want to quit? Changes will not be saved";
-                    string caption = "Confirm";
-                    MessageBoxButtons bt = MessageBoxButtons.YesNo;
-                    DialogResult res = MessageBox.Show(message, caption, bt);
-                    if (res == DialogResult.No)
-                    {
-                        e.Cancel = true;
-                    }
-                }
-            }
-            else if (this.DialogResult == DialogResult.OK)
-            {
-                foreach (var item in uwpAppClb.CheckedItems)
-                {
-                    perFormObjects.allowedApps.Add(item.ToString());
-                }
-                foreach (var item in win32AppLb.Items)
-                {
-                    perFormObjects.allowedApps.Add(item.ToString());
-                }
-
-                string taskBar = "false";
-                string dlPerm = "false";
-                string rdPerm = "false";
-                string noRestrict = "false";
-                string isWin10 = "false";
-                string isWin11 = "false";
-
-                if (showTaskbarCb.Checked)
-                {
-                    taskBar = "true";
-                }
-
-                if (dlPermCb.Checked)
-                {
-                    dlPerm = "true";
-                }
-
-                if (rdPermCb.Checked)
-                {
-                    rdPerm = "true";
-                }
-
-                if (noRestrictCb.Checked)
-                {
-                    noRestrict = "true";
-                }
-
-                if (win10_cb.Checked)
-                {
-                    isWin10 = "true";
-                }
-
-                if (win11_cb.Checked)
-                {
-                    isWin11 = "true";
-                }
-
-                List<string> profileParam = new()
-                {
-                    guidLabel.Text,
-                    taskBar,
-                    dlPerm,
-                    rdPerm,
-                    noRestrict,
-                    isWin10,
-                    isWin11
-                };
-
-                Dictionary<List<string>, Dictionary<string, Dictionary<string, List<string>>>> appProfile = new()
-                {
-                    { perFormObjects.allowedApps, perFormObjects.groups }
-                };
-                Globals.appProfiles.Add(profileParam, appProfile);
-                Globals.globalAutoLaunchApps.Add(guidLabel.Text, perFormObjects.autoLaunch);
-            }
-        }
-
-        private void appProfile_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            perFormObjects.flushAll();
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }

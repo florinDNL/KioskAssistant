@@ -1,4 +1,4 @@
-﻿using allGlobals;
+﻿using kioskAssistant.Model;
 using System;
 using System.Windows.Forms;
 
@@ -6,21 +6,26 @@ namespace kioskAssistant.Forms.MultiApp
 {
     public partial class addUwpMan : Form
     {
-        public addUwpMan()
+        private readonly AppCatalog catalog;
+
+        public string AddedApp { get; private set; }
+
+        public addUwpMan(AppCatalog catalog)
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
+            this.catalog = catalog;
         }
 
         private void addBt_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(nameTb.Text) & !string.IsNullOrEmpty(aumidTb.Text))
+            if (!string.IsNullOrEmpty(nameTb.Text) && !string.IsNullOrEmpty(aumidTb.Text))
             {
-                if (Globals.allUwpApps.ContainsKey(nameTb.Text)) { MessageBox.Show("This aplication is already added"); }
+                if (catalog.UwpApps.ContainsKey(nameTb.Text)) { MessageBox.Show("This aplication is already added"); }
                 else
                 {
-                    Globals.allUwpApps.Add(nameTb.Text, aumidTb.Text);
-                    appProfile.uwpAppClb.Items.Add(nameTb.Text, true);
+                    catalog.UwpApps.Add(nameTb.Text, aumidTb.Text);
+                    AddedApp = nameTb.Text;
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

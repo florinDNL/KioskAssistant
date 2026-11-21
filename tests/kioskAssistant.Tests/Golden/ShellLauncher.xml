@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ShellLauncherConfiguration xmlns:v2="http://schemas.microsoft.com/ShellLauncher/2019/Configuration" xmlns="http://schemas.microsoft.com/ShellLauncher/2018/Configuration">
+  <Profiles>
+    <DefaultProfile>
+      <Shell Shell="%systemroot%\explorer.exe">
+        <DefaultAction Action="RestartShell" />
+      </Shell>
+    </DefaultProfile>
+    <Profile Id="{S1}">
+      <Shell Shell="&quot;%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe&quot; --no-first-run --kiosk https://contoso.com --edge-kiosk-type=fullscreen --kiosk-idle-timeout-minutes=10" v2:AllAppsFullScreen="true">
+        <DefaultAction Action="RestartShell" />
+      </Shell>
+    </Profile>
+    <Profile Id="{S2}">
+      <Shell Shell="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" v2:AppType="UWP" v2:AllAppsFullScreen="false">
+        <DefaultAction Action="RestartDevice" />
+      </Shell>
+    </Profile>
+    <Profile Id="{S3}">
+      <Shell Shell="C:\shell\myshell.exe -kiosk" v2:AllAppsFullScreen="false">
+        <DefaultAction Action="DoNothing" />
+      </Shell>
+    </Profile>
+  </Profiles>
+  <Configs>
+    <Config>
+      <Account Name="user1" />
+      <Profile Id="{S1}" />
+    </Config>
+    <Config>
+      <Account Sid="S-1-5-21-1" />
+      <Profile Id="{S2}" />
+    </Config>
+    <Config>
+      <AutoLogonAccount />
+      <Profile Id="{S3}" />
+    </Config>
+  </Configs>
+</ShellLauncherConfiguration>

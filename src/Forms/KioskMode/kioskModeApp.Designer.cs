@@ -130,7 +130,6 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "kioskModeApp";
             Text = "Kiosk Mode App";
-            FormClosing += kioskModeApp_FormClosing;
             ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
             ResumeLayout(false);
             PerformLayout();

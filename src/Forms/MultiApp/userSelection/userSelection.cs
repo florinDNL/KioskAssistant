@@ -1,4 +1,4 @@
-﻿using allGlobals;
+﻿using kioskAssistant.Model;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -9,13 +9,15 @@ namespace kioskAssistant
 {
     public partial class userSelection : Form
     {
+        private readonly AppCatalog catalog;
         public string selectedUsr;
 
-        public userSelection()
+        public userSelection(AppCatalog catalog)
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             addUsrBt.Enabled = false;
+            this.catalog = catalog;
         }
 
         public void localUsrSelect()
@@ -26,7 +28,7 @@ namespace kioskAssistant
             users.Name = "localUsrBox";
             users.Size = new Size(140, 25);
             users.TabIndex = 2;
-            foreach (string user in Globals.localUsers)
+            foreach (string user in catalog.LocalUsers)
             {
                 users.Items.Add(user);
             }
@@ -81,7 +83,7 @@ namespace kioskAssistant
             addUsrBt.Enabled = true;
             foreach (Control item in Controls.OfType<Control>().ToList())
             {
-                if (item.Name != "typeCombo" & item.Name != "typeLabel" & item.Name != "addUsrBt")
+                if (item.Name != "typeCombo" && item.Name != "typeLabel" && item.Name != "addUsrBt")
                 {
                     Controls.Remove(item);
                 }
@@ -110,7 +112,7 @@ namespace kioskAssistant
                     }
                     break;
                 case 1:
-                    if (!string.IsNullOrEmpty(Controls["userTb"].Text) & !string.IsNullOrEmpty(Controls["domainTb"].Text))
+                    if (!string.IsNullOrEmpty(Controls["userTb"].Text) && !string.IsNullOrEmpty(Controls["domainTb"].Text))
                     {
                         selectedUsr = Controls["domainTb"].Text + "\\" + Controls["userTb"].Text;
                     }

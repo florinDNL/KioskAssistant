@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AssignedAccessConfiguration xmlns:v2="http://schemas.microsoft.com/AssignedAccess/201810/config" xmlns="http://schemas.microsoft.com/AssignedAccess/2017/config">
+  <Profiles>
+    <Profile Id="{P3}">
+      <AllAppsList>
+        <AllowedApps>
+          <App AppUserModelId="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" />
+        </AllowedApps>
+      </AllAppsList>
+      <StartLayout><![CDATA[<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" Version="1" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
+  <LayoutOptions StartTileGroupCellWidth="6" />
+  <DefaultLayoutOverride>
+    <StartLayoutCollection>
+      <defaultlayout:StartLayout GroupCellWidth="6">
+        <start:Group Name="G">
+          <start:Tile Size="1x1" Column="0" Row="0" AppUserModelID="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" />
+        </start:Group>
+      </defaultlayout:StartLayout>
+    </StartLayoutCollection>
+  </DefaultLayoutOverride>
+</LayoutModificationTemplate>]]></StartLayout>
+      <Taskbar ShowTaskbar="true" />
+    </Profile>
+  </Profiles>
+  <Configs>
+    <Config>
+      <Account>user1</Account>
+      <DefaultProfile Id="{P3}" />
+    </Config>
+  </Configs>
+</AssignedAccessConfiguration>
