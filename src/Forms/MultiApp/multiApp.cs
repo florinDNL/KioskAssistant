@@ -1,250 +1,213 @@
-﻿using allGlobals;
+using kioskAssistant.Model;
+using kioskAssistant.UI;
+using kioskAssistant.Xml;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
-using xmlManip;
 
 namespace kioskAssistant
 {
-    public partial class multiApp : Form
-    {
-        #region Form Initialization
+	public partial class multiApp : Form
+	{
+		private const int NameColumn = 0;
+		private const int TypeColumn = 1;
+		private const int ProfileColumn = 2;
 
-        public multiApp()
-        {
-            InitializeComponent();
-            StartPosition = FormStartPosition.CenterScreen;
-            genXmlBt.Enabled = false;
-        }
+		private readonly AppCatalog catalog;
+		private readonly List<KioskModeProfile> kioskModeProfiles = new();
+		private readonly List<MultiAppProfile> multiAppProfiles = new();
+		private string autoLogonDisplayName;
 
-        #endregion
+		#region Form Initialization
 
+		public multiApp(AppCatalog catalog)
+		{
+			InitializeComponent();
+			StartPosition = FormStartPosition.CenterScreen;
+			genXmlBt.Enabled = false;
+			this.catalog = catalog;
+		}
 
-        #region Button Click Events
+		#endregion
 
-        private void addAppProfileBt_Click(object sender, EventArgs e)
-        {
-            var profileForm = new appProfile();
-            DialogResult appProf = profileForm.ShowDialog();
-            if (appProf == DialogResult.OK)
-            {
-                appProfileLb.Items.Add(profileForm.guidLabel.Text);
-            }
-        }
+		private static AccountType RowType(DataGridViewRow row) => AccountGrid.FromLabel(row.Cells[TypeColumn].Value.ToString());
 
-        private void kModeBt_Click(object sender, EventArgs e)
-        {
-            var kModeForm = new kioskModeApp();
-            DialogResult appProf = kModeForm.ShowDialog();
-            if (appProf == DialogResult.OK)
-            {
-                appProfileLb.Items.Add(kModeForm.guidLabel.Text);
-            }
-        }
+		#region Button Click Events
 
-        private void delAppProfileBt_Click(object sender, EventArgs e)
-        {
-            foreach (List<string> profile in Globals.appProfiles.Keys)
-            {
-                if (profile.Contains(appProfileLb.SelectedItem.ToString()))
-                {
-                    Globals.appProfiles.Remove(profile);
-                }
-            }
-            foreach (DataGridViewRow row in accountsGv.Rows)
-            {
-                if (row.Cells[2].Value != null & row.Cells[2].Value == appProfileLb.SelectedItem)
-                {
-                    row.Cells[2].Value = null;
-                }
-            }
-            appProfileLb.Items.Remove(appProfileLb.SelectedItem);
-        }
+		private void addAppProfileBt_Click(object sender, EventArgs e)
+		{
+			var profileForm = new appProfile(catalog);
+			if (profileForm.ShowDialog() == DialogResult.OK)
+			{
+				multiAppProfiles.Add(profileForm.Profile);
+				appProfileLb.Items.Add(profileForm.Profile.Id);
+			}
+		}
 
-        private void addGlobProfBt_Click(object sender, EventArgs e)
-        {
-            addGlobProfBt.Enabled = false;
-            accountsGv.Rows.Add("Global Profile", "Global");
-        }
+		private void kModeBt_Click(object sender, EventArgs e)
+		{
+			var kModeForm = new kioskModeApp(catalog);
+			if (kModeForm.ShowDialog() == DialogResult.OK)
+			{
+				kioskModeProfiles.Add(kModeForm.Profile);
+				appProfileLb.Items.Add(kModeForm.Profile.Id);
+			}
+		}
 
-        private void addAutoLogonAccBt_Click(object sender, EventArgs e)
-        {
-            var dispNameBox = new dispName();
-            DialogResult res = dispNameBox.ShowDialog();
+		private void delAppProfileBt_Click(object sender, EventArgs e)
+		{
+			if (appProfileLb.SelectedItem is not string profileId)
+			{
+				return;
+			}
 
-            if (res == DialogResult.OK)
-            {
-                Globals.displayName = dispNameBox.dispNameTb.Text;
-                accountsGv.Rows.Add("Auto Login", "Auto");
-                addAutoLogonAccBt.Enabled = false;
-            }
-        }
+			multiAppProfiles.RemoveAll(p => p.Id == profileId);
+			kioskModeProfiles.RemoveAll(p => p.Id == profileId);
+			AccountGrid.Unassign(accountsGv, ProfileColumn, profileId);
+			appProfileLb.Items.Remove(profileId);
+		}
 
-        private void addUsrBt_Click(object sender, EventArgs e)
-        {
-            var userSelect = new userSelection();
-            DialogResult usrSel = userSelect.ShowDialog();
-            if (usrSel == DialogResult.OK)
-            {
-                foreach (DataGridViewRow row in accountsGv.Rows)
-                {
-                    if (row.Cells[0].Value.ToString() == userSelect.selectedUsr & row.Cells[1].Value.ToString() == "User")
-                    {
-                        MessageBox.Show("User already added.", "Error");
-                        return;
-                    }
-                }
-                accountsGv.Rows.Add(userSelect.selectedUsr, "User");
-            }
-        }
+		private void addGlobProfBt_Click(object sender, EventArgs e)
+		{
+			addGlobProfBt.Enabled = false;
+			accountsGv.Rows.Add("Global Profile", AccountGrid.ToLabel(AccountType.GlobalProfile));
+		}
 
-        private void addGrpBt_Click(object sender, EventArgs e)
-        {
-            var groupSelect = new groupSelection();
-            DialogResult grpSel = groupSelect.ShowDialog();
-            if (grpSel == DialogResult.OK)
-            {
-                foreach (DataGridViewRow row in accountsGv.Rows)
-                {
-                    if (row.Cells[0].Value.ToString() == groupSelect.selectedGrp & row.Cells[1].Value.ToString() == groupSelect.groupType)
-                    {
-                        MessageBox.Show("Group already added.", "Error");
-                        return;
-                    }
-                }
-                accountsGv.Rows.Add(groupSelect.selectedGrp, groupSelect.groupType);
-            }
-        }
+		private void addAutoLogonAccBt_Click(object sender, EventArgs e)
+		{
+			var dispNameBox = new dispName();
+			if (dispNameBox.ShowDialog() == DialogResult.OK)
+			{
+				autoLogonDisplayName = dispNameBox.dispNameTb.Text;
+				accountsGv.Rows.Add("Auto Login", AccountGrid.ToLabel(AccountType.AutoLogon));
+				addAutoLogonAccBt.Enabled = false;
+			}
+		}
 
-        private void assignBt_Click(object sender, EventArgs e)
-        {
-            if (accountsGv.SelectedRows.Count == 0)
-            {
-                string message = "Please select at least one user or group";
-                string caption = "Nothing selected";
-                MessageBox.Show(message, caption);
-            }
-            else if (appProfileLb.SelectedIndex == -1)
-            {
-                string message = "Please select an application profile to add";
-                string caption = "No application profile selected";
-                MessageBox.Show(message, caption);
-            }
-            else
-            {
-                foreach (DataGridViewRow row in accountsGv.SelectedRows)
-                {
-                    if (row.Cells[1].Value.ToString().Contains("Group") & perFormObjects.kioskModeApps.ContainsKey(appProfileLb.SelectedItem.ToString()))
-                    {
-                        MessageBox.Show("Kiosk-Mode App does not support Group assignment");
-                    }
-                    else
-                    {
-                        row.Cells[2].Value = appProfileLb.SelectedItem.ToString();
-                    }
-                }
-            }
-        }
+		private void addUsrBt_Click(object sender, EventArgs e)
+		{
+			var userSelect = new userSelection(catalog);
+			if (userSelect.ShowDialog() == DialogResult.OK)
+			{
+				AddAccountRow(userSelect.selectedUsr, AccountType.User, "User already added.");
+			}
+		}
 
-        private void removeGrBt_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewRow row in accountsGv.SelectedRows)
-            {
+		private void addGrpBt_Click(object sender, EventArgs e)
+		{
+			var groupSelect = new groupSelection(catalog);
+			if (groupSelect.ShowDialog() == DialogResult.OK)
+			{
+				AddAccountRow(groupSelect.selectedGrp, groupSelect.groupType, "Group already added.");
+			}
+		}
 
-                if (row.Cells[1].Value.ToString() == "Global")
-                {
-                    addGlobProfBt.Enabled = true;
-                    Globals.isGlobal = false;
-                }
-                else if (row.Cells[1].Value.ToString() == "Auto")
-                {
-                    Globals.displayName = null;
-                    Globals.isAuto = false;
-                    addAutoLogonAccBt.Enabled = true;
-                }
+		private void AddAccountRow(string name, AccountType type, string duplicateMessage)
+		{
+			bool exists = accountsGv.Rows.Cast<DataGridViewRow>()
+				.Any(row => row.Cells[NameColumn].Value.ToString() == name && RowType(row) == type);
+			if (exists)
+			{
+				MessageBox.Show(duplicateMessage, "Error");
+				return;
+			}
+			accountsGv.Rows.Add(name, AccountGrid.ToLabel(type));
+		}
 
-                accountsGv.Rows.Remove(row);
-            }
-        }
+		private void assignBt_Click(object sender, EventArgs e)
+		{
+			if (accountsGv.SelectedRows.Count == 0)
+			{
+				MessageBox.Show("Please select at least one user or group", "Nothing selected");
+				return;
+			}
+			if (appProfileLb.SelectedIndex == -1)
+			{
+				MessageBox.Show("Please select an application profile to add", "No application profile selected");
+				return;
+			}
 
-        private void genXmlBt_Click(object sender, EventArgs e)
-        {
-            DialogResult res = saveXML.ShowDialog();
-            if (res != DialogResult.Cancel)
-            {
-                foreach (DataGridViewRow row in accountsGv.Rows)
-                {
-                    string name = row.Cells[0].Value.ToString();
-                    string type = row.Cells[1].Value.ToString();
-                    string prof = row.Cells[2].Value.ToString();
+			string profileId = appProfileLb.SelectedItem.ToString();
+			bool isKioskMode = kioskModeProfiles.Any(p => p.Id == profileId);
 
-                    switch (type)
-                    {
-                        case "User":
-                            Globals.addedUsers.Add(name, prof);
-                            break;
-                        case "[L]Group":
-                            Globals.addedLocalGroups.Add(name, prof);
-                            break;
-                        case "[D]Group":
-                            Globals.addedDomainGroups.Add(name, prof);
-                            break;
-                        case "[A]Group":
-                            Globals.addedAzureGroups.Add(name, prof);
-                            break;
-                        case "Auto":
-                            Globals.isAuto = true;
-                            Globals.autoLogon.Add(Globals.displayName, prof);
-                            break;
-                        case "Global":
-                            Globals.isGlobal = true;
-                            Globals.globalProfile = prof;
-                            break;
-                    }
-                }
-                string savePath = saveXML.FileName;
-                xmlCreator.writeXmlFile(savePath);
-                Globals.accountsInit();
-                MessageBox.Show("XML file saved to " + savePath, "Success");
-            }
-        }
+			foreach (DataGridViewRow row in accountsGv.SelectedRows)
+			{
+				if (isKioskMode && AccountGrid.IsGroup(RowType(row)))
+				{
+					MessageBox.Show("Kiosk-Mode App does not support Group assignment");
+				}
+				else
+				{
+					row.Cells[ProfileColumn].Value = profileId;
+				}
+			}
+		}
 
-        #endregion
+		private void removeGrBt_Click(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow row in accountsGv.SelectedRows.Cast<DataGridViewRow>().ToList())
+			{
+				switch (RowType(row))
+				{
+					case AccountType.GlobalProfile:
+						addGlobProfBt.Enabled = true;
+						break;
+					case AccountType.AutoLogon:
+						autoLogonDisplayName = null;
+						addAutoLogonAccBt.Enabled = true;
+						break;
+				}
+
+				accountsGv.Rows.Remove(row);
+			}
+		}
+
+		private void genXmlBt_Click(object sender, EventArgs e)
+		{
+			if (saveXML.ShowDialog() == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			var config = new AssignedAccessConfiguration();
+			config.KioskModeProfiles.AddRange(kioskModeProfiles);
+			config.MultiAppProfiles.AddRange(multiAppProfiles);
+
+			foreach (DataGridViewRow row in accountsGv.Rows)
+			{
+				AccountType type = RowType(row);
+				string name = type == AccountType.AutoLogon ? autoLogonDisplayName : row.Cells[NameColumn].Value.ToString();
+				config.Accounts.Add(new AccountAssignment(type, name, row.Cells[ProfileColumn].Value.ToString()));
+			}
+
+			string savePath = saveXML.FileName;
+			try
+			{
+				AssignedAccessXmlBuilder.Build(config, catalog).Save(savePath);
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				MessageBox.Show("Could not save the XML file:\n" + ex.Message, "Error");
+				return;
+			}
+			MessageBox.Show("XML file saved to " + savePath, "Success");
+		}
+
+		#endregion
 
 
-        #region Event Listeners
-        private void accountsGv_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            accountsGv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv, 2))
-            {
-                genXmlBt.Enabled = true;
-            }
-            else
-            {
-                genXmlBt.Enabled = false;
-            }
-        }
+		#region Event Listeners
+		private void accountsGv_CellValueChanged(object sender, DataGridViewCellEventArgs e) =>
+			AccountGrid.RefreshGenerateButton(accountsGv, ProfileColumn, genXmlBt);
 
-        private void accountsGv_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            accountsGv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            genXmlBt.Enabled = false;
-        }
+		private void accountsGv_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e) =>
+			AccountGrid.RefreshGenerateButton(accountsGv, ProfileColumn, genXmlBt);
 
-        private void accountsGv_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            accountsGv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            if (accountsGv.RowCount == 0)
-            {
-                genXmlBt.Enabled = false;
-            }
-            else if (Globals.areAllAssigned(accountsGv.Rows.Count, accountsGv, 2))
-            {
-                genXmlBt.Enabled = true;
-            }
-        }
+		private void accountsGv_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e) =>
+			AccountGrid.RefreshGenerateButton(accountsGv, ProfileColumn, genXmlBt);
 
-        #endregion
-    }
+		#endregion
+	}
 }

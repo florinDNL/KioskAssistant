@@ -133,7 +133,6 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "customShell";
             Text = "Custom Shell";
-            FormClosing += customShell_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

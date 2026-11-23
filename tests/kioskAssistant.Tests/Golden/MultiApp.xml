@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AssignedAccessConfiguration xmlns:v2="http://schemas.microsoft.com/AssignedAccess/201810/config" xmlns:v3="http://schemas.microsoft.com/AssignedAccess/2020/config" xmlns:v4="http://schemas.microsoft.com/AssignedAccess/2021/config" xmlns:win11="http://schemas.microsoft.com/AssignedAccess/2022/config" xmlns="http://schemas.microsoft.com/AssignedAccess/2017/config">
+  <Profiles>
+    <Profile Id="{K1}">
+      <KioskModeApp v4:ClassicAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" v4:ClassicAppArguments="--no-first-run --kiosk https://contoso.com --edge-kiosk-type=public-browsing --kiosk-idle-timeout-minutes=15" />
+    </Profile>
+    <Profile Id="{K2}">
+      <KioskModeApp AppUserModelId="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" />
+    </Profile>
+    <Profile Id="{K3}">
+      <KioskModeApp v4:ClassicAppPath="C:\Apps\app.exe" />
+    </Profile>
+    <Profile Id="{K4}">
+      <KioskModeApp v4:ClassicAppPath="C:\Apps\app2.exe" v4:ClassicAppArguments="-x" />
+    </Profile>
+    <Profile Id="{K5}">
+      <KioskModeApp v4:ClassicAppPath="%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" v4:ClassicAppArguments="--no-first-run --kiosk https://fabrikam.com --edge-kiosk-type=fullscreen --kiosk-idle-timeout-minutes=0" />
+    </Profile>
+    <Profile Id="{P1}">
+      <AllAppsList>
+        <AllowedApps>
+          <App AppUserModelId="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" v2:AutoLaunch="true" v2:AutoLaunchArguments="--arg" />
+          <App DesktopAppPath="C:\Apps\tool.exe" />
+          <App AppUserModelId="Microsoft.Windows.Photos_8wekyb3d8bbwe!App" />
+        </AllowedApps>
+      </AllAppsList>
+      <StartLayout><![CDATA[<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" Version="1" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
+  <LayoutOptions StartTileGroupCellWidth="6" />
+  <DefaultLayoutOverride>
+    <StartLayoutCollection>
+      <defaultlayout:StartLayout GroupCellWidth="6">
+        <start:Group Name="Main">
+          <start:Tile Size="2x2" Column="0" Row="0" AppUserModelID="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" />
+          <start:DesktopApplicationTile Size="4x2" Column="2" Row="0" DesktopApplicationLinkPath="C:\links\tool.lnk" />
+        </start:Group>
+        <start:Group Name="Second">
+          <start:Tile Size="1x1" Column="0" Row="0" AppUserModelID="Microsoft.Windows.Photos_8wekyb3d8bbwe!App" />
+        </start:Group>
+      </defaultlayout:StartLayout>
+    </StartLayoutCollection>
+  </DefaultLayoutOverride>
+</LayoutModificationTemplate>]]></StartLayout>
+      <win11:StartPins><![CDATA[{ "pinnedList":[
+{"packagedAppId":"Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"},
+{"desktopAppLink":"C:\\Apps\\tool.exe"},
+{"packagedAppId":"Microsoft.Windows.Photos_8wekyb3d8bbwe!App"}
+] }]]></win11:StartPins>
+      <Taskbar ShowTaskbar="true" />
+      <v2:FileExplorerNamespaceRestrictions>
+        <v2:AllowedNamespace Name="Downloads" />
+        <v3:AllowRemovableDrives />
+      </v2:FileExplorerNamespaceRestrictions>
+    </Profile>
+    <Profile Id="{P2}">
+      <AllAppsList>
+        <AllowedApps>
+          <App AppUserModelId="Microsoft.Windows.Photos_8wekyb3d8bbwe!App" />
+          <App DesktopAppPath="C:\Program Files\x.exe" v2:AutoLaunch="true" />
+        </AllowedApps>
+      </AllAppsList>
+      <win11:StartPins><![CDATA[{ "pinnedList":[
+{"packagedAppId":"Microsoft.Windows.Photos_8wekyb3d8bbwe!App"},
+{"desktopAppLink":"C:\\Program Files\\x.exe"}
+] }]]></win11:StartPins>
+      <Taskbar ShowTaskbar="false" />
+      <v2:FileExplorerNamespaceRestrictions>
+        <v3:NoRestriction />
+      </v2:FileExplorerNamespaceRestrictions>
+    </Profile>
+    <Profile Id="{P3}">
+      <AllAppsList>
+        <AllowedApps>
+          <App AppUserModelId="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" />
+        </AllowedApps>
+      </AllAppsList>
+      <StartLayout><![CDATA[<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" Version="1" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
+  <LayoutOptions StartTileGroupCellWidth="6" />
+  <DefaultLayoutOverride>
+    <StartLayoutCollection>
+      <defaultlayout:StartLayout GroupCellWidth="6">
+        <start:Group Name="G">
+          <start:Tile Size="1x1" Column="0" Row="0" AppUserModelID="Microsoft.WindowsCalculator_8wekyb3d8bbwe!App" />
+        </start:Group>
+      </defaultlayout:StartLayout>
+    </StartLayoutCollection>
+  </DefaultLayoutOverride>
+</LayoutModificationTemplate>]]></StartLayout>
+      <Taskbar ShowTaskbar="true" />
+    </Profile>
+  </Profiles>
+  <Configs>
+    <v3:GlobalProfile Id="{P1}" />
+    <Config>
+      <AutoLogonAccount v2:DisplayName="Kiosk Display" />
+      <DefaultProfile Id="{K1}" />
+    </Config>
+    <Config>
+      <Account>user1</Account>
+      <DefaultProfile Id="{P1}" />
+    </Config>
+    <Config>
+      <Account>DOMAIN\u2</Account>
+      <DefaultProfile Id="{K2}" />
+    </Config>
+    <Config>
+      <UserGroup Type="LocalGroup" Name="Users" />
+      <DefaultProfile Id="{P2}" />
+    </Config>
+    <Config>
+      <UserGroup Type="ActiveDirectoryGroup" Name="CONTOSO\kiosk" />
+      <DefaultProfile Id="{P3}" />
+    </Config>
+    <Config>
+      <UserGroup Type="AzureActiveDirectoryGroup" Name="aad-group-id" />
+      <DefaultProfile Id="{P1}" />
+    </Config>
+  </Configs>
+</AssignedAccessConfiguration>

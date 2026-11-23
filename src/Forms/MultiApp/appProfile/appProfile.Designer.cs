@@ -422,7 +422,6 @@ namespace kioskAssistant
             Name = "appProfile";
             Text = "Add Profile";
             FormClosing += appProfile_FormClosing;
-            FormClosed += appProfile_FormClosed;
             ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -460,9 +459,9 @@ namespace kioskAssistant
         private System.Windows.Forms.CheckBox win10_cb;
         private System.Windows.Forms.Button manUwpBt;
         private System.Windows.Forms.Button manExeBt;
-        public static System.Windows.Forms.ListBox win32AppLb;
-        public static System.Windows.Forms.ListBox lnkFileLb;
-        public static System.Windows.Forms.CheckedListBox uwpAppClb;
+        private System.Windows.Forms.ListBox win32AppLb;
+        private System.Windows.Forms.ListBox lnkFileLb;
+        private System.Windows.Forms.CheckedListBox uwpAppClb;
     }
 }
 
