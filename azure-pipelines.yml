@@ -10,6 +10,12 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- powershell: |
+    $content = Get-Content Properties\AssemblyInfo.cs -Raw
+    if ($content -notmatch 'AssemblyVersion\("([\d\.]+)"\)') { throw 'AssemblyVersion not found in Properties\AssemblyInfo.cs' }
+    Write-Host "##vso[build.updatebuildnumber]$($Matches[1])"
+  displayName: Set build number from AssemblyVersion
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
