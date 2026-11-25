@@ -9,11 +9,11 @@ namespace kioskAssistant.UI
 {
     internal static class DarkTheme
     {
-        private static readonly Color Background = Color.FromArgb(24, 24, 27);
-        private static readonly Color Surface = Color.FromArgb(39, 39, 42);
-        private static readonly Color AlternateSurface = Color.FromArgb(31, 31, 34);
-        private static readonly Color ElevatedSurface = Color.FromArgb(52, 52, 56);
-        private static readonly Color Border = Color.FromArgb(74, 74, 82);
+        private static readonly Color Background = ColorTranslator.FromHtml("#373737");
+        private static readonly Color Surface = ColorTranslator.FromHtml("#414141");
+        private static readonly Color AlternateSurface = ColorTranslator.FromHtml("#3B3B3B");
+        private static readonly Color ElevatedSurface = ColorTranslator.FromHtml("#494949");
+        private static readonly Color Border = ColorTranslator.FromHtml("#5A5A5A");
         private static readonly Color Foreground = Color.FromArgb(245, 245, 245);
         private static readonly Color MutedForeground = Color.FromArgb(178, 178, 186);
         private static readonly Color Accent = Color.FromArgb(55, 125, 255);
