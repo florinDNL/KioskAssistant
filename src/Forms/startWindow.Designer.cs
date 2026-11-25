@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(startWindow));
             multiAppBt = new System.Windows.Forms.Button();
             sLauncherBt = new System.Windows.Forms.Button();
+            settingsBt = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // multiAppBt
@@ -53,11 +54,22 @@
             sLauncherBt.UseVisualStyleBackColor = true;
             sLauncherBt.Click += sLauncherBt_Click;
             // 
+            // settingsBt
+            // 
+            settingsBt.Location = new System.Drawing.Point(12, 91);
+            settingsBt.Name = "settingsBt";
+            settingsBt.Size = new System.Drawing.Size(317, 30);
+            settingsBt.TabIndex = 2;
+            settingsBt.Text = "Settings";
+            settingsBt.UseVisualStyleBackColor = true;
+            settingsBt.Click += settingsBt_Click;
+            // 
             // startWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(341, 108);
+            ClientSize = new System.Drawing.Size(341, 133);
+            Controls.Add(settingsBt);
             Controls.Add(sLauncherBt);
             Controls.Add(multiAppBt);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
@@ -70,5 +82,6 @@
 
         private System.Windows.Forms.Button multiAppBt;
         private System.Windows.Forms.Button sLauncherBt;
+        private System.Windows.Forms.Button settingsBt;
     }
 }

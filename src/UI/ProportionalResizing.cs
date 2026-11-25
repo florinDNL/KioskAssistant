@@ -1,6 +1,8 @@
+using kioskAssistant.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
@@ -9,6 +11,12 @@ namespace kioskAssistant.UI
     internal static class ProportionalResizing
     {
         private static readonly ConditionalWeakTable<Form, FormLayout> Layouts = new();
+        private static AppSettings settings;
+
+        public static void Configure(AppSettings settingsToUse)
+        {
+            settings = settingsToUse ?? throw new ArgumentNullException(nameof(settingsToUse));
+        }
 
         public static void Apply(Form form)
         {
@@ -35,6 +43,8 @@ namespace kioskAssistant.UI
             CaptureSubtree(form, layout);
             HookSubtree(form, layout);
             form.Resize += Form_Resize;
+            form.FormClosing += Form_FormClosing;
+            RestoreWindowSize(form, layout);
         }
 
         public static void ApplyOpenForms()
@@ -64,6 +74,64 @@ namespace kioskAssistant.UI
             {
                 form.ResumeLayout(performLayout: true);
                 layout.Resizing = false;
+            }
+        }
+
+        private static void RestoreWindowSize(Form form, FormLayout layout)
+        {
+            if (settings?.RememberWindowSizes != true ||
+                !settings.WindowSizes.TryGetValue(form.GetType().FullName ?? form.Name, out SavedWindowSize savedSize))
+            {
+                return;
+            }
+
+            Size restoredSize = savedSize.ToSize();
+            if (restoredSize.Width < form.MinimumSize.Width || restoredSize.Height < form.MinimumSize.Height)
+            {
+                restoredSize = new Size(
+                    Math.Max(restoredSize.Width, form.MinimumSize.Width),
+                    Math.Max(restoredSize.Height, form.MinimumSize.Height));
+            }
+
+            layout.Resizing = true;
+            try
+            {
+                form.Size = restoredSize;
+                ResizeSubtree(form, form.ClientSize, layout);
+            }
+            finally
+            {
+                layout.Resizing = false;
+            }
+
+            if (form.Visible && form.StartPosition == FormStartPosition.CenterScreen)
+            {
+                Rectangle screen = Screen.FromControl(form).WorkingArea;
+                form.Location = new Point(
+                    screen.Left + (screen.Width - form.Width) / 2,
+                    screen.Top + (screen.Height - form.Height) / 2);
+            }
+        }
+
+        private static void Form_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (settings?.RememberWindowSizes != true)
+            {
+                return;
+            }
+
+            var form = (Form)sender;
+            Size sizeToSave = form.WindowState == FormWindowState.Maximized ? form.RestoreBounds.Size : form.Size;
+            settings.WindowSizes[form.GetType().FullName ?? form.Name] = SavedWindowSize.From(sizeToSave);
+
+            try
+            {
+                AppSettingsStore.Save(settings);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                MessageBox.Show(form, $"The window size could not be saved: {ex.Message}", "Settings error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
