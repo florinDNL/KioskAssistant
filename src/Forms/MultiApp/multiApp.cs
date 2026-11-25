@@ -3,6 +3,7 @@ using kioskAssistant.UI;
 using kioskAssistant.Xml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -192,7 +193,25 @@ namespace kioskAssistant
 				MessageBox.Show("Could not save the XML file:\n" + ex.Message, "Error");
 				return;
 			}
-			MessageBox.Show("XML file saved to " + savePath, "Success");
+
+			DialogResult openResult = MessageBox.Show(
+				this,
+				"XML file saved to " + savePath + "\n\nOpen the file now?",
+				"Success",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Question);
+			if (openResult == DialogResult.Yes)
+			{
+				try
+				{
+					Process.Start(new ProcessStartInfo(savePath) { UseShellExecute = true });
+				}
+				catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or FileNotFoundException)
+				{
+					MessageBox.Show(this, "The XML file was saved, but it could not be opened:\n" + ex.Message,
+						"Open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
 		}
 
 		#endregion
