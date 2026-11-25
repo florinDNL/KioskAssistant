@@ -55,13 +55,13 @@ namespace kioskAssistant
                 DarkTheme.Apply(mainWindow);
             }
 
-            //Add the LoadCompleted event to mainWindow's Load Event Handler
-            mainWindow.Load += mainWindow_LoadCompleted;
+            // Bring the visible main window forward after the splash screen has closed.
+            mainWindow.Shown += mainWindow_Shown;
             Application.Run(mainWindow);
         }
 
-        //Close splashScreen, bring mainWindow into focus
-        private static void mainWindow_LoadCompleted(object sender, EventArgs e)
+        // Close the splash screen and bring the visible main window into focus.
+        private static void mainWindow_Shown(object sender, EventArgs e)
         {
             splashScreen.Invoke(new Action(splashScreen.Close));
             if (!string.IsNullOrEmpty(AppSettingsStore.LoadError))
@@ -69,8 +69,13 @@ namespace kioskAssistant
                 MessageBox.Show(mainWindow, $"The settings file could not be read. Defaults are being used.\n\n{AppSettingsStore.LoadError}",
                     "Settings warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+            mainWindow.TopMost = true;
+            mainWindow.WindowState = FormWindowState.Normal;
+            mainWindow.BringToFront();
             mainWindow.Activate();
             mainWindow.Focus();
+            mainWindow.BeginInvoke(() => mainWindow.TopMost = false);
         }
     }
 }
