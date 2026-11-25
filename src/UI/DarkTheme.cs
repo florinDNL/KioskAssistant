@@ -466,23 +466,36 @@ namespace kioskAssistant.UI
         private static void ListBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             var listBox = (ListBox)sender;
+            if (e.Index < 0 || e.Index >= listBox.Items.Count)
+            {
+                e.DrawBackground();
+                return;
+            }
+
             DrawListItem(e, listBox.Items[e.Index], e.Index, null);
         }
 
         private static void CheckedListBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             var listBox = (CheckedListBox)sender;
+            if (e.Index < 0 || e.Index >= listBox.Items.Count)
+            {
+                e.DrawBackground();
+                return;
+            }
+
             DrawListItem(e, listBox.Items[e.Index], e.Index, listBox.GetItemChecked(e.Index));
         }
 
         private static void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0)
+            var comboBox = (ComboBox)sender;
+            if (e.Index < 0 || e.Index >= comboBox.Items.Count)
             {
+                e.DrawBackground();
                 return;
             }
 
-            var comboBox = (ComboBox)sender;
             DrawListItem(e, comboBox.Items[e.Index], e.Index, null);
         }
 
