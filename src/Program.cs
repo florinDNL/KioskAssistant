@@ -1,6 +1,7 @@
 using kioskAssistant.Forms;
 using kioskAssistant.Model;
 using kioskAssistant.Services;
+using kioskAssistant.UI;
 using System;
 using System.Threading;
 using System.Windows.Forms;
@@ -17,6 +18,7 @@ namespace kioskAssistant
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.Idle += (_, _) => ProportionalResizing.ApplyOpenForms();
 
             splashScreen = new splashScreen();
 
@@ -28,6 +30,7 @@ namespace kioskAssistant
             //Query apps, users and groups during the splash screen, before loading the main form
             AppCatalog catalog = PowerShellService.LoadCatalog();
             mainWindow = new startWindow(catalog);
+            ProportionalResizing.Apply(mainWindow);
 
             //Add the LoadCompleted event to mainWindow's Load Event Handler
             mainWindow.Load += mainWindow_LoadCompleted;

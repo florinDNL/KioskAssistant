@@ -24,6 +24,7 @@ namespace kioskAssistant
 		{
 			InitializeComponent();
 			StartPosition = FormStartPosition.CenterScreen;
+			previewPanel.Paint += previewPanel_Paint;
 			sizeCombo.SelectedIndex = 1;
 			this.existingGroupNames = existingGroupNames;
 
@@ -55,30 +56,33 @@ namespace kioskAssistant
 					return;
 			}
 
-			DrawTile(size, column, row);
-
 			var app = allAppsLb.SelectedItem;
 			addedAppsLb.Items.Add(app);
 			allAppsLb.Items.Remove(app);
 			allAppsLb.SelectedIndex = allAppsLb.Items.Count != 0 ? 0 : -1;
 
 			tiles.Add(new Tile(app.ToString(), size, column, row));
+			previewPanel.Invalidate();
 		}
 
-		private void DrawTile(TileSize size, int column, int row)
+		private void previewPanel_Paint(object sender, PaintEventArgs e)
 		{
-			var (width, height) = size.Cells();
-			var bounds = new Rectangle(
-				column * TileGrid.CellSizePx,
-				row * TileGrid.CellSizePx,
-				width * TileGrid.CellSizePx,
-				height * TileGrid.CellSizePx);
-
-			using Graphics g = previewPanel.CreateGraphics();
+			float scaleX = (float)previewPanel.ClientSize.Width / (TileGrid.Columns * TileGrid.CellSizePx);
+			float scaleY = (float)previewPanel.ClientSize.Height / (TileGrid.Rows * TileGrid.CellSizePx);
 			using Pen pen = new(Color.Black, 2) { Alignment = PenAlignment.Center };
 			using SolidBrush brush = new(TileColor);
-			g.DrawRectangle(pen, bounds);
-			g.FillRectangle(brush, bounds);
+
+			foreach (Tile tile in tiles)
+			{
+				var (width, height) = tile.Size.Cells();
+				var bounds = Rectangle.Round(new RectangleF(
+					tile.Column * TileGrid.CellSizePx * scaleX,
+					tile.Row * TileGrid.CellSizePx * scaleY,
+					width * TileGrid.CellSizePx * scaleX,
+					height * TileGrid.CellSizePx * scaleY));
+				e.Graphics.FillRectangle(brush, bounds);
+				e.Graphics.DrawRectangle(pen, bounds);
+			}
 		}
 
 		private void clearBt_Click(object sender, System.EventArgs e)
