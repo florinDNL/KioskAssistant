@@ -33,10 +33,16 @@ namespace kioskAssistant.Forms
             this.Show();
         }
 
-        private void settingsBt_Click(object sender, EventArgs e)
+        private void settingsMenuItem_Click(object sender, EventArgs e)
         {
             using var settingsForm = new settingsWindow(settings);
             settingsForm.ShowDialog(this);
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            using var aboutForm = new aboutWindow(Icon);
+            aboutForm.ShowDialog(this);
         }
     }
 }
