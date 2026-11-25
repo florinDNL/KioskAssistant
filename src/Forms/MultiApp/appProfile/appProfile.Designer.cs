@@ -87,7 +87,8 @@ namespace kioskAssistant
             // 
             // logoBox
             // 
-            logoBox.Image = (System.Drawing.Image)resources.GetObject("logoBox.Image");
+            logoBox.Image = kioskAssistant.UI.LogoGradient.Apply((System.Drawing.Image)resources.GetObject("logoBox.Image"));
+            logoBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             logoBox.Location = new System.Drawing.Point(565, 12);
             logoBox.Name = "logoBox";
             logoBox.Size = new System.Drawing.Size(231, 51);
@@ -418,7 +419,7 @@ namespace kioskAssistant
             Controls.Add(addUwpAppLabel);
             Controls.Add(uwpAppClb);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Icon = kioskAssistant.UI.AppIcon.Current;
             Name = "appProfile";
             Text = "Add Profile";
             FormClosing += appProfile_FormClosing;

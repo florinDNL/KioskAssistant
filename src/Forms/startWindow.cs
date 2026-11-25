@@ -7,12 +7,14 @@ namespace kioskAssistant.Forms
     public partial class startWindow : Form
     {
         private readonly AppCatalog catalog;
+        private readonly AppSettings settings;
 
-        public startWindow(AppCatalog catalog)
+        internal startWindow(AppCatalog catalog, AppSettings settings)
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             this.catalog = catalog;
+            this.settings = settings;
         }
 
         private void multiAppBt_Click(object sender, EventArgs e)
@@ -29,6 +31,18 @@ namespace kioskAssistant.Forms
             this.Hide();
             sLauncherForm.ShowDialog();
             this.Show();
+        }
+
+        private void settingsMenuItem_Click(object sender, EventArgs e)
+        {
+            using var settingsForm = new settingsWindow(settings);
+            settingsForm.ShowDialog(this);
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            using var aboutForm = new aboutWindow(Icon);
+            aboutForm.ShowDialog(this);
         }
     }
 }
