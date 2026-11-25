@@ -17,10 +17,13 @@ namespace kioskAssistant
         [STAThread]
         static void Main()
         {
+            AppSettings settings = AppSettingsStore.Load();
+            Application.SetHighDpiMode(settings.DpiAwareness
+                ? HighDpiMode.PerMonitorV2
+                : HighDpiMode.DpiUnaware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AppSettings settings = AppSettingsStore.Load();
             darkModeEnabledAtStartup = settings.DarkMode;
             ProportionalResizing.Configure(settings);
             Application.Idle += (_, _) =>

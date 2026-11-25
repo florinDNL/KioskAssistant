@@ -183,7 +183,6 @@ namespace kioskAssistant.UI
 
             float scaleX = Scale(originalClientSize.Width, targetClientSize.Width);
             float scaleY = Scale(originalClientSize.Height, targetClientSize.Height);
-            float fontScale = Math.Min(scaleX, scaleY);
 
             foreach (Control control in container.Controls)
             {
@@ -193,8 +192,7 @@ namespace kioskAssistant.UI
                 }
 
                 control.Bounds = Scale(controlLayout.Bounds, scaleX, scaleY);
-                ScaleFont(control, controlLayout.Font, fontScale);
-                ScaleSpecializedControl(control, controlLayout, scaleY, fontScale);
+                ScaleSpecializedControl(control, controlLayout, scaleY);
 
                 ResizeSubtree(control, control.ClientSize, layout);
             }
@@ -208,17 +206,7 @@ namespace kioskAssistant.UI
             Math.Max(1, (int)Math.Round(bounds.Width * scaleX)),
             Math.Max(1, (int)Math.Round(bounds.Height * scaleY)));
 
-        private static void ScaleFont(Control control, Font original, float scale)
-        {
-            float size = Math.Max(original.Size * scale, 8f);
-            FontStyle style = original.Style;
-            if (Math.Abs(control.Font.Size - size) > 0.1f || control.Font.Style != style)
-            {
-                control.Font = new Font(original.FontFamily, size, style, original.Unit);
-            }
-        }
-
-        private static void ScaleSpecializedControl(Control control, ControlLayout layout, float scaleY, float fontScale)
+        private static void ScaleSpecializedControl(Control control, ControlLayout layout, float scaleY)
         {
             switch (control)
             {
@@ -226,7 +214,7 @@ namespace kioskAssistant.UI
                     listBox.ItemHeight = Math.Max(14, (int)Math.Round(layout.ItemHeight * scaleY));
                     break;
                 case ComboBox comboBox:
-                    comboBox.ItemHeight = Math.Max(14, (int)Math.Round(layout.ItemHeight * fontScale));
+                    comboBox.ItemHeight = Math.Max(14, (int)Math.Round(layout.ItemHeight * scaleY));
                     break;
                 case DataGridView grid:
                     grid.ColumnHeadersHeight = Math.Max(20, (int)Math.Round(layout.ColumnHeadersHeight * scaleY));
@@ -276,7 +264,6 @@ namespace kioskAssistant.UI
             {
                 Bounds = control.Bounds;
                 ClientSize = control.ClientSize;
-                Font = control.Font;
                 ItemHeight = control is ListBox listBox
                     ? listBox.ItemHeight
                     : control is ComboBox comboBox
@@ -296,7 +283,6 @@ namespace kioskAssistant.UI
 
             public Rectangle Bounds { get; }
             public Size ClientSize { get; }
-            public Font Font { get; }
             public int ItemHeight { get; }
             public int ColumnHeadersHeight { get; }
             public int RowTemplateHeight { get; }

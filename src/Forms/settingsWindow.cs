@@ -10,6 +10,7 @@ namespace kioskAssistant.Forms
     {
         private readonly AppSettings settings;
         private readonly CheckBox darkModeCheckBox;
+        private readonly CheckBox dpiAwarenessCheckBox;
         private readonly CheckBox rememberSizesCheckBox;
         private readonly Button clearSizesButton;
         private readonly Button saveButton;
@@ -23,7 +24,7 @@ namespace kioskAssistant.Forms
             MaximizeBox = false;
             MinimizeBox = false;
             StartPosition = FormStartPosition.CenterParent;
-            ClientSize = new Size(390, 176);
+            ClientSize = new Size(390, 204);
 
             var titleLabel = new Label
             {
@@ -41,17 +42,25 @@ namespace kioskAssistant.Forms
                 Text = "Use dark mode (applies next time the app opens)",
             };
 
+            dpiAwarenessCheckBox = new CheckBox
+            {
+                AutoSize = true,
+                Checked = settings.DpiAwareness,
+                Location = new Point(18, 76),
+                Text = "Use DPI awareness (applies after restart)",
+            };
+
             rememberSizesCheckBox = new CheckBox
             {
                 AutoSize = true,
                 Checked = settings.RememberWindowSizes,
-                Location = new Point(18, 76),
+                Location = new Point(18, 104),
                 Text = "Remember window sizes for next time",
             };
 
             clearSizesButton = new Button
             {
-                Location = new Point(18, 126),
+                Location = new Point(18, 154),
                 Size = new Size(160, 30),
                 Text = "Clear saved sizes",
             };
@@ -60,7 +69,7 @@ namespace kioskAssistant.Forms
             saveButton = new Button
             {
                 DialogResult = DialogResult.OK,
-                Location = new Point(200, 126),
+                Location = new Point(200, 154),
                 Size = new Size(78, 30),
                 Text = "Save",
             };
@@ -69,7 +78,7 @@ namespace kioskAssistant.Forms
             cancelButton = new Button
             {
                 DialogResult = DialogResult.Cancel,
-                Location = new Point(290, 126),
+                Location = new Point(290, 154),
                 Size = new Size(78, 30),
                 Text = "Cancel",
             };
@@ -78,7 +87,8 @@ namespace kioskAssistant.Forms
             CancelButton = cancelButton;
             Controls.AddRange(new Control[]
             {
-                titleLabel, darkModeCheckBox, rememberSizesCheckBox, clearSizesButton, saveButton, cancelButton,
+                titleLabel, darkModeCheckBox, dpiAwarenessCheckBox, rememberSizesCheckBox,
+                clearSizesButton, saveButton, cancelButton,
             });
         }
 
@@ -101,6 +111,7 @@ namespace kioskAssistant.Forms
         private void saveButton_Click(object sender, EventArgs e)
         {
             settings.DarkMode = darkModeCheckBox.Checked;
+            settings.DpiAwareness = dpiAwarenessCheckBox.Checked;
             settings.RememberWindowSizes = rememberSizesCheckBox.Checked;
             if (!settings.RememberWindowSizes)
             {

@@ -9,6 +9,7 @@ namespace kioskAssistant.Model
     internal sealed class AppSettings
     {
         public bool DarkMode { get; set; }
+        public bool DpiAwareness { get; set; } = true;
         public bool RememberWindowSizes { get; set; }
         public Dictionary<string, SavedWindowSize> WindowSizes { get; set; } = new(StringComparer.Ordinal);
     }
