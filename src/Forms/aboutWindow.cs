@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -22,90 +21,70 @@ namespace kioskAssistant.Forms
             MinimizeBox = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            ClientSize = new Size(420, 220);
+            ClientSize = new Size(591, 509);
             Icon = appIcon;
 
-            var resources = new ComponentResourceManager(typeof(multiApp));
-            var logo = new PictureBox
+            var appIconPicture = new PictureBox
             {
-                Image = (Image)resources.GetObject("logoBox.Image"),
-                Location = new Point(16, 16),
-                Size = new Size(388, 64),
+                Image = kioskAssistant.UI.AppIcon.CurrentLarge.ToBitmap(),
+                Location = new Point(247, 16),
+                Size = new Size(96, 96),
                 SizeMode = PictureBoxSizeMode.Zoom,
             };
 
             string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "Unknown";
             var description = new Label
             {
-                AutoSize = true,
-                Location = new Point(16, 92),
+                Location = new Point(16, 124),
+                Size = new Size(559, 40),
+                TextAlign = ContentAlignment.MiddleCenter,
                 Text = $"Kiosk Assistant\nVersion {version}",
             };
 
             var repositoryLink = new LinkLabel
             {
-                AutoSize = true,
-                Location = new Point(16, 145),
+                Location = new Point(16, 177),
+                Size = new Size(559, 20),
+                TextAlign = ContentAlignment.MiddleCenter,
                 Text = RepositoryUrl,
             };
             repositoryLink.Click += repositoryLink_Click;
 
-            var licenseButton = new Button
+            var licenseTextBox = new TextBox
             {
-                Location = new Point(236, 180),
-                Size = new Size(78, 28),
-                Text = "License",
+                Location = new Point(16, 210),
+                Size = new Size(559, 249),
+                Multiline = true,
+                ReadOnly = true,
+                ScrollBars = ScrollBars.Vertical,
+                TabStop = false,
+                Text = LoadLicense(),
             };
-            licenseButton.Click += licenseButton_Click;
 
             var closeButton = new Button
             {
                 DialogResult = DialogResult.OK,
-                Location = new Point(326, 180),
+                Location = new Point(497, 471),
                 Size = new Size(78, 28),
                 Text = "Close",
             };
 
             AcceptButton = closeButton;
             CancelButton = closeButton;
-            Controls.AddRange(new Control[] { logo, description, repositoryLink, licenseButton, closeButton });
+            Controls.AddRange(new Control[] { appIconPicture, description, repositoryLink, licenseTextBox, closeButton });
+            Shown += (_, _) => licenseTextBox.DeselectAll();
         }
 
-        private void licenseButton_Click(object sender, EventArgs e)
+        private static string LoadLicense()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using Stream stream = assembly.GetManifestResourceStream("kioskAssistant.License");
+            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("kioskAssistant.License");
             if (stream == null)
             {
-                MessageBox.Show(this, "The license could not be loaded from the application.", "License",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return "The license could not be loaded from the application.";
             }
 
             using var reader = new StreamReader(stream);
-            using var licenseWindow = new Form
-            {
-                Text = "License",
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                StartPosition = FormStartPosition.CenterParent,
-                ClientSize = new Size(580, 420),
-                Icon = Icon,
-            };
-            var textBox = new TextBox
-            {
-                Dock = DockStyle.Fill,
-                Multiline = true,
-                ReadOnly = true,
-                ScrollBars = ScrollBars.Vertical,
-                Text = reader.ReadToEnd(),
-                TabStop = false,
-            };
-            licenseWindow.Controls.Add(textBox);
-            licenseWindow.Shown += (_, _) => textBox.DeselectAll();
-            licenseWindow.ShowDialog(this);
+            return reader.ReadToEnd();
         }
 
         private static void repositoryLink_Click(object sender, EventArgs e)

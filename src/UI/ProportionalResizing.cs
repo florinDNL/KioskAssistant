@@ -191,7 +191,9 @@ namespace kioskAssistant.UI
                     continue;
                 }
 
-                control.Bounds = Scale(controlLayout.Bounds, scaleX, scaleY);
+                control.Bounds = controlLayout.UsesCornerAnchor
+                    ? ScaleAnchored(controlLayout, targetClientSize)
+                    : Scale(controlLayout.Bounds, scaleX, scaleY);
                 ScaleSpecializedControl(control, controlLayout, scaleY);
 
                 ResizeSubtree(control, control.ClientSize, layout);
@@ -205,6 +207,17 @@ namespace kioskAssistant.UI
             Math.Max(0, (int)Math.Round(bounds.Y * scaleY)),
             Math.Max(1, (int)Math.Round(bounds.Width * scaleX)),
             Math.Max(1, (int)Math.Round(bounds.Height * scaleY)));
+
+        private static Rectangle ScaleAnchored(ControlLayout layout, Size targetClientSize)
+        {
+            int x = layout.Anchor.HasFlag(AnchorStyles.Right)
+                ? targetClientSize.Width - layout.RightMargin - layout.Bounds.Width
+                : layout.Bounds.X;
+            int y = layout.Anchor.HasFlag(AnchorStyles.Bottom)
+                ? targetClientSize.Height - layout.BottomMargin - layout.Bounds.Height
+                : layout.Bounds.Y;
+            return new Rectangle(x, y, layout.Bounds.Width, layout.Bounds.Height);
+        }
 
         private static void ScaleSpecializedControl(Control control, ControlLayout layout, float scaleY)
         {
@@ -264,6 +277,10 @@ namespace kioskAssistant.UI
             {
                 Bounds = control.Bounds;
                 ClientSize = control.ClientSize;
+                Anchor = control.Anchor;
+                RightMargin = (control.Parent?.ClientSize.Width ?? control.Bounds.Right) - control.Bounds.Right;
+                BottomMargin = (control.Parent?.ClientSize.Height ?? control.Bounds.Bottom) - control.Bounds.Bottom;
+                UsesCornerAnchor = Anchor.HasFlag(AnchorStyles.Right) || Anchor.HasFlag(AnchorStyles.Bottom);
                 ItemHeight = control is ListBox listBox
                     ? listBox.ItemHeight
                     : control is ComboBox comboBox
@@ -283,6 +300,10 @@ namespace kioskAssistant.UI
 
             public Rectangle Bounds { get; }
             public Size ClientSize { get; }
+            public AnchorStyles Anchor { get; }
+            public int RightMargin { get; }
+            public int BottomMargin { get; }
+            public bool UsesCornerAnchor { get; }
             public int ItemHeight { get; }
             public int ColumnHeadersHeight { get; }
             public int RowTemplateHeight { get; }

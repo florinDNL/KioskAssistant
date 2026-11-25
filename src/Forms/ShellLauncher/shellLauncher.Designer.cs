@@ -109,7 +109,8 @@
             // 
             // logoBox
             // 
-            logoBox.Image = (System.Drawing.Image)resources.GetObject("logoBox.Image");
+            logoBox.Image = kioskAssistant.UI.LogoGradient.Apply((System.Drawing.Image)resources.GetObject("logoBox.Image"));
+            logoBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             logoBox.Location = new System.Drawing.Point(12, 387);
             logoBox.Name = "logoBox";
             logoBox.Size = new System.Drawing.Size(231, 51);
@@ -235,7 +236,7 @@
             Controls.Add(accountsGv);
             Controls.Add(assignBt);
             Controls.Add(appProfileLb);
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Icon = kioskAssistant.UI.AppIcon.Current;
             Name = "shellLauncher";
             Text = "Shell Launcher XML";
             ((System.ComponentModel.ISupportInitialize)accountsGv).EndInit();

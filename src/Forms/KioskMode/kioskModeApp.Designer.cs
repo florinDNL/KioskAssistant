@@ -80,7 +80,8 @@
             // 
             // logoBox
             // 
-            logoBox.Image = (System.Drawing.Image)resources.GetObject("logoBox.Image");
+            logoBox.Image = kioskAssistant.UI.LogoGradient.Apply((System.Drawing.Image)resources.GetObject("logoBox.Image"));
+            logoBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             logoBox.Location = new System.Drawing.Point(390, 19);
             logoBox.Name = "logoBox";
             logoBox.Size = new System.Drawing.Size(231, 51);
@@ -127,7 +128,7 @@
             Controls.Add(guidLabel);
             Controls.Add(appTypeLb);
             Controls.Add(appTypeCb);
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Icon = kioskAssistant.UI.AppIcon.Current;
             Name = "kioskModeApp";
             Text = "Kiosk Mode App";
             ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();

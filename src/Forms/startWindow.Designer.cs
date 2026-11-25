@@ -91,7 +91,7 @@
             Controls.Add(sLauncherBt);
             Controls.Add(multiAppBt);
             Controls.Add(mainMenu);
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Icon = kioskAssistant.UI.AppIcon.Current;
             MainMenuStrip = mainMenu;
             Name = "startWindow";
             Text = "Kiosk Assistant";

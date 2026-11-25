@@ -20,6 +20,7 @@ namespace kioskAssistant.Forms
         {
             this.settings = settings;
             Text = "Settings";
+            Icon = kioskAssistant.UI.AppIcon.Current;
             FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = false;
             MinimizeBox = false;

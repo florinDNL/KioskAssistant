@@ -232,7 +232,7 @@ namespace kioskAssistant
             this.Controls.Add(this.sizeLabel);
             this.Controls.Add(this.sizeCombo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = kioskAssistant.UI.AppIcon.Current;
             this.Name = "startGroup";
             this.Text = "Customize Group";
             ((System.ComponentModel.ISupportInitialize)(this.colNud)).EndInit();

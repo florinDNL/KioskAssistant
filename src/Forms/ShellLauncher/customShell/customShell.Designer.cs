@@ -130,7 +130,7 @@
             Controls.Add(appTypeLb);
             Controls.Add(label1);
             Controls.Add(actionCb);
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Icon = kioskAssistant.UI.AppIcon.Current;
             Name = "customShell";
             Text = "Custom Shell";
             ResumeLayout(false);

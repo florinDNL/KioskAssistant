@@ -53,7 +53,8 @@ namespace kioskAssistant
             // 
             // logoBox
             // 
-            logoBox.Image = (System.Drawing.Image)resources.GetObject("logoBox.Image");
+            logoBox.Image = kioskAssistant.UI.LogoGradient.Apply((System.Drawing.Image)resources.GetObject("logoBox.Image"));
+            logoBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             logoBox.Location = new System.Drawing.Point(12, 387);
             logoBox.Name = "logoBox";
             logoBox.Size = new System.Drawing.Size(231, 51);
@@ -240,7 +241,7 @@ namespace kioskAssistant
             Controls.Add(addUsrBt);
             Controls.Add(logoBox);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Icon = kioskAssistant.UI.AppIcon.Current;
             Name = "multiApp";
             Text = "MultiApp / KioskMode App XML";
             ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();

@@ -77,7 +77,7 @@ namespace kioskAssistant
             this.Controls.Add(this.typeLabel);
             this.Controls.Add(this.typeCombo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = kioskAssistant.UI.AppIcon.Current;
             this.Name = "groupSelection";
             this.Text = "Group Selection";
             this.ResumeLayout(false);

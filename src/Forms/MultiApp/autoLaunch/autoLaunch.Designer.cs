@@ -94,7 +94,7 @@ namespace kioskAssistant
             this.Controls.Add(this.cancelBt);
             this.Controls.Add(this.okBt);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = kioskAssistant.UI.AppIcon.Current;
             this.Name = "autoLaunch";
             this.Text = "Add auto-launch application";
             this.ResumeLayout(false);

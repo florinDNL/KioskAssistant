@@ -5,7 +5,7 @@
 	<TargetFramework>net8.0-windows</TargetFramework>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon>assets\kA.ico</ApplicationIcon>
+    <ApplicationIcon>assets\kA2.ico</ApplicationIcon>
     <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>	
@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="License" LogicalName="kioskAssistant.License" />
+    <EmbeddedResource Include="assets\kA2.ico" LogicalName="kioskAssistant.kA2.ico" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.4.22" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Management" Version="7.4.22" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="7.4.22" />

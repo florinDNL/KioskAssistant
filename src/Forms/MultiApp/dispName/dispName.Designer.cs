@@ -82,7 +82,7 @@ namespace kioskAssistant
             this.Controls.Add(this.msgLabel2);
             this.Controls.Add(this.msgLabel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = kioskAssistant.UI.AppIcon.Current;
             this.Name = "dispName";
             this.Text = "Display Name";
             this.ResumeLayout(false);
