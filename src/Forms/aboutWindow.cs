@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -49,6 +50,14 @@ namespace kioskAssistant.Forms
             };
             repositoryLink.Click += repositoryLink_Click;
 
+            var licenseButton = new Button
+            {
+                Location = new Point(236, 180),
+                Size = new Size(78, 28),
+                Text = "License",
+            };
+            licenseButton.Click += licenseButton_Click;
+
             var closeButton = new Button
             {
                 DialogResult = DialogResult.OK,
@@ -59,7 +68,44 @@ namespace kioskAssistant.Forms
 
             AcceptButton = closeButton;
             CancelButton = closeButton;
-            Controls.AddRange(new Control[] { logo, description, repositoryLink, closeButton });
+            Controls.AddRange(new Control[] { logo, description, repositoryLink, licenseButton, closeButton });
+        }
+
+        private void licenseButton_Click(object sender, EventArgs e)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            using Stream stream = assembly.GetManifestResourceStream("kioskAssistant.License");
+            if (stream == null)
+            {
+                MessageBox.Show(this, "The license could not be loaded from the application.", "License",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using var reader = new StreamReader(stream);
+            using var licenseWindow = new Form
+            {
+                Text = "License",
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                ShowInTaskbar = false,
+                StartPosition = FormStartPosition.CenterParent,
+                ClientSize = new Size(580, 420),
+                Icon = Icon,
+            };
+            var textBox = new TextBox
+            {
+                Dock = DockStyle.Fill,
+                Multiline = true,
+                ReadOnly = true,
+                ScrollBars = ScrollBars.Vertical,
+                Text = reader.ReadToEnd(),
+                TabStop = false,
+            };
+            licenseWindow.Controls.Add(textBox);
+            licenseWindow.Shown += (_, _) => textBox.DeselectAll();
+            licenseWindow.ShowDialog(this);
         }
 
         private static void repositoryLink_Click(object sender, EventArgs e)

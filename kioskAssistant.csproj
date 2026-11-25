@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="License" LogicalName="kioskAssistant.License" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.4.22" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Management" Version="7.4.22" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="7.4.22" />
