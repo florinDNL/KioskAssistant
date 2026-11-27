@@ -13,16 +13,14 @@
 	<DefaultItemExcludes>$(DefaultItemExcludes);tests\**</DefaultItemExcludes>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+	<DebugType>None</DebugType>
+	<DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="License" LogicalName="kioskAssistant.License" />
     <EmbeddedResource Include="assets\kA2.ico" LogicalName="kioskAssistant.kA2.ico" />
-    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.4.22" />
-    <PackageReference Include="Microsoft.PowerShell.Commands.Management" Version="7.4.22" />
-    <PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="7.4.22" />
-    <PackageReference Include="Microsoft.PowerShell.ConsoleHost" Version="7.4.22" />
-    <PackageReference Include="Microsoft.WSMan.Management" Version="7.4.22" />
-    <PackageReference Include="Microsoft.WSMan.Runtime" Version="7.4.22" />
-    <PackageReference Include="System.Management.Automation" Version="7.4.22" />
   </ItemGroup>
 
   <ItemGroup>

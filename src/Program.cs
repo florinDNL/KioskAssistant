@@ -47,7 +47,7 @@ namespace kioskAssistant
             t.Start();
 
             //Query apps, users and groups during the splash screen, before loading the main form
-            AppCatalog catalog = PowerShellService.LoadCatalog();
+            AppCatalog catalog = WindowsCatalogService.LoadCatalog();
             mainWindow = new startWindow(catalog, settings);
             ProportionalResizing.Apply(mainWindow);
             if (darkModeEnabledAtStartup)

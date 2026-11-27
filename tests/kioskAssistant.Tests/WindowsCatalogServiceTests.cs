@@ -2,14 +2,14 @@ using kioskAssistant.Services;
 
 namespace kioskAssistant.Tests;
 
-/// <summary>Exercises the real PowerShell runspace on the local machine.</summary>
+/// <summary>Exercises native Windows catalog APIs on the local machine.</summary>
 [Trait("Category", "Integration")]
-public class PowerShellServiceTests
+public class WindowsCatalogServiceTests
 {
     [Fact]
     public void LoadCatalog_ReturnsLocalGroupsAndApps()
     {
-        var catalog = PowerShellService.LoadCatalog();
+        var catalog = WindowsCatalogService.LoadCatalog();
 
         Assert.NotEmpty(catalog.LocalGroups);
         Assert.NotEmpty(catalog.UwpApps);
@@ -31,7 +31,7 @@ public class PowerShellServiceTests
             shortcut.TargetPath = target;
             shortcut.Save();
 
-            Assert.Equal(target, PowerShellService.GetShortcutTarget(lnk), ignoreCase: true);
+            Assert.Equal(target, WindowsCatalogService.GetShortcutTarget(lnk), ignoreCase: true);
         }
         finally
         {

@@ -141,7 +141,7 @@ namespace kioskAssistant
 			}
 
 			string linkFile = addLnkDialog.FileName;
-			string linkedExe = PowerShellService.GetShortcutTarget(linkFile);
+			string linkedExe = WindowsCatalogService.GetShortcutTarget(linkFile);
 			if (!win32AppLb.Items.Contains(linkedExe))
 			{
 				string message = "This link file does not correspond to any of the added Win32 Applications.\n\nThe executable in this lnk is: " + linkedExe;
